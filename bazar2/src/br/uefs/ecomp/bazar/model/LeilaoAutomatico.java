@@ -1,13 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.uefs.ecomp.bazar.model;
 
-/**
- *
- * @author Davi
- */
-public class LeilaoAutomatico {
-    
+public class LeilaoAutomatico extends Leilao
+{
+    public LeilaoAutomatico(double lPrecoMinimo, double lIncrementoMinimo, Usuario lVendedor, Produto lProduto)
+    {
+        super(lPrecoMinimo, lIncrementoMinimo, lVendedor, lProduto);
+    }
 }

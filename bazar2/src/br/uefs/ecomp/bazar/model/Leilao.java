@@ -32,10 +32,10 @@ public abstract class Leilao {
         this.status = CADASTRADO;
     }
     
-    public Leilao(Date momentoInicio)
-    {
-        this.momentoInicio = momentoInicio;
-    }
+//    public Leilao(Date momentoInicio)
+//    {
+//        this.momentoInicio = momentoInicio;
+//    }
 
     public Usuario getVendedor() {
         return this.vendedor;
