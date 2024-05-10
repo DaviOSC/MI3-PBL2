@@ -49,7 +49,6 @@ public abstract class Leilao {
     public void iniciar() {
         this.status = INICIADO;
         this.ultimoLance = null;
-        this.momentoInicio = new Date();
         vendedor.setLeilaoAtivo(this);
     }
 
@@ -104,7 +103,12 @@ public abstract class Leilao {
     public Lance getUltimoLance() {
         return this.ultimoLance;
     }
-
+    
+    
+    public void setInicio(Date date)
+    {
+        this.momentoInicio = date;
+    }
     public Date getInicio() {
         return momentoInicio;
     }

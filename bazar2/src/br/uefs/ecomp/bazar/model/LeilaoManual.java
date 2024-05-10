@@ -8,10 +8,11 @@ public class LeilaoManual extends Leilao
     {
         super(lPrecoMinimo, lIncrementoMinimo, lVendedor, lProduto);
     }
-    
-//    public LeilaoManual(Date date)
-//    {
-//        super(date);
-//    }
+    @Override
+    public void iniciar() {
+        super.iniciar();
+        super.setInicio(new Date());
+                
+    }
     
 }
