@@ -4,15 +4,71 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.HashMap;
 
+import br.uefs.ecomp.bazar.util.Iterador;
+
 public class ControllerBazar
 {
     // atributo referente ao usuario logado no sistema
     private Usuario usuarioLogado;
     
     //Estrutura que armazena os usuarios cadastrados; facilitando posteriormente a busca
-    private HashMap<String, Usuario> mapaUsuarios = new HashMap<>();
-    // Estrutura criada para armazenar os leilões
+    HashMapModficado<String, Usuario> usuarios = new HashMapModficado<>();
+    // Estrutura criada para armazenar os leilï¿½es
     ArrayListModficada leiloes = new ArrayListModficada<>();
+    
+    public class HashMapModficado<String, T> 
+    {
+        
+        private HashMap<String, T> hashmap;
+        
+        public HashMapModficado()
+        {
+            this.hashmap = new HashMap();
+        }
+        
+        public void inserir(String key, T value)
+        {
+            hashmap.put(key, value);
+        }
+
+        public T recupera(String key)
+        {
+            return hashmap.get(key);
+        }
+
+        public void remover(String key)
+        {
+            hashmap.remove(key);
+        }
+
+        public boolean containsKey(String key)
+        {
+            return hashmap.containsKey(key);
+        }
+
+        public boolean containsValue(T value)
+        {
+            return hashmap.containsValue(value);
+        }
+
+        public int tamanho()
+        {
+            return hashmap.size();
+        }
+
+        public boolean isEmpty()
+        {
+            return hashmap.isEmpty();
+        }
+
+        public void clear()
+        {
+            hashmap.clear();
+        }
+    }
+    
+    
+    
     // Classe criada para se adequar aos testes
     public class ArrayListModficada<T>
     {
@@ -52,22 +108,22 @@ public class ControllerBazar
         }
     }
     
-    // retorna a quantidade de itens no hashmap que armazena os usuários
+    // retorna a quantidade de itens no hashmap que armazena os usuï¿½rios
     public int quantidadeUsuarios()
     {
-        return mapaUsuarios.size();
+        return usuarios.tamanho();
     }
     
-    //cria um novo usuário e adiciona na hashmap de armazenamento.
+    //cria um novo usuï¿½rio e adiciona na hashmap de armazenamento.
     public Usuario cadastrarUsuario(String uLogin, String uNome, String uSenha, String uCpf, String uEndereco, String uTelefone)
     {
        Usuario usuario = new Usuario(uLogin, uNome, uSenha, uCpf, uEndereco, uTelefone);
-       mapaUsuarios.put(uLogin, usuario);
+       usuarios.inserir(uLogin, usuario);
        return usuario;
     }
     
     
-    // retorna a lista de leilões
+    // retorna a lista de leilï¿½es
     public ArrayListModficada getListaLeiloes()
     {
         return leiloes;
@@ -77,7 +133,7 @@ public class ControllerBazar
     public Usuario fazerLogin(String login, String senha)
     {
         // recupera um usuario a partir de seu login
-        Usuario usuario = mapaUsuarios.get(login);
+        Usuario usuario = usuarios.recupera(login);
         // se, de acordo com o login, ele existir
         if (usuario != null)
         {
@@ -89,7 +145,7 @@ public class ControllerBazar
                 return usuario;
             }
         }
-        // caso não consiga executar o login
+        // caso nï¿½o consiga executar o login
         return null;
     }
     
@@ -101,61 +157,78 @@ public class ControllerBazar
 
     }
     // listagem dos produtos cadastrados do usuario logado
-    public Iterator<Produto> listarProdutosCadastrados()
+    public Iterador<Produto> listarProdutosCadastrados()
     {
-        return usuarioLogado.listarProdutosCadastrados();
+        Iterador iterador = new Iterador(usuarioLogado.listarProdutosCadastrados());
+        return iterador;
     }
-    // chama o metodo cadastra leilão do usuario logado, que retorna o leilão criado, e o adiciona na lista de leilões
-    public Leilao cadastrarLeilao(Produto produto, double precoMinimo, double incrementoMinimo)
+    // chama o metodo cadastra leilï¿½o do usuario logado, que retorna o leilï¿½o criado, e o adiciona na lista de leilï¿½es
+    public Leilao cadastrarLeilaoManual(Produto produto, double precoMinimo, double incrementoMinimo)
     {
         Leilao leilao = this.usuarioLogado.cadastrarLeilao(precoMinimo, incrementoMinimo, produto);
         leiloes.add(leilao);
         return leilao;
     }
-    // inicia um leilão selecionado como parametro
+    
+    public void cadastrarLeilao(Leilao leilao)
+    {
+        leiloes.add(leilao);
+    }
+    // inicia um leilï¿½o selecionado como parametro
     public void iniciarLeilao(Leilao leilao)
     {
         leilao.iniciar();
     }
-    // listagem dos leilões que estão com o status iniciado
-    public Iterator listarLeiloesIniciados()
-    {
-
-        ArrayList leiloesIniciados = new ArrayList<>();
-
-        Iterator<Leilao> iterator = leiloes.iterator();
-        
-        // enquanto tiverem itens na lista, o iterator percorre a estrutora
-        while (iterator.hasNext())
+    // listagem dos leilï¿½es que estï¿½o com o status iniciado
+        public Iterador listarLeiloesIniciados()
         {
-            Leilao leilao = iterator.next();
-            
-            // se o atributo status do objeto leilão for correspondente ao atributo INICIADO da classe leilão
-            if (leilao.getStatus() == Leilao.INICIADO)
+            ArrayList leiloesIniciados = new ArrayList<>();
+
+            Iterador<Leilao> iterador = new Iterador(leiloes.iterator());
+
+            // enquanto tiverem itens na lista, o iterator percorre a estrutora
+            while (iterador.temProximo())
             {
-                // addiciona na lista apenas os leilões que estão iniciados de acordo com seu status
-                leiloesIniciados.add(leilao);
+                Leilao leilao = iterador.next();
+
+                // se o atributo status do objeto leilï¿½o for correspondente ao atributo INICIADO da classe leilï¿½o
+                if (leilao.getStatus() == Leilao.INICIADO)
+                {
+                    // addiciona na lista apenas os leilï¿½es que estï¿½o iniciados de acordo com seu status
+                    leiloesIniciados.add(leilao);
+                } 
             }
+
+             for (int i = 0; i < leiloesIniciados.size() - 1; i++) {
+                for (int j = 0; j < leiloesIniciados.size() - 1 - i; j++) {
+                    Leilao leilaoPrimeiro = (Leilao)leiloesIniciados.get(j);
+                    Leilao leilaoProximo = (Leilao)leiloesIniciados.get(j + 1);
+                    if (leilaoPrimeiro.getInicio().compareTo(leilaoProximo.getInicio()) > 0) {
+                        leiloesIniciados.set(j, leilaoProximo);
+                        leiloesIniciados.set(j + 1, leilaoPrimeiro);
+                    }
+                }
+            }
+
+            iterador = new Iterador(leiloesIniciados.iterator());
+            return iterador;
         }
-        // retorna um iterator da lista de leilões iniciados
-        return leiloesIniciados.iterator();
-    }
-    // adiciona o usuario logado como participante do leilão
+    // adiciona o usuario logado como participante do leilï¿½o
     public void participarLeilao(Leilao leilao)
     {
         usuarioLogado.participarLeilao(leilao);
     }
-    // chama o metodo dar lance minimo do usuário logado
+    // chama o metodo dar lance minimo do usuï¿½rio logado
     public void darLanceMinimo()
     {
         usuarioLogado.darLanceMinimo();
     }
-    // chama o metodo dar lance do usuário logado, passando o valor do lance
+    // chama o metodo dar lance do usuï¿½rio logado, passando o valor do lance
     public void darLance(double valor)
     {
         usuarioLogado.darLance(valor);
     }
-    // chama o metodo de encerrar o leilão ativo do usuario logado no sistema
+    // chama o metodo de encerrar o leilï¿½o ativo do usuario logado no sistema
     public Venda encerrarLeilao()
     {
         return usuarioLogado.encerrarLeilaoAtivo();

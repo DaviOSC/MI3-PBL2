@@ -2,6 +2,7 @@ package br.uefs.ecomp.bazar.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import br.uefs.ecomp.bazar.util.Iterador;
 
 public class Usuario
 {
@@ -13,7 +14,7 @@ public class Usuario
     private String telefone;
     private Leilao leilaoAtivo;
 
-    private ArrayList produtosCadastrados =  new ArrayList<>();
+    private ArrayList produtosCadastrados =  new ArrayList();
 
     public Usuario(String login, String nome, String senha, String cpf, String endereco, String telefone)
     {
@@ -33,57 +34,64 @@ public class Usuario
     {
         return this.senha;
     }
-    //modfica o atributo referente ao leilão como participante ou como vendedor
+    //modfica o atributo referente ao leilï¿½o como participante ou como vendedor
     public void setLeilaoAtivo(Leilao leilao)
     {
         this.leilaoAtivo = leilao;
     }
     //um iterador da lista do requerimento 4 dos user stories
-    public Iterator listarProdutosCadastrados()
+    public Iterador listarProdutosCadastrados()
     {
-        return produtosCadastrados.iterator();  
+        Iterador iterador = new Iterador(produtosCadastrados.iterator());
+        return iterador;
     }
-    //adiciona o usuario no leilão como participante e define seu atributo leilao ativo
+    //adiciona o usuario no leilï¿½o como participante e define seu atributo leilao ativo
     public void participarLeilao(Leilao leilao)
     {
         leilao.cadastrarParticipante(this);
         setLeilaoAtivo(leilao);
     }
-    //cria um novo produto e adiciona-o na lista de produtos do usuário
+    //cria um novo produto e adiciona-o na lista de produtos do usuï¿½rio
     public Produto cadastrarProduto(String pTipo, String pDescResum, String pDescDetalh )
     {
         Produto produto = new Produto(pTipo, pDescResum, pDescDetalh, this);
         produtosCadastrados.add(produto);
         return produto;
     }
-    //cria um leilão de acordo com os parametros passados e retorna-o
+    //cria um leilï¿½o de acordo com os parametros passados e retorna-o
     public Leilao cadastrarLeilao(double preco, double incremento, Produto produto)
     {
-        Leilao leilao = new Leilao(preco, incremento, this, produto);
+        Leilao leilao = new LeilaoManual(preco, incremento, this, produto);
         return leilao;
     }
-    // inicia o leilão passado e defini-o como leilão ativo do usuario(vendedor)
+    // inicia o leilï¿½o passado e defini-o como leilï¿½o ativo do usuario(vendedor)
     public void iniciarLeilao(Leilao leilao)
     {
         this.leilaoAtivo = leilao;
         this.leilaoAtivo.iniciar();
     }
-    // chama o metodo dar lance no leilão ativo(participante), passando o usuario e o valor
+    // chama o metodo dar lance no leilï¿½o ativo(participante), passando o usuario e o valor
     public void darLance(Double valor)
     {
         leilaoAtivo.darLance(this, valor);
     }
-    // chama o metodo dar lance minimo leilão ativo(participante), passando o usuario como parametro
+    // chama o metodo dar lance minimo leilï¿½o ativo(participante), passando o usuario como parametro
     public void darLanceMinimo()
     {
        leilaoAtivo.darLanceMinimo(this);
     }
-    // encerra o leilão ativo(vendedor) e retorna uma venda.
+    // encerra o leilï¿½o ativo(vendedor) e retorna uma venda.
     public Venda encerrarLeilaoAtivo()
     {
         leilaoAtivo.encerrar();
         return leilaoAtivo.getVenda();
     }
     
+    
+    public Leilao cadastrarLeilaoManual(double preco, double incremento, Produto produto)
+    {
+        Leilao leilao = new LeilaoManual(preco, incremento,this, produto);
+        return leilao;
+    }
     
 }
