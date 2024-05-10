@@ -9,9 +9,9 @@ public class LeilaoManual extends Leilao
         super(lPrecoMinimo, lIncrementoMinimo, lVendedor, lProduto);
     }
     
-    public LeilaoManual(Date date)
-    {
-        super(date);
-    }
+//    public LeilaoManual(Date date)
+//    {
+//        super(date);
+//    }
     
 }

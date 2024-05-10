@@ -1,5 +1,7 @@
 package br.uefs.ecomp.bazar.model;
 
+import java.util.Date;
+
 public class Venda
 {
     private double valor;
@@ -7,6 +9,7 @@ public class Venda
     private Usuario vendedor;
     private Produto produto;
     private Leilao leilao;
+    private Date momentoDaVenda;
     
     public Venda(Lance vLance, Leilao vLeilao)
     {
@@ -15,6 +18,7 @@ public class Venda
         this.vendedor = vLeilao.getVendedor();
         this.produto = vLeilao.getProduto();
         this.leilao = vLeilao;
+        this.momentoDaVenda = new Date();
     }
 
     public double getValor()

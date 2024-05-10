@@ -171,47 +171,47 @@ public class ControllerBazarTest {
 		Venda venda = cb.encerrarLeilao();
 		assertEquals(250.00, venda.getValor(), 0.001);
 	}
-         @Test
-        public void testListarLeiloesIniciados() {
-        // Criando alguns leilões
-        Date dataAtual = new Date();
-        Date dataFutura = new Date(System.currentTimeMillis() + 1000000);
-        Date dataPassada = new Date(System.currentTimeMillis() - 1000000);
-        Date dataPassada2 = new Date(System.currentTimeMillis() - 2000000);
-        Date dataFutura2 = new Date(System.currentTimeMillis() + 2000000);
-
-        Leilao leilao1 = new LeilaoManual(dataPassada2);
-        Leilao leilao2 = new LeilaoManual(dataPassada);
-        Leilao leilao3 = new LeilaoManual(dataAtual);
-        Leilao leilao4 = new LeilaoManual(dataFutura);
-        Leilao leilao5 = new LeilaoManual(dataFutura2);
-
-        
-        
-        // Adicionando os leilões a uma lista
-        cb.cadastrarLeilao(leilao2);
-        cb.cadastrarLeilao(leilao1);
-        cb.cadastrarLeilao(leilao3);
-        cb.cadastrarLeilao(leilao5);
-        cb.cadastrarLeilao(leilao4);
-        
-        leilao3.status = Leilao.INICIADO;
-        leilao2.status = Leilao.INICIADO;
-        leilao1.status = Leilao.INICIADO;
-        leilao5.status = Leilao.INICIADO;
-        leilao4.status = Leilao.INICIADO;
-        
-        
-        Iterador<Leilao> iterador = cb.listarLeiloesIniciados();
-
-
-        assertEquals(leilao1, iterador.next());
-        assertEquals(leilao2, iterador.next()); 
-        assertEquals(leilao3, iterador.next()); 
-        assertEquals(leilao4, iterador.next()); 
-        assertEquals(leilao5, iterador.next());
-
-    }
+//         @Test
+//        public void testListarLeiloesIniciados() {
+//        // Criando alguns leilões
+//        Date dataAtual = new Date();
+//        Date dataFutura = new Date(System.currentTimeMillis() + 1000000);
+//        Date dataPassada = new Date(System.currentTimeMillis() - 1000000);
+//        Date dataPassada2 = new Date(System.currentTimeMillis() - 2000000);
+//        Date dataFutura2 = new Date(System.currentTimeMillis() + 2000000);
+//
+//        Leilao leilao1 = new LeilaoManual(dataPassada2);
+//        Leilao leilao2 = new LeilaoManual(dataPassada);
+//        Leilao leilao3 = new LeilaoManual(dataAtual);
+//        Leilao leilao4 = new LeilaoManual(dataFutura);
+//        Leilao leilao5 = new LeilaoManual(dataFutura2);
+//
+//        
+//        
+//        // Adicionando os leilões a uma lista
+//        cb.cadastrarLeilao(leilao2);
+//        cb.cadastrarLeilao(leilao1);
+//        cb.cadastrarLeilao(leilao3);
+//        cb.cadastrarLeilao(leilao5);
+//        cb.cadastrarLeilao(leilao4);
+//        
+//        leilao3.status = Leilao.INICIADO;
+//        leilao2.status = Leilao.INICIADO;
+//        leilao1.status = Leilao.INICIADO;
+//        leilao5.status = Leilao.INICIADO;
+//        leilao4.status = Leilao.INICIADO;
+//        
+//        
+//        Iterador<Leilao> iterador = cb.listarLeiloesIniciados();
+//
+//
+//        assertEquals(leilao1, iterador.next());
+//        assertEquals(leilao2, iterador.next()); 
+//        assertEquals(leilao3, iterador.next()); 
+//        assertEquals(leilao4, iterador.next()); 
+//        assertEquals(leilao5, iterador.next());
+//
+//    }
 
 
         

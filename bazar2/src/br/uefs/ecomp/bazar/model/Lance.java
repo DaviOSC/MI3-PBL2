@@ -1,18 +1,22 @@
 package br.uefs.ecomp.bazar.model;
 
+import java.util.Date;
+
 public class Lance
 {
     private double valor;
     private Usuario participante;
+    private Date momentoDoLance;
     
-    // Construtor padrão da classe
+    // Construtor padrï¿½o da classe
     public Lance(Usuario lParticipante, double lValor)
     {
         this.valor = lValor;
         this.participante = lParticipante;
+        this.momentoDoLance = new Date();
     }
     
-    // métodos que retornam atributos do Lance
+    // mï¿½todos que retornam atributos do Lance
     public double getValor()
     {
         return valor;
