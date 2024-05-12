@@ -18,11 +18,11 @@ public abstract class Leilao {
     private Produto produto;
     private Usuario vendedor;
     private Venda venda;
-    private Lance ultimoLance;
     private Date momentoInicio;
     private Date momentoFim;
 
     //estrutura para armazenar os participantes do leilao 
+    private ArrayList lances = new ArrayList();
     private ArrayList<Usuario> participantes = new ArrayList<>();
 
     public Leilao(double lPrecoMinimo, double lIncrementoMinimo, Usuario lVendedor, Produto lProduto) {
@@ -46,23 +46,10 @@ public abstract class Leilao {
         return this.produto;
     }
 
-    // define o status do leil�o como iniciado, "reseta" o ultimo lance e define esse como leil�o ativo do vendedor
-    public void iniciar() {
-        this.status = INICIADO;
-        this.ultimoLance = null;
-        vendedor.setLeilaoAtivo(this);
-    }
+    public abstract void iniciar();
 
     // define o status como encerrado e gera uma venda.
-    public void encerrar() {
-        this.status = ENCERRADO;
-        // verifica se existe uma venda e se um lance j� foi dado
-        if (this.venda == null && this.ultimoLance != null) {
-            this.venda = new Venda(this.ultimoLance, this);
-            // modfica o status do produto
-            this.produto.setVendido();
-        }
-    }
+    public abstract void encerrar(); 
 
     public int getStatus() {
         return status;
@@ -74,36 +61,21 @@ public abstract class Leilao {
     }
 
     // um usu�rio d� um lance com base no pre�o minimo e no incremento
-    public void darLanceMinimo(Usuario usuario) {
-        Lance lance = new Lance(usuario, this.precoMinimo + this.incrementoMinimo);
-        //atualiza��o do ultimo lance do leil�o
-        this.ultimoLance = lance;
-        this.precoMinimo = lance.getValor();
-    }
+    public abstract void darLanceMinimo(Usuario usuario);
 
     // um lance com um valor especifico decidido pelo usu�rio e verifica suas condi��es de valida��o, returnando falso caso n�o seja aceit�vel
-    public boolean darLance(Usuario usuario, double preco) {
-        Lance lance = new Lance(usuario, preco);
-
-        //compara��o dos dados do lance criado e os parametros do leil�o
-        if (lance.getValor() >= (this.precoMinimo + this.incrementoMinimo)) {
-            //atualiza��o do ultimo lance do leil�o
-            this.ultimoLance = lance;
-            this.precoMinimo = lance.getValor() + this.incrementoMinimo;
-            return true;
-        } else {
-            return false;
-        }
-    }
+    public abstract boolean darLance(Usuario usuario, double preco);
 
     public Venda getVenda() {
         return this.venda;
     }
+    
+    public void setVenda(Venda venda)
+    {
+        this.venda = venda;
+    }
 
     // retorna o ultimo lance do leil�o;
-    public Lance getUltimoLance() {
-        return this.ultimoLance;
-    }
     
     public void setFim(Date date)
     {
@@ -115,5 +87,34 @@ public abstract class Leilao {
     }
     public Date getInicio() {
         return momentoInicio;
+    }
+    
+    public void setStatus(int status)
+    {
+        this.status = status;
+    }
+    
+    public double getPrecoMinimo()
+    {
+        return this.precoMinimo;
+    }
+    
+    public void setPrecoMinimo(double precoMinimo)
+    {
+        this.precoMinimo = precoMinimo;
+    }
+    
+    public double getIncrementoMinimo()
+    {
+        return this.incrementoMinimo;
+    }
+    
+    public void setIncrementoMinimo(double incrementoMinimo)
+    {
+        this.incrementoMinimo = incrementoMinimo;
+    }
+    public ArrayList getListaLances()
+    {
+        return lances;
     }
 }

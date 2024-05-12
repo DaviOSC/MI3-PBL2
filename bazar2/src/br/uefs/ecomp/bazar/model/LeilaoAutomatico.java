@@ -8,4 +8,24 @@ public class LeilaoAutomatico extends Leilao
     {
         super(lPrecoMinimo, lIncrementoMinimo, lVendedor, lProduto);
     }
+    
+    public void iniciar()
+    {
+        
+    }
+    
+    public void encerrar()
+    {
+        
+    }
+    
+    public void darLanceMinimo(Usuario usuario)
+    {
+        
+    }
+    
+    public boolean darLance(Usuario usuario, double Valor)
+    {
+        return true;
+    }
 }
