@@ -8,11 +8,19 @@ public class LeilaoManual extends Leilao
     {
         super(lPrecoMinimo, lIncrementoMinimo, lVendedor, lProduto);
     }
+    
     @Override
-    public void iniciar() {
+    public void iniciar()
+    {
         super.iniciar();
-        super.setInicio(new Date());
-                
+        super.setInicio(new Date());    
+    }
+    
+    @Override
+    public void encerrar()
+    {
+        super.encerrar();
+        super.setFim(new Date());
     }
     
 }

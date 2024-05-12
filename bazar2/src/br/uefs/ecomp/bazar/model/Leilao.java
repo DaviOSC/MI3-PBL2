@@ -20,6 +20,7 @@ public abstract class Leilao {
     private Venda venda;
     private Lance ultimoLance;
     private Date momentoInicio;
+    private Date momentoFim;
 
     //estrutura para armazenar os participantes do leilao 
     private ArrayList<Usuario> participantes = new ArrayList<>();
@@ -36,7 +37,7 @@ public abstract class Leilao {
 //    {
 //        this.momentoInicio = momentoInicio;
 //    }
-
+    
     public Usuario getVendedor() {
         return this.vendedor;
     }
@@ -104,7 +105,10 @@ public abstract class Leilao {
         return this.ultimoLance;
     }
     
-    
+    public void setFim(Date date)
+    {
+        this.momentoFim = date;
+    }
     public void setInicio(Date date)
     {
         this.momentoInicio = date;
