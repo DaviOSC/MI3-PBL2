@@ -3,7 +3,9 @@ package br.uefs.ecomp.bazar.model;
 import java.util.ArrayList;
 
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 
 public abstract class Leilao {
 
@@ -76,6 +78,10 @@ public abstract class Leilao {
     }
 
     // retorna o ultimo lance do leil�o;
+    public Lance getUltimoLance()
+    {
+        return (Lance)lances.get(lances.size()-1);
+    }
     
     public void setFim(Date date)
     {
@@ -116,5 +122,10 @@ public abstract class Leilao {
     public ArrayList getListaLances()
     {
         return lances;
+    }
+    public Iterator getListaParticipantes()
+    {
+        participantes.sort(Comparator.comparing(Usuario::getNome));
+        return participantes.iterator();
     }
 }

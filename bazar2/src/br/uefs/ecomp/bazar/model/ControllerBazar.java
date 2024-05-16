@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.HashMap;
 
 import br.uefs.ecomp.bazar.util.Iterador;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
 
 public class ControllerBazar
 {
@@ -15,7 +18,7 @@ public class ControllerBazar
     HashMapModficado<String, Usuario> usuarios = new HashMapModficado<>();
     // Estrutura criada para armazenar os leil�es
     ArrayListModficada leiloes = new ArrayListModficada<>();
-    
+  
     public class HashMapModficado<String, T> 
     {
         
@@ -165,7 +168,19 @@ public class ControllerBazar
     // chama o metodo cadastra leil�o do usuario logado, que retorna o leil�o criado, e o adiciona na lista de leil�es
     public Leilao cadastrarLeilaoManual(Produto produto, double precoMinimo, double incrementoMinimo)
     {
-        Leilao leilao = this.usuarioLogado.cadastrarLeilao(precoMinimo, incrementoMinimo, produto);
+        Leilao leilao = this.usuarioLogado.cadastrarLeilaoManual(precoMinimo, incrementoMinimo, produto);
+        leiloes.add(leilao);
+        return leilao;
+    }
+    public Leilao cadastrarLeilaoAutomatico(Produto produto, double precoMinimo, double incrementoMinimo, Date momentoInicio, Date momentoFim)
+    {
+        Leilao leilao = this.usuarioLogado.cadastrarLeilaoAutomatico(precoMinimo, incrementoMinimo, produto, momentoInicio, momentoFim);
+        leiloes.add(leilao);
+        return leilao;
+    }
+    
+    public Leilao cadastrarLeilaoAutomaticoFechado(Produto produto, double precoMinimo, double incrementoMinimo, Date momentoInicio, Date momentoFim) {
+        Leilao leilao = this.usuarioLogado.cadastrarLeilaoAutomaticoFechado(precoMinimo, incrementoMinimo, produto, momentoInicio, momentoFim);
         leiloes.add(leilao);
         return leilao;
     }
@@ -174,45 +189,47 @@ public class ControllerBazar
     {
         leiloes.add(leilao);
     }
+    
     // inicia um leil�o selecionado como parametro
     public void iniciarLeilao(Leilao leilao)
     {
         leilao.iniciar();
     }
     // listagem dos leil�es que est�o com o status iniciado
-        public Iterador listarLeiloesIniciados()
+    public Iterador listarLeiloesIniciados()
+    {
+        ArrayList leiloesIniciados = new ArrayList<>();
+
+        Iterador<Leilao> iterador = new Iterador(leiloes.iterator());
+
+        // enquanto tiverem itens na lista, o iterator percorre a estrutora
+        while (iterador.temProximo())
         {
-            ArrayList leiloesIniciados = new ArrayList<>();
+            Leilao leilao = iterador.next();
 
-            Iterador<Leilao> iterador = new Iterador(leiloes.iterator());
-
-            // enquanto tiverem itens na lista, o iterator percorre a estrutora
-            while (iterador.temProximo())
+            // se o atributo status do objeto leil�o for correspondente ao atributo INICIADO da classe leil�o
+            if (leilao.getStatus() == Leilao.INICIADO)
             {
-                Leilao leilao = iterador.next();
-
-                // se o atributo status do objeto leil�o for correspondente ao atributo INICIADO da classe leil�o
-                if (leilao.getStatus() == Leilao.INICIADO)
-                {
-                    // addiciona na lista apenas os leil�es que est�o iniciados de acordo com seu status
-                    leiloesIniciados.add(leilao);
-                } 
-            }
-
-             for (int i = 0; i < leiloesIniciados.size() - 1; i++) {
-                for (int j = 0; j < leiloesIniciados.size() - 1 - i; j++) {
-                    Leilao leilaoPrimeiro = (Leilao)leiloesIniciados.get(j);
-                    Leilao leilaoProximo = (Leilao)leiloesIniciados.get(j + 1);
-                    if (leilaoPrimeiro.getInicio().compareTo(leilaoProximo.getInicio()) > 0) {
-                        leiloesIniciados.set(j, leilaoProximo);
-                        leiloesIniciados.set(j + 1, leilaoPrimeiro);
-                    }
-                }
-            }
-
-            iterador = new Iterador(leiloesIniciados.iterator());
-            return iterador;
+                // addiciona na lista apenas os leil�es que est�o iniciados de acordo com seu status
+                leiloesIniciados.add(leilao);
+            } 
         }
+
+        leiloesIniciados.sort(Comparator.comparing(Leilao::getInicio));
+
+
+        iterador = new Iterador(leiloesIniciados.iterator());
+        return iterador;
+    }
+    public Iterator abrirEnvelopesLeilaoAutomaticoFechado(Leilao leilao)
+    {
+        if (leilao instanceof LeilaoAutomaticoFechado)
+        {
+            if(leilao.getStatus() == Leilao.ENCERRADO)
+                return leilao.getListaLances().iterator();
+        }
+        return null;//usar exceções
+    }
     // adiciona o usuario logado como participante do leil�o
     public void participarLeilao(Leilao leilao)
     {
@@ -228,10 +245,31 @@ public class ControllerBazar
     {
         usuarioLogado.darLance(valor);
     }
+    
+    public void darLanceLeilaoAutomaticoFechado(double valor)
+    {
+        usuarioLogado.darLance(valor);
+        //usuarioLogado.darLanceAutomaticoFechado(valor);
+    }
+    
+    
     // chama o metodo de encerrar o leil�o ativo do usuario logado no sistema
     public Venda encerrarLeilao()
     {
         return usuarioLogado.encerrarLeilaoAtivo();
     }
     
+    public Date listarMomentoAtual()
+    {
+        Calendar calendario = Calendar.getInstance();
+
+        // Obtém a data e hora atual
+        Date momentoAtual = calendario.getTime();
+        
+        return momentoAtual;
+    }
+    public Iterator listarParticipantesLeilao(Leilao leilao)
+    {
+        return leilao.getListaParticipantes();
+    }
 }

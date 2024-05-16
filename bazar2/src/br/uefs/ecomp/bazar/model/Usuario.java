@@ -3,6 +3,7 @@ package br.uefs.ecomp.bazar.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import br.uefs.ecomp.bazar.util.Iterador;
+import java.util.Date;
 
 public class Usuario
 {
@@ -29,6 +30,10 @@ public class Usuario
     public String getLogin()
     {
         return this.login;
+    }
+    public String getNome()
+    {
+        return this.nome;
     }
     public String getSenha()
     {
@@ -58,10 +63,18 @@ public class Usuario
         produtosCadastrados.add(produto);
         return produto;
     }
-    //cria um leil�o de acordo com os parametros passados e retorna-o
-    public Leilao cadastrarLeilao(double preco, double incremento, Produto produto)
+    public Leilao cadastrarLeilaoManual(double preco, double incremento, Produto produto)
     {
-        Leilao leilao = new LeilaoManual(preco, incremento, this, produto);
+        Leilao leilao = new LeilaoManual(preco, incremento,this, produto);
+        return leilao;
+    }
+    public Leilao cadastrarLeilaoAutomatico(double preco, double incremento, Produto produto, Date momentoInicio, Date momentoFim)
+    {
+        Leilao leilao = new LeilaoAutomatico(preco, incremento,this, produto, momentoInicio, momentoFim);
+        return leilao;
+    }
+    public Leilao cadastrarLeilaoAutomaticoFechado(double preco, double incremento, Produto produto, Date momentoInicio, Date momentoFim) {
+        Leilao leilao = new LeilaoAutomaticoFechado(preco, incremento,this, produto, momentoInicio, momentoFim);
         return leilao;
     }
     // inicia o leil�o passado e defini-o como leil�o ativo do usuario(vendedor)
@@ -80,18 +93,18 @@ public class Usuario
     {
        leilaoAtivo.darLanceMinimo(this);
     }
+//    
+//    public void darLanceAutomaticoFechado(double valor)
+//    {
+//        leilaoAtivo.darLance(this, valor);
+//    }
     // encerra o leil�o ativo(vendedor) e retorna uma venda.
     public Venda encerrarLeilaoAtivo()
     {
         leilaoAtivo.encerrar();
         return leilaoAtivo.getVenda();
     }
-    
-    
-    public Leilao cadastrarLeilaoManual(double preco, double incremento, Produto produto)
-    {
-        Leilao leilao = new LeilaoManual(preco, incremento,this, produto);
-        return leilao;
-    }
-    
+
+
+        
 }

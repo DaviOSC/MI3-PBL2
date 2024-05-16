@@ -7,9 +7,9 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2fyA5KHNpm6GY1H1XskaV4tTBTz" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -20,7 +20,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/joaob.rocha-junior/Dropbox/Courses/EXA863/2024.1/Problema 2/bazar2",
+    "last_opened_file_path": "/Users/joaob.rocha-junior/Downloads/bazar2",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
@@ -41,6 +41,7 @@
       <option name="presentableId" value="Default" />
       <updated>1714762760271</updated>
       <workItem from="1714762761309" duration="20000" />
+      <workItem from="1715713890356" duration="58000" />
     </task>
     <servers />
   </component>

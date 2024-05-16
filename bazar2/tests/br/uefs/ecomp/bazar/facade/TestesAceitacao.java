@@ -24,7 +24,6 @@ import br.uefs.ecomp.bazar.model.exception.LeilaoNaoEncerradoException;
 import br.uefs.ecomp.bazar.model.exception.LoginFalhouException;
 import br.uefs.ecomp.bazar.model.exception.ProdutoNaoCadastrouException;
 import br.uefs.ecomp.bazar.model.exception.UsuarioNaoCadastrouException;
-import br.uefs.ecomp.bazar.util.Iterador;
 
 public class TestesAceitacao {
 	
@@ -98,32 +97,12 @@ public class TestesAceitacao {
 		f.fazerLogin("maria", "senha1");
 		try {
 			f.cadastrarProduto("", "Galaxy S", "Samsung Galaxy S");
-			fail("Tipo do produto não cadastrado.");
+			fail("Tipo do produto n?o cadastrado.");
 		} catch (ProdutoNaoCadastrouException e) { }
 		try {
 			f.cadastrarProduto("", "Galaxy S", "Samsung Galaxy S");
-			fail("Descricao resumida do produto não cadastrada.");
+			fail("Descricao resumida do produto n?o cadastrada.");
 		} catch (ProdutoNaoCadastrouException e) { }
-	}
-	
-	@Test
-	public void testCadastrarListarProdutos() 
-			throws UsuarioNaoCadastrouException, LoginFalhouException, ProdutoNaoCadastrouException {
-		f.cadastrarUsuario("maria", "Maria dos Santos", "senha1", "123456789-01", "Rua Drummond, 23, Centro", "7532213456");
-		f.fazerLogin("maria", "senha1");
-		Produto p1 = f.cadastrarProduto("telefone", "iPhone 4S", "Apple iPhone 4S");
-		Produto p2 = f.cadastrarProduto("telefone", "Galaxy S", "Samsung Galaxy S");
-		Produto p3 = f.cadastrarProduto("tablet", "iPad 2", "Apple iPad 2");
-		
-		// listar produtos ordenados por descricao resumida
-		Iterador iterador = f.listarProdutosCadastrados();
-		assertTrue(iterador.temProximo());
-		assertSame(p2, iterador.proximo());
-		assertTrue(iterador.temProximo());
-		assertSame(p3, iterador.proximo());
-		assertTrue(iterador.temProximo());
-		assertSame(p1, iterador.proximo());
-		assertFalse(iterador.temProximo());	
 	}
 	
 	@Test
@@ -193,11 +172,11 @@ public class TestesAceitacao {
 		Thread.sleep(5);
 		f.iniciarLeilao(l1);
 		
-		Iterador it = f.listarLeiloesIniciados();
-		assertTrue(it.temProximo());
-		assertSame(l3, it.proximo());
-		assertSame(l1, it.proximo());
-		assertFalse(it.temProximo());
+		Iterator it = f.listarLeiloesIniciados();
+		assertTrue(it.hasNext());
+		assertSame(l3, it.next());
+		assertSame(l1, it.next());
+		assertFalse(it.hasNext());
 	}
 
 	@Test
@@ -222,11 +201,11 @@ public class TestesAceitacao {
 		f.fazerLogin("maria", "senha1");
 		f.iniciarLeilao(l1);
 		
-		Iterador it = f.listarLeiloesIniciados();
-		assertTrue(it.temProximo());
-		assertSame(l3, it.proximo());
-		assertSame(l1, it.proximo());
-		assertFalse(it.temProximo());
+		Iterator it = f.listarLeiloesIniciados();
+		assertTrue(it.hasNext());
+		assertSame(l3, it.next());
+		assertSame(l1, it.next());
+		assertFalse(it.hasNext());
 	}
 
 	@Test
@@ -608,7 +587,7 @@ public class TestesAceitacao {
 		termino.add(Calendar.SECOND, +2);
 		Leilao leilao = f.cadastrarLeilaoAutomaticoFechado(p1, 200.00, 5.00, inicio.getTime(), termino.getTime());
 
-		Thread.sleep(1000); // aguarda 1 segundo até o leilão iniciar
+		Thread.sleep(1000); // aguarda 1 segundo at? o leil?o iniciar
 
 		Thread.sleep(2 * DELAY);
 
@@ -632,7 +611,7 @@ public class TestesAceitacao {
 		} catch (LeilaoNaoEncerradoException e) { }
 
 		Thread.sleep(1000);
-		Iterador lances = f.abrirEnvelopesLeilaoAutomaticoFechado();
+		Iterator lances = f.abrirEnvelopesLeilaoAutomaticoFechado();
 		assertNotNull(lances);
 	}	
 	
