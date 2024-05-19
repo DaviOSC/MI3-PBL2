@@ -93,4 +93,22 @@ public class BazarFacade {
     {
         return this.cb.listarParticipantesLeilao(leilao);
     }
+    //20
+    public Iterator listarLances(Leilao leilao)
+    {
+        return this.cb.listarLances(leilao);
+    }
+    //21
+    public Iterator listarLeiloes()
+    {
+        return this.cb.getListaLeiloes().iterator();
+    }
+    //22
+    public Iterator buscarLeiloesTempo(Date momentoA, Date momentoB)
+    {
+        return this.cb.buscarLeiloesTempo(momentoA, momentoB);
+    }
+            
+            
+    
 }

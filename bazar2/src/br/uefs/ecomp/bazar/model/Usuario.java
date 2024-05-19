@@ -1,5 +1,6 @@
 package br.uefs.ecomp.bazar.model;
 
+import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import br.uefs.ecomp.bazar.util.Iterador;
@@ -15,7 +16,7 @@ public class Usuario
     private String telefone;
     private Leilao leilaoAtivo;
 
-    private ArrayList produtosCadastrados =  new ArrayList();
+    private ArrayList<Produto> produtosCadastrados =  new ArrayList<Produto>();
 
     public Usuario(String login, String nome, String senha, String cpf, String endereco, String telefone)
     {
@@ -84,9 +85,16 @@ public class Usuario
         this.leilaoAtivo.iniciar();
     }
     // chama o metodo dar lance no leil�o ativo(participante), passando o usuario e o valor
-    public void darLance(Double valor)
+    public void darLance(Double valor) throws LanceInvalidoException
     {
-        leilaoAtivo.darLance(this, valor);
+        try
+        {
+            leilaoAtivo.darLance(this, valor);
+        }
+        catch(LanceInvalidoException e)
+        {
+            
+        }
     }
     // chama o metodo dar lance minimo leil�o ativo(participante), passando o usuario como parametro
     public void darLanceMinimo()

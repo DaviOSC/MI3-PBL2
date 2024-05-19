@@ -74,18 +74,18 @@ public class ControllerBazarTest {
 		p1 = cb.cadastrarProduto("telefone", "Galaxy S", "Samsung Galaxy S");
 		p2 = cb.cadastrarProduto("telefone", "iPhone 4S", "Apple iPhone 4S");
 
-		assertEquals(0, cb.leiloes.tamanho());
+		assertEquals(0, cb.leiloes.size());
 		l1 = cb.cadastrarLeilaoManual(p1, 200.00, 5.00);
-		assertEquals(1, cb.leiloes.tamanho());
+		assertEquals(1, cb.leiloes.size());
 		l2 = cb.cadastrarLeilaoManual(p1, 500.00, 10.00);
-		assertEquals(2, cb.leiloes.tamanho());
+		assertEquals(2, cb.leiloes.size());
 		
 		u2 = cb.cadastrarUsuario("joao", "Joao dos Santos", "senha2", "987654321-01", "Rua Pessoa, 12, Centro", "7532216543");
 		cb.fazerLogin("joao", "senha2");
 		p3 = cb.cadastrarProduto("tablet", "iPad 2", "Apple iPad 2");
 		l3 = cb.cadastrarLeilaoManual(p3, 1000.00, 20.00);
-		assertEquals(3, cb.leiloes.tamanho());
-		assertSame(l3, cb.leiloes.recupera(2));
+		assertEquals(3, cb.leiloes.size());
+		assertSame(l3, cb.leiloes.get(2));
 	}
 	
 	@Test

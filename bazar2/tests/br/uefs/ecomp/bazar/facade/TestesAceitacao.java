@@ -618,7 +618,7 @@ public class TestesAceitacao {
 	@Test
 	public void testListarMomentoAtual() {
 		Date momentoAtual = Calendar.getInstance().getTime();
-		assertTrue(momentoAtual.getTime() - f.ListarMomentoAtual().getTime() < DELAY);
+		assertTrue(momentoAtual.getTime() - f.listarMomentoAtual().getTime() < DELAY);
 		
 	}
 

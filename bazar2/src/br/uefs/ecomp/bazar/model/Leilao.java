@@ -1,5 +1,6 @@
 package br.uefs.ecomp.bazar.model;
 
+import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
 import java.util.ArrayList;
 
 import java.util.Calendar;
@@ -10,9 +11,9 @@ import java.util.Iterator;
 public abstract class Leilao {
 
     // Constantes para representar os estados de um leilao qualquer:
-    static final int CADASTRADO = 0;
-    static final int INICIADO = 1;
-    static final int ENCERRADO = 2;
+    public static final int CADASTRADO = 0;
+    public static final int INICIADO = 1;
+    public static final int ENCERRADO = 2;
 
     private double precoMinimo;
     private double incrementoMinimo;
@@ -63,10 +64,45 @@ public abstract class Leilao {
     }
 
     // um usu�rio d� um lance com base no pre�o minimo e no incremento
-    public abstract void darLanceMinimo(Usuario usuario);
+    public void darLanceMinimo(Usuario usuario) throws LanceInvalidoException
+    {
+        if(this.getStatus() == Leilao.INICIADO)
+        {
+            Lance lance = new Lance(usuario, this.precoMinimo + this.incrementoMinimo);
+            lances.add(lance);
+            this.precoMinimo = lance.getValor();
+        }
+        else
+        {
+            throw new LanceInvalidoException("Leilao nao esta ativo ainda.");
+        }
+        
+    }
 
     // um lance com um valor especifico decidido pelo usu�rio e verifica suas condi��es de valida��o, returnando falso caso n�o seja aceit�vel
-    public abstract boolean darLance(Usuario usuario, double preco);
+    public boolean darLance(Usuario usuario, double preco) throws LanceInvalidoException
+    {
+        if(this.getStatus() == Leilao.INICIADO)
+        {
+            Lance lance = new Lance(usuario, preco);
+            if (lance.getValor() >= (this.precoMinimo + this.incrementoMinimo))
+            {
+                lances.add(lance);
+                this.precoMinimo = lance.getValor() + this.incrementoMinimo;
+                return true;
+            }
+            else
+            {
+                throw new LanceInvalidoException("Lance Inválido");
+            }
+        }
+        else
+        {
+            throw new LanceInvalidoException("Leilao nao esta ativo ainda.");
+        }
+
+        
+    }
 
     public Venda getVenda() {
         return this.venda;
@@ -91,8 +127,13 @@ public abstract class Leilao {
     {
         this.momentoInicio = date;
     }
-    public Date getInicio() {
+    public Date getInicio()
+    {
         return momentoInicio;
+    }
+    public Date getFim()
+    {
+        return momentoFim;
     }
     
     public void setStatus(int status)

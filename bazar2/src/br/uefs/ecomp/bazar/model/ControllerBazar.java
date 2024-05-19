@@ -1,11 +1,13 @@
 package br.uefs.ecomp.bazar.model;
 
+import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.HashMap;
 
 import br.uefs.ecomp.bazar.util.Iterador;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -17,7 +19,7 @@ public class ControllerBazar
     //Estrutura que armazena os usuarios cadastrados; facilitando posteriormente a busca
     HashMapModficado<String, Usuario> usuarios = new HashMapModficado<>();
     // Estrutura criada para armazenar os leil�es
-    ArrayListModficada leiloes = new ArrayListModficada<>();
+    ArrayList<Leilao> leiloes = new ArrayList<>();
   
     public class HashMapModficado<String, T> 
     {
@@ -127,7 +129,7 @@ public class ControllerBazar
     
     
     // retorna a lista de leil�es
-    public ArrayListModficada getListaLeiloes()
+    public ArrayList getListaLeiloes()
     {
         return leiloes;
     }
@@ -241,12 +243,12 @@ public class ControllerBazar
         usuarioLogado.darLanceMinimo();
     }
     // chama o metodo dar lance do usu�rio logado, passando o valor do lance
-    public void darLance(double valor)
+    public void darLance(double valor) throws LanceInvalidoException
     {
         usuarioLogado.darLance(valor);
     }
     
-    public void darLanceLeilaoAutomaticoFechado(double valor)
+    public void darLanceLeilaoAutomaticoFechado(double valor)throws LanceInvalidoException
     {
         usuarioLogado.darLance(valor);
         //usuarioLogado.darLanceAutomaticoFechado(valor);
@@ -260,16 +262,34 @@ public class ControllerBazar
     }
     
     public Date listarMomentoAtual()
-    {
-        Calendar calendario = Calendar.getInstance();
-
-        // Obtém a data e hora atual
-        Date momentoAtual = calendario.getTime();
-        
-        return momentoAtual;
+    {      
+        return new Date();
     }
     public Iterator listarParticipantesLeilao(Leilao leilao)
     {
         return leilao.getListaParticipantes();
+    }
+    
+    public Iterator listarLances(Leilao leilao)
+    {
+        return leilao.getListaLances().iterator();
+    }
+    
+    public Iterator buscarLeiloesTempo(Date momentoA, Date momentoB)
+    {
+        ArrayList<Leilao> leiloesNoIntervalo = new ArrayList<>();
+        Collections.sort(leiloes, Comparator.comparing(Leilao::getInicio));
+        
+        for(Leilao leilao : leiloes)
+        {
+            if(leilao.getInicio().compareTo(momentoA) > 0 && leilao.getInicio().compareTo(momentoB) < 0)
+            {
+                leiloesNoIntervalo.add(leilao);
+            }
+        }
+        
+        return leiloesNoIntervalo.iterator();
+            
+    
     }
 }
