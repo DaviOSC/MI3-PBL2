@@ -85,23 +85,21 @@ public abstract class Leilao {
         if(this.getStatus() == Leilao.INICIADO)
         {
             Lance lance = new Lance(usuario, preco);
-            if (lance.getValor() >= (this.precoMinimo + this.incrementoMinimo))
+            if(lance.getValor() < this.precoMinimo + this.incrementoMinimo)
+            {
+                throw new LanceInvalidoException("Lance deve ser maior o preco minimo mais o incremento minimo.");
+            }
+            else
             {
                 lances.add(lance);
                 this.precoMinimo = lance.getValor() + this.incrementoMinimo;
                 return true;
-            }
-            else
-            {
-                throw new LanceInvalidoException("Lance Inválido");
             }
         }
         else
         {
             throw new LanceInvalidoException("Leilao nao esta ativo ainda.");
         }
-
-        
     }
 
     public Venda getVenda() {
@@ -116,7 +114,14 @@ public abstract class Leilao {
     // retorna o ultimo lance do leil�o;
     public Lance getUltimoLance()
     {
-        return (Lance)lances.get(lances.size()-1);
+        if(lances.isEmpty())
+        {
+            return null;
+        }
+        else
+        {
+            return (Lance)lances.get(lances.size()-1);
+        }
     }
     
     public void setFim(Date date)

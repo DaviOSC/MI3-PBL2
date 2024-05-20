@@ -24,6 +24,7 @@ import br.uefs.ecomp.bazar.model.exception.LeilaoNaoEncerradoException;
 import br.uefs.ecomp.bazar.model.exception.LoginFalhouException;
 import br.uefs.ecomp.bazar.model.exception.ProdutoNaoCadastrouException;
 import br.uefs.ecomp.bazar.model.exception.UsuarioNaoCadastrouException;
+import java.util.Iterator;
 
 public class TestesAceitacao {
 	

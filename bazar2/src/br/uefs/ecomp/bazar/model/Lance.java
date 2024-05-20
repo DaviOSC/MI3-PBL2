@@ -26,5 +26,10 @@ public class Lance
     {
         return participante;
     }
+    
+    public Date getMomento()
+    {
+        return momentoDoLance;
+    }
             
 }

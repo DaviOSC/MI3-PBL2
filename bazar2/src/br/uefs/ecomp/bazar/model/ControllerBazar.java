@@ -191,11 +191,18 @@ public class ControllerBazar
         return iterador;
     }
     // chama o metodo cadastra leil�o do usuario logado, que retorna o leil�o criado, e o adiciona na lista de leil�es
-    public Leilao cadastrarLeilaoManual(Produto produto, double precoMinimo, double incrementoMinimo)
+    public Leilao cadastrarLeilaoManual(Produto produto, double precoMinimo, double incrementoMinimo) throws LeilaoNaoCadastrouException
     {
-        Leilao leilao = this.usuarioLogado.cadastrarLeilaoManual(precoMinimo, incrementoMinimo, produto);
-        leiloes.add(leilao);
-        return leilao;
+        try
+        {
+            Leilao leilao = this.usuarioLogado.cadastrarLeilaoManual(precoMinimo, incrementoMinimo, produto);
+            leiloes.add(leilao);
+            return leilao;
+        }
+        catch(LeilaoNaoCadastrouException e)
+        {
+            throw e;
+        }
     }
     public Leilao cadastrarLeilaoAutomatico(Produto produto, double precoMinimo, double incrementoMinimo, Date momentoInicio, Date momentoFim)
     {
@@ -273,15 +280,16 @@ public class ControllerBazar
         }
     }
     // chama o metodo dar lance do usu�rio logado, passando o valor do lance
-    public void darLance(double valor) throws LanceInvalidoException
+    public boolean darLance(double valor) throws LanceInvalidoException
     {
         try
         {
             usuarioLogado.darLance(valor);
+            return true;
         }
         catch(LanceInvalidoException e)
         {
-            
+            throw e;
         }
         
     }

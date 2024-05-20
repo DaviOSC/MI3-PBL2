@@ -89,10 +89,22 @@ public class Usuario
             return produto;
         }
     }
-    public Leilao cadastrarLeilaoManual(double preco, double incremento, Produto produto)
+    public Leilao cadastrarLeilaoManual(double preco, double incremento, Produto produto) throws LeilaoNaoCadastrouException
     {
-        Leilao leilao = new LeilaoManual(preco, incremento,this, produto);
-        return leilao;
+        if(incremento <= 0)
+        {
+            throw new LeilaoNaoCadastrouException("Incremento minimo deve ser maior que zero.");
+        }
+        else if(preco <= 0)
+        {
+            throw new LeilaoNaoCadastrouException("Preco minimo deve ser maior que zero.");
+        }
+        else
+        {
+            Leilao leilao = new LeilaoManual(preco, incremento,this, produto);
+            return leilao;  
+        }
+        
     }
     public Leilao cadastrarLeilaoAutomatico(double preco, double incremento, Produto produto, Date momentoInicio, Date momentoFim)
     {
@@ -111,15 +123,16 @@ public class Usuario
         this.leilaoAtivo.iniciar();
     }
     // chama o metodo dar lance no leil�o ativo(participante), passando o usuario e o valor
-    public void darLance(Double valor) throws LanceInvalidoException
+    public boolean darLance(Double valor) throws LanceInvalidoException
     {
         try
         {
             leilaoAtivo.darLance(this, valor);
+            return true;
         }
         catch(LanceInvalidoException e)
         {
-            
+            throw e;
         }
     }
     // chama o metodo dar lance minimo leil�o ativo(participante), passando o usuario como parametro

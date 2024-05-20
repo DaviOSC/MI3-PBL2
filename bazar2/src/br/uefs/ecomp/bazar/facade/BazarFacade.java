@@ -60,8 +60,16 @@ public class BazarFacade {
         return this.cb.listarProdutosCadastrados();
     }
     //5
-    public Leilao cadastrarLeilaoManual(Produto produto, double precoMinimo, double incrementoMinimo) {
-        return this.cb.cadastrarLeilaoManual(produto, precoMinimo, incrementoMinimo);
+    public Leilao cadastrarLeilaoManual(Produto produto, double precoMinimo, double incrementoMinimo) throws LeilaoNaoCadastrouException
+    {
+        try
+        {
+            return this.cb.cadastrarLeilaoManual(produto, precoMinimo, incrementoMinimo);
+        }
+        catch(LeilaoNaoCadastrouException e)
+        {
+            throw e;
+        }
     }
     //6
     public void iniciarLeilao(Leilao leilao) {
@@ -87,14 +95,15 @@ public class BazarFacade {
         }
     }
     //10
-    public void darLance(double valor) throws LanceInvalidoException {
+    public boolean darLance(double valor) throws LanceInvalidoException {
         try
         {
             this.cb.darLance(valor);
+            return true;
         }
         catch(LanceInvalidoException e)
         {
-            
+            throw e;
         }
     }
     //11
