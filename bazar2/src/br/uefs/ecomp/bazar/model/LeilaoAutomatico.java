@@ -31,7 +31,7 @@ public class LeilaoAutomatico extends Leilao
         
     public void checkForEnd()
     {
-        if(this.getFim().compareTo(new Date()) < 0 && this.getStatus() == Leilao.INICIADO)
+        if(this.getTermino().compareTo(new Date()) < 0 && this.getStatus() == Leilao.INICIADO)
         {
             encerrar();
         }
@@ -40,7 +40,7 @@ public class LeilaoAutomatico extends Leilao
     
     public void checkForStart()
     {
-        if(this.getFim().compareTo(new Date()) < 0 && this.getStatus() == Leilao.CADASTRADO)
+        if(this.getTermino().compareTo(new Date()) < 0 && this.getStatus() == Leilao.CADASTRADO)
         {
             iniciar();
         }

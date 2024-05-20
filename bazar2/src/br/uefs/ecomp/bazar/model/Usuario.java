@@ -1,6 +1,7 @@
 package br.uefs.ecomp.bazar.model;
 
-import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
+import br.uefs.ecomp.bazar.model.exception.*;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import br.uefs.ecomp.bazar.util.Iterador;
@@ -40,6 +41,19 @@ public class Usuario
     {
         return this.senha;
     }
+    public String getCpf()
+    {
+        return this.cpf;
+    }
+    public String getEndereco()
+    {
+        return this.endereco;
+    }
+    public String getTelefone()
+    {
+        return this.telefone;
+    }
+    
     //modfica o atributo referente ao leil�o como participante ou como vendedor
     public void setLeilaoAtivo(Leilao leilao)
     {
@@ -58,11 +72,22 @@ public class Usuario
         setLeilaoAtivo(leilao);
     }
     //cria um novo produto e adiciona-o na lista de produtos do usu�rio
-    public Produto cadastrarProduto(String pTipo, String pDescResum, String pDescDetalh )
+    public Produto cadastrarProduto(String pTipo, String pDescResum, String pDescDetalh ) throws ProdutoNaoCadastrouException
     {
-        Produto produto = new Produto(pTipo, pDescResum, pDescDetalh, this);
-        produtosCadastrados.add(produto);
-        return produto;
+        if(pTipo.equals(""))
+        {
+            throw new ProdutoNaoCadastrouException("Tipo do produto n?o cadastrado.");
+        }
+        else if(pDescResum.equals(""))
+        {
+            throw new ProdutoNaoCadastrouException("Descricao resumida do produto n?o cadastrada.");
+        }
+        else
+        {
+            Produto produto = new Produto(pTipo, pDescResum, pDescDetalh, this);
+            produtosCadastrados.add(produto);
+            return produto;
+        }
     }
     public Leilao cadastrarLeilaoManual(double preco, double incremento, Produto produto)
     {
@@ -74,7 +99,8 @@ public class Usuario
         Leilao leilao = new LeilaoAutomatico(preco, incremento,this, produto, momentoInicio, momentoFim);
         return leilao;
     }
-    public Leilao cadastrarLeilaoAutomaticoFechado(double preco, double incremento, Produto produto, Date momentoInicio, Date momentoFim) {
+    public Leilao cadastrarLeilaoAutomaticoFechado(double preco, double incremento, Produto produto, Date momentoInicio, Date momentoFim)
+    {
         Leilao leilao = new LeilaoAutomaticoFechado(preco, incremento,this, produto, momentoInicio, momentoFim);
         return leilao;
     }
@@ -97,9 +123,16 @@ public class Usuario
         }
     }
     // chama o metodo dar lance minimo leil�o ativo(participante), passando o usuario como parametro
-    public void darLanceMinimo()
+    public void darLanceMinimo() throws LanceInvalidoException
     {
-       leilaoAtivo.darLanceMinimo(this);
+       try
+        {
+            leilaoAtivo.darLanceMinimo(this);
+        }
+        catch(LanceInvalidoException e)
+        {
+            
+        }
     }
 //    
 //    public void darLanceAutomaticoFechado(double valor)

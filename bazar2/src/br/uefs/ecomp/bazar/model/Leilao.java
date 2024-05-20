@@ -25,7 +25,7 @@ public abstract class Leilao {
     private Date momentoFim;
 
     //estrutura para armazenar os participantes do leilao 
-    private ArrayList lances = new ArrayList();
+    private ArrayList<Lance> lances = new ArrayList();
     private ArrayList<Usuario> participantes = new ArrayList<>();
 
     public Leilao(double lPrecoMinimo, double lIncrementoMinimo, Usuario lVendedor, Produto lProduto) {
@@ -131,7 +131,7 @@ public abstract class Leilao {
     {
         return momentoInicio;
     }
-    public Date getFim()
+    public Date getTermino()
     {
         return momentoFim;
     }
@@ -160,7 +160,7 @@ public abstract class Leilao {
     {
         this.incrementoMinimo = incrementoMinimo;
     }
-    public ArrayList getListaLances()
+    public ArrayList<Lance> getListaLances()
     {
         return lances;
     }

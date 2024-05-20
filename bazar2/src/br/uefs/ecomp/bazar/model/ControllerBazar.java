@@ -1,6 +1,7 @@
 package br.uefs.ecomp.bazar.model;
 
-import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
+import br.uefs.ecomp.bazar.model.exception.*;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.HashMap;
@@ -120,11 +121,20 @@ public class ControllerBazar
     }
     
     //cria um novo usu�rio e adiciona na hashmap de armazenamento.
-    public Usuario cadastrarUsuario(String uLogin, String uNome, String uSenha, String uCpf, String uEndereco, String uTelefone)
+    public Usuario cadastrarUsuario(String uLogin, String uNome, String uSenha, String uCpf, String uEndereco, String uTelefone) throws UsuarioNaoCadastrouException
     {
-       Usuario usuario = new Usuario(uLogin, uNome, uSenha, uCpf, uEndereco, uTelefone);
-       usuarios.inserir(uLogin, usuario);
-       return usuario;
+        Usuario usuario = new Usuario(uLogin, uNome, uSenha, uCpf, uEndereco, uTelefone);
+        if(usuarios.containsKey(uLogin))
+        {
+            throw new UsuarioNaoCadastrouException("Usuário já existente");
+        }
+        if(uSenha.equals(""))
+        {
+            throw new UsuarioNaoCadastrouException("Usuário já existente");
+        }
+        usuarios.inserir(uLogin, usuario);
+        return usuario;
+       
     }
     
     
@@ -135,7 +145,7 @@ public class ControllerBazar
     }
     
     // realiza o login de um usuario selecionado
-    public Usuario fazerLogin(String login, String senha)
+    public Usuario fazerLogin(String login, String senha) throws LoginFalhouException
     {
         // recupera um usuario a partir de seu login
         Usuario usuario = usuarios.recupera(login);
@@ -149,17 +159,30 @@ public class ControllerBazar
                 this.usuarioLogado = usuario;
                 return usuario;
             }
+            else
+            {
+                throw new LoginFalhouException("Senha incorreta");
+            }
         }
-        // caso n�o consiga executar o login
-        return null;
+        else
+        {
+            throw new LoginFalhouException("Usuario não encontrado");
+        }
     }
     
     // Cria um novo produto, ao chamar o metodo do usuario logado cadastrar
-    public Produto cadastrarProduto(String tipo, String descricaoResumida, String descricaoDetalhada)
+    public Produto cadastrarProduto(String tipo, String descricaoResumida, String descricaoDetalhada) throws ProdutoNaoCadastrouException
     {
-        Produto produto = usuarioLogado.cadastrarProduto(tipo, descricaoResumida, descricaoDetalhada);
-        return produto;  
-
+        try
+        {
+            Produto produto = usuarioLogado.cadastrarProduto(tipo, descricaoResumida, descricaoDetalhada);
+            return produto; 
+        }
+        catch(ProdutoNaoCadastrouException e)
+        {
+            throw e;
+        }
+ 
     }
     // listagem dos produtos cadastrados do usuario logado
     public Iterador<Produto> listarProdutosCadastrados()
@@ -238,14 +261,29 @@ public class ControllerBazar
         usuarioLogado.participarLeilao(leilao);
     }
     // chama o metodo dar lance minimo do usu�rio logado
-    public void darLanceMinimo()
+    public void darLanceMinimo() throws LanceInvalidoException
     {
-        usuarioLogado.darLanceMinimo();
+        try
+        {
+            usuarioLogado.darLanceMinimo();
+        }
+        catch(LanceInvalidoException e)
+        {
+            
+        }
     }
     // chama o metodo dar lance do usu�rio logado, passando o valor do lance
     public void darLance(double valor) throws LanceInvalidoException
     {
-        usuarioLogado.darLance(valor);
+        try
+        {
+            usuarioLogado.darLance(valor);
+        }
+        catch(LanceInvalidoException e)
+        {
+            
+        }
+        
     }
     
     public void darLanceLeilaoAutomaticoFechado(double valor)throws LanceInvalidoException
