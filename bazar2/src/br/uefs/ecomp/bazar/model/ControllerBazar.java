@@ -117,12 +117,14 @@ public class ControllerBazar
     // retorna a quantidade de itens no hashmap que armazena os usu�rios
     public int quantidadeUsuarios()
     {
+        checkStates();
         return usuarios.tamanho();
     }
     
     //cria um novo usu�rio e adiciona na hashmap de armazenamento.
     public Usuario cadastrarUsuario(String uLogin, String uNome, String uSenha, String uCpf, String uEndereco, String uTelefone) throws UsuarioNaoCadastrouException
     {
+        checkStates();
         Usuario usuario = new Usuario(uLogin, uNome, uSenha, uCpf, uEndereco, uTelefone);
         if(usuarios.containsKey(uLogin))
         {
@@ -133,20 +135,21 @@ public class ControllerBazar
             throw new UsuarioNaoCadastrouException("Usuário já existente");
         }
         usuarios.inserir(uLogin, usuario);
-        return usuario;
-       
+        return usuario;    
     }
     
     
     // retorna a lista de leil�es
     public ArrayList getListaLeiloes()
     {
+        checkStates();
         return leiloes;
     }
     
     // realiza o login de um usuario selecionado
     public Usuario fazerLogin(String login, String senha) throws LoginFalhouException
     {
+        checkStates();
         // recupera um usuario a partir de seu login
         Usuario usuario = usuarios.recupera(login);
         // se, de acordo com o login, ele existir
@@ -173,6 +176,7 @@ public class ControllerBazar
     // Cria um novo produto, ao chamar o metodo do usuario logado cadastrar
     public Produto cadastrarProduto(String tipo, String descricaoResumida, String descricaoDetalhada) throws ProdutoNaoCadastrouException
     {
+        checkStates();
         try
         {
             Produto produto = usuarioLogado.cadastrarProduto(tipo, descricaoResumida, descricaoDetalhada);
@@ -187,12 +191,14 @@ public class ControllerBazar
     // listagem dos produtos cadastrados do usuario logado
     public Iterador<Produto> listarProdutosCadastrados()
     {
+        checkStates();
         Iterador iterador = new Iterador(usuarioLogado.listarProdutosCadastrados());
         return iterador;
     }
     // chama o metodo cadastra leil�o do usuario logado, que retorna o leil�o criado, e o adiciona na lista de leil�es
     public Leilao cadastrarLeilaoManual(Produto produto, double precoMinimo, double incrementoMinimo) throws LeilaoNaoCadastrouException
     {
+        checkStates();
         try
         {
             Leilao leilao = this.usuarioLogado.cadastrarLeilaoManual(precoMinimo, incrementoMinimo, produto);
@@ -204,32 +210,52 @@ public class ControllerBazar
             throw e;
         }
     }
-    public Leilao cadastrarLeilaoAutomatico(Produto produto, double precoMinimo, double incrementoMinimo, Date momentoInicio, Date momentoFim)
+    public Leilao cadastrarLeilaoAutomatico(Produto produto, double precoMinimo, double incrementoMinimo, Date momentoInicio, Date momentoFim) throws LeilaoNaoCadastrouException
     {
-        Leilao leilao = this.usuarioLogado.cadastrarLeilaoAutomatico(precoMinimo, incrementoMinimo, produto, momentoInicio, momentoFim);
-        leiloes.add(leilao);
-        return leilao;
+        checkStates();
+        try
+        {    
+            Leilao leilao = this.usuarioLogado.cadastrarLeilaoAutomatico(precoMinimo, incrementoMinimo, produto, momentoInicio, momentoFim);
+            leiloes.add(leilao);
+            return leilao;
+        }
+        catch(LeilaoNaoCadastrouException e)
+        {
+            throw e;
+        }
     }
     
-    public Leilao cadastrarLeilaoAutomaticoFechado(Produto produto, double precoMinimo, double incrementoMinimo, Date momentoInicio, Date momentoFim) {
-        Leilao leilao = this.usuarioLogado.cadastrarLeilaoAutomaticoFechado(precoMinimo, incrementoMinimo, produto, momentoInicio, momentoFim);
-        leiloes.add(leilao);
-        return leilao;
+    public Leilao cadastrarLeilaoAutomaticoFechado(Produto produto, double precoMinimo, double incrementoMinimo, Date momentoInicio, Date momentoFim) throws LeilaoNaoCadastrouException
+    {
+        checkStates();
+        try
+        {    
+            Leilao leilao = this.usuarioLogado.cadastrarLeilaoAutomaticoFechado(precoMinimo, incrementoMinimo, produto, momentoInicio, momentoFim);
+            leiloes.add(leilao);
+            return leilao;
+        }
+        catch(Exception e)
+        {
+            throw e;
+        }
     }
     
     public void cadastrarLeilao(Leilao leilao)
     {
+        checkStates();
         leiloes.add(leilao);
     }
     
     // inicia um leil�o selecionado como parametro
     public void iniciarLeilao(Leilao leilao)
     {
+        checkStates();
         leilao.iniciar();
     }
     // listagem dos leil�es que est�o com o status iniciado
     public Iterador listarLeiloesIniciados()
     {
+        checkStates();
         ArrayList leiloesIniciados = new ArrayList<>();
 
         Iterador<Leilao> iterador = new Iterador(leiloes.iterator());
@@ -253,49 +279,60 @@ public class ControllerBazar
         iterador = new Iterador(leiloesIniciados.iterator());
         return iterador;
     }
-    public Iterator abrirEnvelopesLeilaoAutomaticoFechado(Leilao leilao)
+    public Iterator abrirEnvelopesLeilaoAutomaticoFechado() throws LeilaoNaoEncerradoException
     {
-        if (leilao instanceof LeilaoAutomaticoFechado)
+        checkStates();
+        Leilao leilao =usuarioLogado.getLeilaoAtivo();
+        if(leilao instanceof LeilaoAutomaticoFechado)
         {
             if(leilao.getStatus() == Leilao.ENCERRADO)
+            {
                 return leilao.getListaLances().iterator();
+            }
+            else
+            {
+                throw new LeilaoNaoEncerradoException("Leilao ainda nao foi encerrado.");
+            }
         }
-        return null;//usar exceções
+        return null;
+        
     }
     // adiciona o usuario logado como participante do leil�o
     public void participarLeilao(Leilao leilao)
     {
+        checkStates();
         usuarioLogado.participarLeilao(leilao);
     }
     // chama o metodo dar lance minimo do usu�rio logado
     public void darLanceMinimo() throws LanceInvalidoException
     {
+        checkStates();
         try
         {
             usuarioLogado.darLanceMinimo();
         }
         catch(LanceInvalidoException e)
         {
-            
+            throw e;
         }
     }
     // chama o metodo dar lance do usu�rio logado, passando o valor do lance
     public boolean darLance(double valor) throws LanceInvalidoException
     {
+        checkStates();
         try
         {
-            usuarioLogado.darLance(valor);
-            return true;
+            return usuarioLogado.darLance(valor);
         }
         catch(LanceInvalidoException e)
         {
             throw e;
-        }
-        
+        }   
     }
     
     public void darLanceLeilaoAutomaticoFechado(double valor)throws LanceInvalidoException
     {
+        checkStates();
         usuarioLogado.darLance(valor);
         //usuarioLogado.darLanceAutomaticoFechado(valor);
     }
@@ -304,25 +341,30 @@ public class ControllerBazar
     // chama o metodo de encerrar o leil�o ativo do usuario logado no sistema
     public Venda encerrarLeilao()
     {
+        checkStates();
         return usuarioLogado.encerrarLeilaoAtivo();
     }
     
     public Date listarMomentoAtual()
     {      
+        checkStates();
         return new Date();
     }
     public Iterator listarParticipantesLeilao(Leilao leilao)
     {
+        checkStates();
         return leilao.getListaParticipantes();
     }
     
     public Iterator listarLances(Leilao leilao)
     {
+        checkStates();
         return leilao.getListaLances().iterator();
     }
     
     public Iterator buscarLeiloesTempo(Date momentoA, Date momentoB)
     {
+        checkStates();
         ArrayList<Leilao> leiloesNoIntervalo = new ArrayList<>();
         Collections.sort(leiloes, Comparator.comparing(Leilao::getInicio));
         
@@ -335,7 +377,18 @@ public class ControllerBazar
         }
         
         return leiloesNoIntervalo.iterator();
-            
+    }
     
+    public void checkStates()
+    {
+       for (Leilao leilao :leiloes)
+       {
+           if (leilao instanceof LeilaoAutomatico)
+           {
+               ((LeilaoAutomatico) leilao).checkForStart();
+               ((LeilaoAutomatico) leilao).checkForEnd();
+               
+           }
+       }
     }
 }

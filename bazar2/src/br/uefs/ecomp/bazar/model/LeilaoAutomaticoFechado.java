@@ -19,12 +19,25 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico
             {
                 throw new LanceInvalidoException("Participante ja deu seu lance.");
             }
+        }
+
+        if(this.getStatus() == Leilao.CADASTRADO || this.getStatus() == Leilao.ENCERRADO)
+        {
+            throw new LanceInvalidoException("Leilao nao esta ativo ainda.");            
+        }
+        else
+        {
+            Lance lance = new Lance(usuario, preco);
+            if(lance.getValor() < getPrecoMinimo() + getIncrementoMinimo())
+            {
+                //throw new LanceInvalidoException("Lance deve ser maior o preco minimo mais o incremento minimo.");
+                return false;
+            }
             else
             {
-               super.darLance(usuario, preco); 
+                getListaLances().add(lance);
+                return true;
             }
-        } 
-        
-        return true;
+        }
     }
 }

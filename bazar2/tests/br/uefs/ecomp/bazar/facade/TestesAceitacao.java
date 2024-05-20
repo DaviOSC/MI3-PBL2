@@ -458,7 +458,7 @@ public class TestesAceitacao {
 		assertEquals(termino.getTime(), leilao.getTermino());
 		assertSame(produto, leilao.getProduto());
 		assertSame(vendedor, leilao.getVendedor());
-		assertEquals(Leilao.INICIADO, leilao.getStatus());
+		assertEquals(Leilao.CADASTRADO, leilao.getStatus());
 		assertNull(leilao.getUltimoLance());
 		assertNull(leilao.getVenda());
 	}

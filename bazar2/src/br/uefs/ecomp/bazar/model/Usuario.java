@@ -106,15 +106,53 @@ public class Usuario
         }
         
     }
-    public Leilao cadastrarLeilaoAutomatico(double preco, double incremento, Produto produto, Date momentoInicio, Date momentoFim)
+    public Leilao cadastrarLeilaoAutomatico(double preco, double incremento, Produto produto, Date momentoInicio, Date momentoFim) throws LeilaoNaoCadastrouException
     {
-        Leilao leilao = new LeilaoAutomatico(preco, incremento,this, produto, momentoInicio, momentoFim);
-        return leilao;
+        if(incremento <= 0)
+        {
+            throw new LeilaoNaoCadastrouException("Incremento minimo deve ser maior que zero.");
+        }
+        else if(preco <= 0)
+        {
+            throw new LeilaoNaoCadastrouException("Preco minimo deve ser maior que zero.");
+        }
+        else if(momentoFim.compareTo(momentoInicio) < 0)
+        {
+            throw new LeilaoNaoCadastrouException("Momento de termino do leilao deve ocorrer apos momento de inicio.");
+        }
+        else if(momentoInicio.compareTo(new Date()) < 0 )
+        {
+            throw new LeilaoNaoCadastrouException("Momento de inicio do leilao deve ocorrer apos a hora atual.");
+        }
+        else
+        {
+            Leilao leilao = new LeilaoAutomatico(preco, incremento,this, produto, momentoInicio, momentoFim);
+            return leilao;  
+        }
     }
-    public Leilao cadastrarLeilaoAutomaticoFechado(double preco, double incremento, Produto produto, Date momentoInicio, Date momentoFim)
+    public Leilao cadastrarLeilaoAutomaticoFechado(double preco, double incremento, Produto produto, Date momentoInicio, Date momentoFim) throws LeilaoNaoCadastrouException
     {
-        Leilao leilao = new LeilaoAutomaticoFechado(preco, incremento,this, produto, momentoInicio, momentoFim);
-        return leilao;
+        if(incremento <= 0)
+        {
+            throw new LeilaoNaoCadastrouException("Incremento minimo deve ser maior que zero.");
+        }
+        else if(preco <= 0)
+        {
+            throw new LeilaoNaoCadastrouException("Preco minimo deve ser maior que zero.");
+        }
+        else if(momentoFim.compareTo(momentoInicio) < 0)
+        {
+            throw new LeilaoNaoCadastrouException("Momento de termino do leilao deve ocorrer apos momento de inicio.");
+        }
+        else if(momentoInicio.compareTo(new Date()) < 0 )
+        {
+            throw new LeilaoNaoCadastrouException("Momento de inicio do leilao deve ocorrer apos a hora atual.");
+        }
+        else
+        {
+            Leilao leilao = new LeilaoAutomaticoFechado(preco, incremento,this, produto, momentoInicio, momentoFim);
+            return leilao;  
+        }
     }
     // inicia o leil�o passado e defini-o como leil�o ativo do usuario(vendedor)
     public void iniciarLeilao(Leilao leilao)
@@ -127,8 +165,7 @@ public class Usuario
     {
         try
         {
-            leilaoAtivo.darLance(this, valor);
-            return true;
+            return leilaoAtivo.darLance(this, valor);
         }
         catch(LanceInvalidoException e)
         {
@@ -144,7 +181,7 @@ public class Usuario
         }
         catch(LanceInvalidoException e)
         {
-            
+            throw e;
         }
     }
 //    
@@ -157,6 +194,11 @@ public class Usuario
     {
         leilaoAtivo.encerrar();
         return leilaoAtivo.getVenda();
+    }
+    
+    public Leilao getLeilaoAtivo()
+    {
+        return this.leilaoAtivo;
     }
 
 

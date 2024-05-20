@@ -82,12 +82,17 @@ public abstract class Leilao {
     // um lance com um valor especifico decidido pelo usu�rio e verifica suas condi��es de valida��o, returnando falso caso n�o seja aceit�vel
     public boolean darLance(Usuario usuario, double preco) throws LanceInvalidoException
     {
-        if(this.getStatus() == Leilao.INICIADO)
+        if(this.getStatus() == Leilao.CADASTRADO || this.getStatus() == Leilao.ENCERRADO)
+        {
+            throw new LanceInvalidoException("Leilao nao esta ativo ainda.");            
+        }
+        else
         {
             Lance lance = new Lance(usuario, preco);
             if(lance.getValor() < this.precoMinimo + this.incrementoMinimo)
             {
-                throw new LanceInvalidoException("Lance deve ser maior o preco minimo mais o incremento minimo.");
+                //throw new LanceInvalidoException("Lance deve ser maior o preco minimo mais o incremento minimo.");
+                return false;
             }
             else
             {
@@ -95,10 +100,6 @@ public abstract class Leilao {
                 this.precoMinimo = lance.getValor() + this.incrementoMinimo;
                 return true;
             }
-        }
-        else
-        {
-            throw new LanceInvalidoException("Leilao nao esta ativo ainda.");
         }
     }
 

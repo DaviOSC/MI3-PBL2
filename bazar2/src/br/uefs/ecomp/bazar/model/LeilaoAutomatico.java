@@ -8,9 +8,11 @@ public class LeilaoAutomatico extends Leilao
     public LeilaoAutomatico(double lPrecoMinimo, double lIncrementoMinimo, Usuario lVendedor, Produto lProduto, Date horarioInicio, Date horarioFim)
     {
         super(lPrecoMinimo, lIncrementoMinimo, lVendedor, lProduto);
+        super.setInicio(horarioInicio);
         super.setFim(horarioFim);
     }
     
+    @Override
     public void iniciar()
     {
         this.setStatus(Leilao.INICIADO);
@@ -18,6 +20,7 @@ public class LeilaoAutomatico extends Leilao
         getVendedor().setLeilaoAtivo(this); 
     }
     
+    @Override
     public void encerrar()
     {
         this.setStatus(Leilao.ENCERRADO);
@@ -31,8 +34,9 @@ public class LeilaoAutomatico extends Leilao
         
     public void checkForEnd()
     {
-        if(this.getTermino().compareTo(new Date()) < 0 && this.getStatus() == Leilao.INICIADO)
+        if(this.getTermino().compareTo(new Date()) <= 0 && this.getStatus() == Leilao.INICIADO)
         {
+            System.out.print(this+"Encerrar");
             encerrar();
         }
                 
@@ -40,8 +44,9 @@ public class LeilaoAutomatico extends Leilao
     
     public void checkForStart()
     {
-        if(this.getTermino().compareTo(new Date()) < 0 && this.getStatus() == Leilao.CADASTRADO)
+        if(this.getInicio().compareTo(new Date()) <= 0 && this.getStatus() == Leilao.CADASTRADO)
         {
+            System.out.print(this+"Iniciar");
             iniciar();
         }
     }
