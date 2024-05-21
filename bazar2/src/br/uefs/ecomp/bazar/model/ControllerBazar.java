@@ -253,18 +253,13 @@ public class ControllerBazar
         leilao.iniciar();
     }
     // listagem dos leil�es que est�o com o status iniciado
-    public Iterador listarLeiloesIniciados()
+    public Iterator<Leilao> listarLeiloesIniciados()
     {
         checkStates();
-        ArrayList leiloesIniciados = new ArrayList<>();
-
-        Iterador<Leilao> iterador = new Iterador(leiloes.iterator());
-
+        ArrayList<Leilao> leiloesIniciados = new ArrayList<>();
         // enquanto tiverem itens na lista, o iterator percorre a estrutora
-        while (iterador.temProximo())
-        {
-            Leilao leilao = iterador.next();
 
+        for (Leilao leilao : leiloes) {
             // se o atributo status do objeto leil�o for correspondente ao atributo INICIADO da classe leil�o
             if (leilao.getStatus() == Leilao.INICIADO)
             {
@@ -272,12 +267,9 @@ public class ControllerBazar
                 leiloesIniciados.add(leilao);
             } 
         }
-
         leiloesIniciados.sort(Comparator.comparing(Leilao::getInicio));
 
-
-        iterador = new Iterador(leiloesIniciados.iterator());
-        return iterador;
+        return leiloesIniciados.iterator();   
     }
     public Iterator abrirEnvelopesLeilaoAutomaticoFechado() throws LeilaoNaoEncerradoException
     {

@@ -8,6 +8,11 @@ import br.uefs.ecomp.bazar.model.Produto;
 import br.uefs.ecomp.bazar.model.Usuario;
 import br.uefs.ecomp.bazar.model.Venda;
 import br.uefs.ecomp.bazar.model.exception.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import java.util.Date;
 
@@ -160,7 +165,28 @@ public class BazarFacade {
         return this.cb.listarMomentoAtual();
     }
     //17
+    public void salvarDados(String arquivo)
+    {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(arquivo))) {
+            oos.writeObject(this.cb);
+            System.out.println("Objeto salvo com sucesso!");
+        } catch (IOException e) {
+            System.err.println("Erro ao salvar o objeto: " + e.getMessage());
+        }    
+    } 
     //18
+    public ControllerBazar carregarDados(String arquivo)
+    {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(arquivo)))
+        {
+            return (ControllerBazar) ois.readObject();
+        }
+        catch (IOException | ClassNotFoundException e)
+        {
+            System.err.println("Erro ao carregar o objeto: " + e.getMessage());
+            return null;
+        }        
+    }
     //19
     public Iterator listarParticipantesLeilao(Leilao leilao)
     {
@@ -181,7 +207,5 @@ public class BazarFacade {
     {
         return this.cb.buscarLeiloesTempo(momentoA, momentoB);
     }
-            
-            
-    
+
 }

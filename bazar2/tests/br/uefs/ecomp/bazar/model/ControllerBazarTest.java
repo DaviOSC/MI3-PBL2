@@ -14,6 +14,7 @@ import br.uefs.ecomp.bazar.model.exception.LoginFalhouException;
 import br.uefs.ecomp.bazar.model.exception.ProdutoNaoCadastrouException;
 import br.uefs.ecomp.bazar.model.exception.UsuarioNaoCadastrouException;
 import br.uefs.ecomp.bazar.util.Iterador;
+import java.util.Iterator;
 
 public class ControllerBazarTest {
 
@@ -97,14 +98,14 @@ public class ControllerBazarTest {
 		l1 = cb.cadastrarLeilaoManual(p1, 200.00, 5.00);
 		l2 = cb.cadastrarLeilaoManual(p2, 500.00, 10.00);
 		
-		Iterador iterador = cb.listarLeiloesIniciados();
-		assertFalse(iterador.temProximo());
+		Iterator iterator = cb.listarLeiloesIniciados();
+		assertFalse(iterator.hasNext());
 		cb.iniciarLeilao(l1);
-		iterador = cb.listarLeiloesIniciados();
-		assertTrue(iterador.temProximo());
-		Leilao proximo = (Leilao) iterador.proximo();
+		iterator = cb.listarLeiloesIniciados();
+		assertTrue(iterator.hasNext());
+		Leilao proximo = (Leilao) iterator.next();
 		assertEquals(Leilao.INICIADO, proximo.getStatus());
-		assertFalse(iterador.temProximo());
+		assertFalse(iterator.hasNext());
 		
 		cb.iniciarLeilao(l2);
 		
@@ -114,10 +115,10 @@ public class ControllerBazarTest {
 		l3 = cb.cadastrarLeilaoManual(p3, 1000.00, 20.00);
 		cb.iniciarLeilao(l3);
 		
-		iterador = cb.listarLeiloesIniciados();
-		iterador.proximo();
-		iterador.proximo();
-		proximo = (Leilao) iterador.proximo();
+		iterator = cb.listarLeiloesIniciados();
+		iterator.next();
+		iterator.next();
+		proximo = (Leilao) iterator.next();
 		assertEquals(Leilao.INICIADO, proximo.getStatus());
 		assertSame(l3, proximo);
 	}
