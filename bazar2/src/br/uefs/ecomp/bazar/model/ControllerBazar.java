@@ -7,15 +7,16 @@ import java.util.Iterator;
 import java.util.HashMap;
 
 import br.uefs.ecomp.bazar.util.Iterador;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
-public class ControllerBazar
+public class ControllerBazar implements Serializable
 {
     // atributo referente ao usuario logado no sistema
-    private Usuario usuarioLogado;
+    private transient Usuario usuarioLogado;
     
     //Estrutura que armazena os usuarios cadastrados; facilitando posteriormente a busca
     HashMapModficado<String, Usuario> usuarios = new HashMapModficado<>();
@@ -234,7 +235,7 @@ public class ControllerBazar
             leiloes.add(leilao);
             return leilao;
         }
-        catch(Exception e)
+        catch(LeilaoNaoCadastrouException e)
         {
             throw e;
         }

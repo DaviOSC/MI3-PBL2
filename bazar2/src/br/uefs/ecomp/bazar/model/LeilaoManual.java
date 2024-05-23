@@ -1,9 +1,10 @@
 package br.uefs.ecomp.bazar.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class LeilaoManual extends Leilao
+public class LeilaoManual extends Leilao implements Serializable
 {
     
     public LeilaoManual(double lPrecoMinimo, double lIncrementoMinimo, Usuario lVendedor, Produto lProduto)

@@ -5,9 +5,10 @@ import br.uefs.ecomp.bazar.model.exception.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import br.uefs.ecomp.bazar.util.Iterador;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Usuario
+public class Usuario implements Serializable
 {
     private String login;
     private String nome;
@@ -15,7 +16,7 @@ public class Usuario
     private String cpf;
     private String endereco;
     private String telefone;
-    private Leilao leilaoAtivo;
+    private transient Leilao leilaoAtivo;
 
     private ArrayList<Produto> produtosCadastrados =  new ArrayList<Produto>();
 

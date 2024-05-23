@@ -137,7 +137,7 @@ public class BazarFacade {
         {
             return this.cb.cadastrarLeilaoAutomaticoFechado(produto, precoMinimo, incrementoMinimo, momentoInicio, momentoFim);
         }
-        catch(Exception e)
+        catch(LeilaoNaoCadastrouException e)
         {
             throw e;
         }
@@ -165,26 +165,29 @@ public class BazarFacade {
         return this.cb.listarMomentoAtual();
     }
     //17
-    public void salvarDados(String arquivo)
+    public void salvarDados(String arquivo) throws IOException
     {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(arquivo))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(arquivo)))
+        {
             oos.writeObject(this.cb);
-            System.out.println("Objeto salvo com sucesso!");
-        } catch (IOException e) {
-            System.err.println("Erro ao salvar o objeto: " + e.getMessage());
+            oos.close();
+        }
+        catch (IOException e)
+        {
+            throw e;
         }    
     } 
     //18
-    public ControllerBazar carregarDados(String arquivo)
+    public void carregarDados(String arquivo) throws IOException, ClassNotFoundException
     {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(arquivo)))
         {
-            return (ControllerBazar) ois.readObject();
+            this.cb = (ControllerBazar) ois.readObject();
+            ois.close();
         }
         catch (IOException | ClassNotFoundException e)
         {
-            System.err.println("Erro ao carregar o objeto: " + e.getMessage());
-            return null;
+            throw e;
         }        
     }
     //19

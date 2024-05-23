@@ -1,6 +1,5 @@
 package br.uefs.ecomp.bazar;
 
-import br.uefs.ecomp.bazar.facade.TestesAceitacao;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -12,11 +11,10 @@ import br.uefs.ecomp.bazar.util.ListaEncadeadaTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	//ListaEncadeadaTest.class,
+	ListaEncadeadaTest.class,
 	UsuarioTest.class,
 	ProdutoTest.class,
 	LeilaoManualTest.class,
 	ControllerBazarTest.class,
-        TestesAceitacao.class,
 })
 public class AllTests { }

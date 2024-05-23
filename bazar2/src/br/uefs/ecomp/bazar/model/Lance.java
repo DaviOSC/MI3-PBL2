@@ -1,8 +1,9 @@
 package br.uefs.ecomp.bazar.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Lance
+public class Lance implements Serializable
 {
     private double valor;
     private Usuario participante;

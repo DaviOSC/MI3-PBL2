@@ -1,6 +1,8 @@
 package br.uefs.ecomp.bazar.model;
 
-public class Produto
+import java.io.Serializable;
+
+public class Produto implements Serializable
 {
     private String tipo;
     private String descricaoResumida;

@@ -24,6 +24,7 @@ import br.uefs.ecomp.bazar.model.exception.LeilaoNaoEncerradoException;
 import br.uefs.ecomp.bazar.model.exception.LoginFalhouException;
 import br.uefs.ecomp.bazar.model.exception.ProdutoNaoCadastrouException;
 import br.uefs.ecomp.bazar.model.exception.UsuarioNaoCadastrouException;
+import br.uefs.ecomp.bazar.util.Iterador;
 import java.util.Iterator;
 
 public class TestesAceitacao {
@@ -98,12 +99,32 @@ public class TestesAceitacao {
 		f.fazerLogin("maria", "senha1");
 		try {
 			f.cadastrarProduto("", "Galaxy S", "Samsung Galaxy S");
-			fail("Tipo do produto n?o cadastrado.");
+			fail("Tipo do produto n�o cadastrado.");
 		} catch (ProdutoNaoCadastrouException e) { }
 		try {
 			f.cadastrarProduto("", "Galaxy S", "Samsung Galaxy S");
-			fail("Descricao resumida do produto n?o cadastrada.");
+			fail("Descricao resumida do produto n�o cadastrada.");
 		} catch (ProdutoNaoCadastrouException e) { }
+	}
+	
+	@Test
+	public void testCadastrarListarProdutos() 
+			throws UsuarioNaoCadastrouException, LoginFalhouException, ProdutoNaoCadastrouException {
+		f.cadastrarUsuario("maria", "Maria dos Santos", "senha1", "123456789-01", "Rua Drummond, 23, Centro", "7532213456");
+		f.fazerLogin("maria", "senha1");
+		Produto p1 = f.cadastrarProduto("telefone", "iPhone 4S", "Apple iPhone 4S");
+		Produto p2 = f.cadastrarProduto("telefone", "Galaxy S", "Samsung Galaxy S");
+		Produto p3 = f.cadastrarProduto("tablet", "iPad 2", "Apple iPad 2");
+		
+		// listar produtos ordenados por descricao resumida
+		Iterator iterador = f.listarProdutosCadastrados();
+		assertTrue(iterador.hasNext());
+		assertSame(p2, iterador.next());
+		assertTrue(iterador.hasNext());
+		assertSame(p3, iterador.next());
+		assertTrue(iterador.hasNext());
+		assertSame(p1, iterador.next());
+		assertFalse(iterador.hasNext());	
 	}
 	
 	@Test
@@ -588,7 +609,7 @@ public class TestesAceitacao {
 		termino.add(Calendar.SECOND, +2);
 		Leilao leilao = f.cadastrarLeilaoAutomaticoFechado(p1, 200.00, 5.00, inicio.getTime(), termino.getTime());
 
-		Thread.sleep(1000); // aguarda 1 segundo at? o leil?o iniciar
+		Thread.sleep(1000); // aguarda 1 segundo at� o leil�o iniciar
 
 		Thread.sleep(2 * DELAY);
 

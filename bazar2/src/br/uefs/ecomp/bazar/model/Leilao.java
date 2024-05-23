@@ -1,6 +1,7 @@
 package br.uefs.ecomp.bazar.model;
 
 import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import java.util.Calendar;
@@ -8,7 +9,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 
-public abstract class Leilao {
+public abstract class Leilao implements Serializable
+{
 
     // Constantes para representar os estados de um leilao qualquer:
     public static final int CADASTRADO = 0;

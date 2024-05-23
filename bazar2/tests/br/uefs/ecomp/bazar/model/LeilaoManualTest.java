@@ -36,7 +36,7 @@ public class LeilaoManualTest {
 	}
 	
 	@Test
-	public void testLancesLeilao() throws LanceInvalidoException{
+	public void testLancesLeilao() throws LanceInvalidoException {
 		leilao.iniciar();
 		leilao.cadastrarParticipante(u2);
 		leilao.cadastrarParticipante(u3);

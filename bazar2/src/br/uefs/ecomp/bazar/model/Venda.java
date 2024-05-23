@@ -1,8 +1,9 @@
 package br.uefs.ecomp.bazar.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Venda
+public class Venda implements Serializable
 {
     private double valor;
     private Usuario comprador;
