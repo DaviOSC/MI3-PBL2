@@ -210,5 +210,10 @@ public class BazarFacade {
     {
         return this.cb.buscarLeiloesTempo(momentoA, momentoB);
     }
+    
+    public void test()
+    {
+        System.out.print("TESTE");
+    }
 
 }
