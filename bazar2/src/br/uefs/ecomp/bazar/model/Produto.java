@@ -7,7 +7,6 @@ public class Produto implements Serializable
     private String tipo;
     private String descricaoResumida;
     private String descricaoDetalhada;
-    private double preco;
     private boolean vendido;
     private Usuario vendedor;
     

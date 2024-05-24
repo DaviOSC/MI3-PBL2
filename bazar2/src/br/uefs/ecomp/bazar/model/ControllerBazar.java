@@ -133,7 +133,11 @@ public class ControllerBazar implements Serializable
         }
         if(uSenha.equals(""))
         {
-            throw new UsuarioNaoCadastrouException("Usuário já existente");
+            throw new UsuarioNaoCadastrouException("Senha inválida");
+        }
+        if(uLogin.equals(""))
+        {
+            throw new UsuarioNaoCadastrouException("Login inválido");
         }
         usuarios.inserir(uLogin, usuario);
         return usuario;    
