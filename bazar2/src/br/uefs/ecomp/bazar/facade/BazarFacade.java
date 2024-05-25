@@ -61,7 +61,8 @@ public class BazarFacade {
         }
     }
     //4
-    public Iterator listarProdutosCadastrados() {
+    public Iterator listarProdutosCadastrados()
+    {
         return this.cb.listarProdutosCadastrados();
     }
     //5

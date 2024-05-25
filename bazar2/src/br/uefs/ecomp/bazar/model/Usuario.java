@@ -77,11 +77,11 @@ public class Usuario implements Serializable
     {
         if(pTipo.equals(""))
         {
-            throw new ProdutoNaoCadastrouException("Tipo do produto n?o cadastrado.");
+            throw new ProdutoNaoCadastrouException("Tipo do produto não cadastrado.");
         }
         else if(pDescResum.equals(""))
         {
-            throw new ProdutoNaoCadastrouException("Descricao resumida do produto n?o cadastrada.");
+            throw new ProdutoNaoCadastrouException("Descricao resumida do produto não cadastrada.");
         }
         else
         {

@@ -4,8 +4,14 @@
  */
 package br.uefs.ecomp.bazar.Interface;
 
+import br.uefs.ecomp.bazar.model.Produto;
+import br.uefs.ecomp.bazar.model.exception.LeilaoNaoCadastrouException;
 import br.uefs.ecomp.bazar.model.exception.UsuarioNaoCadastrouException;
 import java.awt.Component;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -34,20 +40,22 @@ public class CadastroLeilao extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroupLeilao = new javax.swing.ButtonGroup();
         jPanel = new javax.swing.JPanel();
-        loginField = new javax.swing.JTextField();
-        senhaField = new javax.swing.JPasswordField();
-        lblLogn = new javax.swing.JLabel();
-        lblSenha = new javax.swing.JLabel();
+        lblInicio = new javax.swing.JLabel();
         btnCadastrar = new javax.swing.JButton();
-        lblNome = new javax.swing.JLabel();
-        nomeField = new javax.swing.JTextField();
-        lblCPF = new javax.swing.JLabel();
-        cpfField = new javax.swing.JTextField();
-        lblEndereco = new javax.swing.JLabel();
-        enderecoField = new javax.swing.JTextField();
-        telefoneField = new javax.swing.JTextField();
-        lblTelefone = new javax.swing.JLabel();
+        lblProduto = new javax.swing.JLabel();
+        lblPreco = new javax.swing.JLabel();
+        lblIncremento = new javax.swing.JLabel();
+        lblTermino = new javax.swing.JLabel();
+        rbLeilaoManual = new javax.swing.JRadioButton();
+        rbLeilaoAutomatico = new javax.swing.JRadioButton();
+        rbLeilaoAutoFechado = new javax.swing.JRadioButton();
+        cbProdutos = new javax.swing.JComboBox<>();
+        inicioSpinner = new javax.swing.JSpinner();
+        terminoSpinner = new javax.swing.JSpinner();
+        precoSpinner = new javax.swing.JSpinner();
+        incrementoSpinner = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro");
@@ -55,9 +63,8 @@ public class CadastroLeilao extends javax.swing.JFrame {
 
         jPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblLogn.setText("Login:");
-
-        lblSenha.setText("Senha:");
+        lblInicio.setText("Início:");
+        lblInicio.setEnabled(false);
 
         btnCadastrar.setText("Cadastrar");
         btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -66,90 +73,126 @@ public class CadastroLeilao extends javax.swing.JFrame {
             }
         });
 
-        lblNome.setText("Nome:");
+        lblProduto.setText("Produto:");
 
-        lblCPF.setText("CPF:");
+        lblPreco.setText("Preço minimo:");
 
-        lblEndereco.setText("Endereço:");
+        lblIncremento.setText("Incremento:");
 
-        lblTelefone.setText("Telefone:");
+        lblTermino.setText("Término");
+        lblTermino.setEnabled(false);
+
+        buttonGroupLeilao.add(rbLeilaoManual);
+        rbLeilaoManual.setSelected(true);
+        rbLeilaoManual.setText("Leilão Manual");
+        rbLeilaoManual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbLeilaoManualActionPerformed(evt);
+            }
+        });
+
+        buttonGroupLeilao.add(rbLeilaoAutomatico);
+        rbLeilaoAutomatico.setText("Leilão automático");
+        rbLeilaoAutomatico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbLeilaoAutomaticoActionPerformed(evt);
+            }
+        });
+
+        buttonGroupLeilao.add(rbLeilaoAutoFechado);
+        rbLeilaoAutoFechado.setText("Leilão Fechado");
+        rbLeilaoAutoFechado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbLeilaoAutoFechadoActionPerformed(evt);
+            }
+        });
+
+        cbProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbProdutosActionPerformed(evt);
+            }
+        });
+
+        inicioSpinner.setModel(new javax.swing.SpinnerDateModel());
+        inicioSpinner.setEnabled(false);
+
+        terminoSpinner.setModel(new javax.swing.SpinnerDateModel());
+        terminoSpinner.setEnabled(false);
 
         javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
         jPanel.setLayout(jPanelLayout);
         jPanelLayout.setHorizontalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLayout.createSequentialGroup()
-                .addGap(193, 193, 193)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelLayout.createSequentialGroup()
-                        .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(senhaField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(loginField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblSenha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelLayout.createSequentialGroup()
-                                .addComponent(lblNome, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(8, 8, 8))
-                            .addComponent(nomeField, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(142, 142, 142)
+                        .addComponent(rbLeilaoManual)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rbLeilaoAutomatico)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(rbLeilaoAutoFechado))
                     .addGroup(jPanelLayout.createSequentialGroup()
+                        .addGap(193, 193, 193)
                         .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(inicioSpinner, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnCadastrar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(enderecoField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                            .addComponent(lblEndereco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(telefoneField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                            .addComponent(lblCPF, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cpfField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                            .addComponent(lblLogn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTelefone, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 193, Short.MAX_VALUE))))
+                            .addComponent(cbProdutos, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblProduto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblIncremento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblPreco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblTermino, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                            .addComponent(terminoSpinner, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                            .addComponent(precoSpinner, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(incrementoSpinner))))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLayout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(lblLogn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(loginField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNome)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nomeField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblSenha)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(senhaField, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblCPF)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cpfField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblEndereco)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(enderecoField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTelefone)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(telefoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(91, 91, 91)
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rbLeilaoAutoFechado)
+                    .addComponent(rbLeilaoAutomatico)
+                    .addComponent(rbLeilaoManual))
                 .addGap(18, 18, 18)
+                .addComponent(lblProduto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblPreco)
+                .addGap(10, 10, 10)
+                .addComponent(precoSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblIncremento)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(incrementoSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblInicio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(inicioSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTermino)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(terminoSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCadastrar)
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -157,31 +200,87 @@ public class CadastroLeilao extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-       try
-        {
-            mainframe.logarUsuario(mainframe.getFacade().cadastrarUsuario(loginField.getText(), nomeField.getText(), senhaField.getText(), cpfField.getText(), enderecoField.getText(), telefoneField.getText())); 
-            limparCampos();
-            JOptionPane.showMessageDialog(null, "Usuario Cadastrado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            
-        }
-        catch (UsuarioNaoCadastrouException e)
-        {
-            JOptionPane.showMessageDialog(null, e.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+       
+       if(rbLeilaoManual.isSelected())
+       {
+          try
+            {
+                mainframe.getFacade().cadastrarLeilaoManual((Produto)cbProdutos.getSelectedItem(), (double)precoSpinner.getValue(), (double)incrementoSpinner.getValue());
+                limparCampos();
+                JOptionPane.showMessageDialog(null, "Leilão Manual Cadastrado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            }
+            catch (LeilaoNaoCadastrouException e)
+            {
+                JOptionPane.showMessageDialog(null, e.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+       }
+       else if(rbLeilaoAutomatico.isSelected())
+       {
+          try
+            {
+                mainframe.getFacade().cadastrarLeilaoAutomatico((Produto)cbProdutos.getSelectedItem(), (double)precoSpinner.getValue(), (double)incrementoSpinner.getValue(),(Date)inicioSpinner.getValue(),(Date)terminoSpinner.getValue());
+                limparCampos();
+                JOptionPane.showMessageDialog(null, "Leilão Auutomatico Cadastrado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            }
+            catch (LeilaoNaoCadastrouException e)
+            {
+                JOptionPane.showMessageDialog(null, e.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+       }
+       else if(rbLeilaoAutoFechado.isSelected())
+       {
+          try
+            {
+                mainframe.getFacade().cadastrarLeilaoAutomaticoFechado((Produto)cbProdutos.getSelectedItem(), (double)precoSpinner.getValue(), (double)incrementoSpinner.getValue(),(Date)inicioSpinner.getValue(),(Date)terminoSpinner.getValue());
+                limparCampos();
+                JOptionPane.showMessageDialog(null, "Leilão Auutomatico Fechado Cadastrado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            }
+            catch (LeilaoNaoCadastrouException e)
+            {
+                JOptionPane.showMessageDialog(null, e.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+       }
+        
        
     }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void rbLeilaoManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbLeilaoManualActionPerformed
+        ativarInputs(false);
+    }//GEN-LAST:event_rbLeilaoManualActionPerformed
+
+    private void rbLeilaoAutomaticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbLeilaoAutomaticoActionPerformed
+        ativarInputs(true);
+    }//GEN-LAST:event_rbLeilaoAutomaticoActionPerformed
+
+    private void rbLeilaoAutoFechadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbLeilaoAutoFechadoActionPerformed
+        ativarInputs(true);
+    }//GEN-LAST:event_rbLeilaoAutoFechadoActionPerformed
+
+    private void cbProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProdutosActionPerformed
+        DefaultComboBoxModel<String> modelProduto = new DefaultComboBoxModel<>();
+
+        Iterator produtosIterator = mainframe.getFacade().listarProdutosCadastrados();
+        while (produtosIterator.hasNext()) {
+            modelProduto.addElement(produtosIterator.next().toString());
+        }
+
+        cbProdutos.setModel(modelProduto);
+    }//GEN-LAST:event_cbProdutosActionPerformed
+    private void ativarInputs(boolean bool)
+    {
+        lblInicio.setEnabled(bool);
+        lblTermino.setEnabled(bool);
+        inicioSpinner.setEnabled(bool);
+        terminoSpinner.setEnabled(bool);
+    }
     private void limparCampos()
     {
         Component[] components = jPanel.getComponents();
         for (Component component : components)
         {
-            if (component instanceof JTextField)
+            if (component instanceof JSpinner)
             {
-                ((JTextField) component).setText(null);
-            }
-            if (component instanceof JPasswordField)
-            {
-                ((JPasswordField) component).setText(null);
+                ((JSpinner) component).setValue(null);
             }
         }
     }
@@ -192,18 +291,20 @@ public class CadastroLeilao extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
-    private javax.swing.JTextField cpfField;
-    private javax.swing.JTextField enderecoField;
+    private javax.swing.ButtonGroup buttonGroupLeilao;
+    private javax.swing.JComboBox<String> cbProdutos;
+    private javax.swing.JSpinner incrementoSpinner;
+    private javax.swing.JSpinner inicioSpinner;
     private javax.swing.JPanel jPanel;
-    private javax.swing.JLabel lblCPF;
-    private javax.swing.JLabel lblEndereco;
-    private javax.swing.JLabel lblLogn;
-    private javax.swing.JLabel lblNome;
-    private javax.swing.JLabel lblSenha;
-    private javax.swing.JLabel lblTelefone;
-    private javax.swing.JTextField loginField;
-    private javax.swing.JTextField nomeField;
-    private javax.swing.JPasswordField senhaField;
-    private javax.swing.JTextField telefoneField;
+    private javax.swing.JLabel lblIncremento;
+    private javax.swing.JLabel lblInicio;
+    private javax.swing.JLabel lblPreco;
+    private javax.swing.JLabel lblProduto;
+    private javax.swing.JLabel lblTermino;
+    private javax.swing.JSpinner precoSpinner;
+    private javax.swing.JRadioButton rbLeilaoAutoFechado;
+    private javax.swing.JRadioButton rbLeilaoAutomatico;
+    private javax.swing.JRadioButton rbLeilaoManual;
+    private javax.swing.JSpinner terminoSpinner;
     // End of variables declaration//GEN-END:variables
 }

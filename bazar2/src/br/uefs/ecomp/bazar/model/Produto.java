@@ -44,5 +44,11 @@ public class Produto implements Serializable
         this.vendido = true;
     }
     
+    @Override
+    public String toString()
+    {
+        return descricaoResumida;
+    }
+    
             
 }

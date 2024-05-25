@@ -7,6 +7,9 @@ package br.uefs.ecomp.bazar.Interface;
 import br.uefs.ecomp.bazar.facade.BazarFacade;
 import br.uefs.ecomp.bazar.model.*;
 import java.awt.Component;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 
 import javax.swing.*;
 
@@ -35,7 +38,15 @@ public class MainJframe extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        produtosList = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        leiloesList = new javax.swing.JList<>();
+        btnListarProdutos = new javax.swing.JButton();
+        btnListarLeiloes = new javax.swing.JButton();
+        lblTime = new javax.swing.JLabel();
+        lblDate = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         saveMenuItem = new javax.swing.JMenuItem();
@@ -48,16 +59,71 @@ public class MainJframe extends javax.swing.JFrame {
         cadastrarLeilaoMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        setSize(new java.awt.Dimension(550, 335));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+        mainPanel.setEnabled(false);
+
+        produtosList.setName("ListaProdutos"); // NOI18N
+        jScrollPane1.setViewportView(produtosList);
+
+        leiloesList.setName("ListaLeilões"); // NOI18N
+        jScrollPane2.setViewportView(leiloesList);
+
+        btnListarProdutos.setText("Listar Produtos");
+        btnListarProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarProdutosActionPerformed(evt);
+            }
+        });
+
+        btnListarLeiloes.setText("Listar Leilões");
+        btnListarLeiloes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarLeiloesActionPerformed(evt);
+            }
+        });
+
+        lblTime.setText("Hora:");
+
+        lblDate.setText("Data:");
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(btnListarProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                .addGap(143, 143, 143)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTime, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(btnListarLeiloes, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(lblDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 350, Short.MAX_VALUE)
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblTime, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDate, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnListarProdutos)
+                    .addComponent(btnListarLeiloes))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         fileMenu.setText("File");
@@ -134,11 +200,11 @@ public class MainJframe extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -163,7 +229,18 @@ public class MainJframe extends javax.swing.JFrame {
     }//GEN-LAST:event_loginMenuItemActionPerformed
 
     private void timeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeMenuItemActionPerformed
-        // TODO add your handling code here:
+        Date dataHoraAtual = facade.listarMomentoAtual();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dataHoraAtual);
+
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1; // Os meses são baseados em 0
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int hours = cal.get(Calendar.HOUR_OF_DAY);
+        int minutes = cal.get(Calendar.MINUTE);
+        int seconds = cal.get(Calendar.SECOND);
+        lblDate.setText("Data:"+ day+"/"+month+"/"+year);
+        lblTime.setText("Hora:"+ hours +":"+minutes+":"+seconds);
     }//GEN-LAST:event_timeMenuItemActionPerformed
 
     private void cadastrarProdutoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarProdutoMenuItemActionPerformed
@@ -173,6 +250,33 @@ public class MainJframe extends javax.swing.JFrame {
     private void cadastrarLeilaoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarLeilaoMenuItemActionPerformed
          new CadastroLeilao(this).setVisible(true);
     }//GEN-LAST:event_cadastrarLeilaoMenuItemActionPerformed
+        
+    
+    private void btnListarProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProdutosActionPerformed
+
+        DefaultListModel modelProduto = new DefaultListModel<>();
+        Iterator produtosIterator = facade.listarProdutosCadastrados();
+
+        while(produtosIterator.hasNext())
+        {
+            modelProduto.addElement(produtosIterator.next().toString());
+        }
+
+        produtosList.setModel(modelProduto);
+    }//GEN-LAST:event_btnListarProdutosActionPerformed
+
+    private void btnListarLeiloesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarLeiloesActionPerformed
+
+        DefaultListModel modelLeiloes = new DefaultListModel<>();
+        Iterator produtosIterator = facade.listarLeiloesIniciados();
+
+        while(produtosIterator.hasNext())
+        {
+            modelLeiloes.addElement(produtosIterator.next().toString());
+        }
+
+        leiloesList.setModel(modelLeiloes);
+    }//GEN-LAST:event_btnListarLeiloesActionPerformed
     
     
     public void logarUsuario(Usuario usuario)
@@ -182,10 +286,15 @@ public class MainJframe extends javax.swing.JFrame {
         {
             if (item instanceof JMenuItem)
             {
-                System.out.print("A");
                 ((JMenuItem)item).setEnabled(true);
             }
         }
+        btnListarLeiloes.setVisible(true);
+        btnListarProdutos.setVisible(true);
+        jScrollPane2.setVisible(true);
+        jScrollPane1.setVisible(true);
+        produtosList.setVisible(true);
+        leiloesList.setVisible(true);
     }
     public BazarFacade getFacade()
     {
@@ -223,20 +332,27 @@ public class MainJframe extends javax.swing.JFrame {
         {
             public void run() {
                 new MainJframe().setVisible(true);
-
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnListarLeiloes;
+    private javax.swing.JButton btnListarProdutos;
     private javax.swing.JMenuItem cadastrarLeilaoMenuItem;
     private javax.swing.JMenuItem cadastrarProdutoMenuItem;
     private javax.swing.JMenuItem cadastroMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblTime;
+    private javax.swing.JList<String> leiloesList;
     private javax.swing.JMenuItem loadMenuItem;
     private javax.swing.JMenuItem loginMenuItem;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JList<String> produtosList;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuItem timeMenuItem;
     private javax.swing.JMenu userMenu;
