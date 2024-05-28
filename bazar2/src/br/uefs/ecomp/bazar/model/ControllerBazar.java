@@ -19,7 +19,7 @@ public class ControllerBazar implements Serializable
     private transient Usuario usuarioLogado;
     
     //Estrutura que armazena os usuarios cadastrados; facilitando posteriormente a busca
-    HashMapModficado<String, Usuario> usuarios = new HashMapModficado<>();
+    HashMap<String, Usuario> usuarios = new HashMap<>();
     // Estrutura criada para armazenar os leil�es
     ArrayList<Leilao> leiloes = new ArrayList<>();
   
@@ -119,7 +119,7 @@ public class ControllerBazar implements Serializable
     public int quantidadeUsuarios()
     {
         checkStates();
-        return usuarios.tamanho();
+        return usuarios.size();
     }
     
     //cria um novo usu�rio e adiciona na hashmap de armazenamento.
@@ -139,7 +139,7 @@ public class ControllerBazar implements Serializable
         {
             throw new UsuarioNaoCadastrouException("Login inválido");
         }
-        usuarios.inserir(uLogin, usuario);
+        usuarios.put(uLogin, usuario);
         return usuario;    
     }
     
@@ -156,7 +156,7 @@ public class ControllerBazar implements Serializable
     {
         checkStates();
         // recupera um usuario a partir de seu login
-        Usuario usuario = usuarios.recupera(login);
+        Usuario usuario = usuarios.get(login);
         // se, de acordo com o login, ele existir
         if (usuario != null)
         {

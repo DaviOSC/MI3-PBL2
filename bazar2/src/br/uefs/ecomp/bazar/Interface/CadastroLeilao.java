@@ -5,13 +5,10 @@
 package br.uefs.ecomp.bazar.Interface;
 
 import br.uefs.ecomp.bazar.model.Produto;
-import br.uefs.ecomp.bazar.model.exception.LeilaoNaoCadastrouException;
-import br.uefs.ecomp.bazar.model.exception.UsuarioNaoCadastrouException;
+import br.uefs.ecomp.bazar.model.exception.*;
 import java.awt.Component;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -107,6 +104,11 @@ public class CadastroLeilao extends javax.swing.JFrame {
             }
         });
 
+        cbProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbProdutosMouseClicked(evt);
+            }
+        });
         cbProdutos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbProdutosActionPerformed(evt);
@@ -118,6 +120,11 @@ public class CadastroLeilao extends javax.swing.JFrame {
 
         terminoSpinner.setModel(new javax.swing.SpinnerDateModel());
         terminoSpinner.setEnabled(false);
+
+        precoSpinner.setModel(new javax.swing.SpinnerNumberModel(0.0d, null, null, 1.0d));
+        precoSpinner.setInheritsPopupMenu(true);
+
+        incrementoSpinner.setModel(new javax.swing.SpinnerNumberModel(0.0d, null, null, 1.0d));
 
         javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
         jPanel.setLayout(jPanelLayout);
@@ -198,7 +205,13 @@ public class CadastroLeilao extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    @Override
+    public void addNotify()
+    {
+        super.addNotify();
+        setProdutos();
+        
+    }
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
        
        if(rbLeilaoManual.isSelected())
@@ -206,8 +219,9 @@ public class CadastroLeilao extends javax.swing.JFrame {
           try
             {
                 mainframe.getFacade().cadastrarLeilaoManual((Produto)cbProdutos.getSelectedItem(), (double)precoSpinner.getValue(), (double)incrementoSpinner.getValue());
-                limparCampos();
+                //limparCampos();
                 JOptionPane.showMessageDialog(null, "Leilão Manual Cadastrado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                dispose();
             }
             catch (LeilaoNaoCadastrouException e)
             {
@@ -219,8 +233,9 @@ public class CadastroLeilao extends javax.swing.JFrame {
           try
             {
                 mainframe.getFacade().cadastrarLeilaoAutomatico((Produto)cbProdutos.getSelectedItem(), (double)precoSpinner.getValue(), (double)incrementoSpinner.getValue(),(Date)inicioSpinner.getValue(),(Date)terminoSpinner.getValue());
-                limparCampos();
+                //limparCampos();
                 JOptionPane.showMessageDialog(null, "Leilão Auutomatico Cadastrado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                dispose();
             }
             catch (LeilaoNaoCadastrouException e)
             {
@@ -232,16 +247,16 @@ public class CadastroLeilao extends javax.swing.JFrame {
           try
             {
                 mainframe.getFacade().cadastrarLeilaoAutomaticoFechado((Produto)cbProdutos.getSelectedItem(), (double)precoSpinner.getValue(), (double)incrementoSpinner.getValue(),(Date)inicioSpinner.getValue(),(Date)terminoSpinner.getValue());
-                limparCampos();
-                JOptionPane.showMessageDialog(null, "Leilão Auutomatico Fechado Cadastrado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                //limparCampos();
+                JOptionPane.showMessageDialog(null, "Leilão Automatico Fechado Cadastrado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                dispose();
             }
             catch (LeilaoNaoCadastrouException e)
             {
                 JOptionPane.showMessageDialog(null, e.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
        }
-        
-       
+              
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void rbLeilaoManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbLeilaoManualActionPerformed
@@ -257,32 +272,42 @@ public class CadastroLeilao extends javax.swing.JFrame {
     }//GEN-LAST:event_rbLeilaoAutoFechadoActionPerformed
 
     private void cbProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProdutosActionPerformed
-        DefaultComboBoxModel<String> modelProduto = new DefaultComboBoxModel<>();
-
-        Iterator produtosIterator = mainframe.getFacade().listarProdutosCadastrados();
-        while (produtosIterator.hasNext()) {
-            modelProduto.addElement(produtosIterator.next().toString());
-        }
-
-        cbProdutos.setModel(modelProduto);
+        
     }//GEN-LAST:event_cbProdutosActionPerformed
+
+    private void cbProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbProdutosMouseClicked
+      
+    }//GEN-LAST:event_cbProdutosMouseClicked
+
     private void ativarInputs(boolean bool)
     {
         lblInicio.setEnabled(bool);
         lblTermino.setEnabled(bool);
         inicioSpinner.setEnabled(bool);
         terminoSpinner.setEnabled(bool);
+        
     }
-    private void limparCampos()
+//    private void limparCampos()
+//    {
+//        Component[] components = jPanel.getComponents();
+//        for (Component component : components)
+//        {
+//            if (component instanceof JSpinner)
+//            {
+//                ((JSpinner) component).setValue(null);
+//            }
+//        }
+//    }    
+    public void setProdutos()
     {
-        Component[] components = jPanel.getComponents();
-        for (Component component : components)
-        {
-            if (component instanceof JSpinner)
-            {
-                ((JSpinner) component).setValue(null);
-            }
+        DefaultComboBoxModel<Produto> modelProduto = new DefaultComboBoxModel<>();
+
+        Iterator produtosIterator = mainframe.getFacade().listarProdutosCadastrados();
+        while (produtosIterator.hasNext()) {
+            modelProduto.addElement((Produto)produtosIterator.next());
         }
+
+        cbProdutos.setModel(modelProduto);
     }
     
     /**
@@ -292,7 +317,7 @@ public class CadastroLeilao extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
     private javax.swing.ButtonGroup buttonGroupLeilao;
-    private javax.swing.JComboBox<String> cbProdutos;
+    private javax.swing.JComboBox<Produto> cbProdutos;
     private javax.swing.JSpinner incrementoSpinner;
     private javax.swing.JSpinner inicioSpinner;
     private javax.swing.JPanel jPanel;

@@ -7,11 +7,13 @@ package br.uefs.ecomp.bazar.Interface;
 import br.uefs.ecomp.bazar.facade.BazarFacade;
 import br.uefs.ecomp.bazar.model.*;
 import java.awt.Component;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -200,23 +202,56 @@ public class MainJframe extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    @Override
+    public void addNotify()
+    {
+        super.addNotify();
+        btnListarLeiloes.setEnabled(false);
+        btnListarProdutos.setEnabled(false);
+        
+    }
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
-        // TODO add your handling code here:
+        try
+        {
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("binFiles", "bin");
+            chooser.setFileFilter(filter);
+            int returnVal = chooser.showOpenDialog(null);
+            if(returnVal == JFileChooser.APPROVE_OPTION) 
+                facade.salvarDados(chooser.getSelectedFile().getName());
+        }
+        catch (IOException e)
+        {
+            JOptionPane.showMessageDialog(null, e.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
     private void loadMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadMenuItemActionPerformed
-        // TODO add your handling code here:
+        try 
+        {
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("binFiles", "bin");
+            chooser.setFileFilter(filter);
+            int returnVal = chooser.showOpenDialog(null);
+            if(returnVal == JFileChooser.APPROVE_OPTION) 
+                facade.carregarDados(chooser.getSelectedFile().getName());
+        }
+        catch(IOException | ClassNotFoundException e)
+        {
+            JOptionPane.showMessageDialog(null, e.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_loadMenuItemActionPerformed
 
     private void cadastroMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastroMenuItemActionPerformed
@@ -256,7 +291,7 @@ public class MainJframe extends javax.swing.JFrame {
 
         DefaultListModel modelProduto = new DefaultListModel<>();
         Iterator produtosIterator = facade.listarProdutosCadastrados();
-
+        
         while(produtosIterator.hasNext())
         {
             modelProduto.addElement(produtosIterator.next().toString());
@@ -268,11 +303,11 @@ public class MainJframe extends javax.swing.JFrame {
     private void btnListarLeiloesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarLeiloesActionPerformed
 
         DefaultListModel modelLeiloes = new DefaultListModel<>();
-        Iterator produtosIterator = facade.listarLeiloesIniciados();
+        Iterator<Leilao> leiloesIterator = facade.listarLeiloes();
 
-        while(produtosIterator.hasNext())
+        while(leiloesIterator.hasNext())
         {
-            modelLeiloes.addElement(produtosIterator.next().toString());
+            modelLeiloes.addElement(leiloesIterator.next());
         }
 
         leiloesList.setModel(modelLeiloes);
@@ -291,6 +326,8 @@ public class MainJframe extends javax.swing.JFrame {
         }
         btnListarLeiloes.setVisible(true);
         btnListarProdutos.setVisible(true);
+        btnListarLeiloes.setEnabled(true);
+        btnListarProdutos.setEnabled(true);
         jScrollPane2.setVisible(true);
         jScrollPane1.setVisible(true);
         produtosList.setVisible(true);
@@ -348,11 +385,11 @@ public class MainJframe extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblTime;
-    private javax.swing.JList<String> leiloesList;
+    private javax.swing.JList<Leilao> leiloesList;
     private javax.swing.JMenuItem loadMenuItem;
     private javax.swing.JMenuItem loginMenuItem;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JList<String> produtosList;
+    private javax.swing.JList<Produto> produtosList;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuItem timeMenuItem;
     private javax.swing.JMenu userMenu;
