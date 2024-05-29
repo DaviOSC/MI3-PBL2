@@ -65,12 +65,17 @@ public class MainJframe extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(550, 335));
 
         mainPanel.setEnabled(false);
+        mainPanel.setLayout(new java.awt.GridLayout(3, 0, 10, 10));
 
         produtosList.setName("ListaProdutos"); // NOI18N
         jScrollPane1.setViewportView(produtosList);
 
+        mainPanel.add(jScrollPane1);
+
         leiloesList.setName("ListaLeilões"); // NOI18N
         jScrollPane2.setViewportView(leiloesList);
+
+        mainPanel.add(jScrollPane2);
 
         btnListarProdutos.setText("Listar Produtos");
         btnListarProdutos.addActionListener(new java.awt.event.ActionListener() {
@@ -78,6 +83,7 @@ public class MainJframe extends javax.swing.JFrame {
                 btnListarProdutosActionPerformed(evt);
             }
         });
+        mainPanel.add(btnListarProdutos);
 
         btnListarLeiloes.setText("Listar Leilões");
         btnListarLeiloes.addActionListener(new java.awt.event.ActionListener() {
@@ -85,48 +91,13 @@ public class MainJframe extends javax.swing.JFrame {
                 btnListarLeiloesActionPerformed(evt);
             }
         });
+        mainPanel.add(btnListarLeiloes);
 
         lblTime.setText("Hora:");
+        mainPanel.add(lblTime);
 
         lblDate.setText("Data:");
-
-        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
-        mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(btnListarProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
-                .addGap(143, 143, 143)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTime, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(btnListarLeiloes, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(lblDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblTime, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDate, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnListarProdutos)
-                    .addComponent(btnListarLeiloes))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        mainPanel.add(lblDate);
 
         fileMenu.setText("File");
 
