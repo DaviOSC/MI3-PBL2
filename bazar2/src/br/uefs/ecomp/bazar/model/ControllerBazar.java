@@ -311,22 +311,22 @@ public class ControllerBazar implements Serializable
         return leilao.getListaLances().iterator();
     }
     
-    public Iterator buscarLeiloesTempo(Date momentoA, Date momentoB)
-    {
-        checkStates();
-        ArrayList<Leilao> leiloesNoIntervalo = new ArrayList<>();
-        Collections.sort(leiloes, Comparator.comparing(Leilao::getInicio));
-        
-        for(Leilao leilao : leiloes)
-        {
-            if(leilao.getInicio().compareTo(momentoA) > 0 && leilao.getInicio().compareTo(momentoB) < 0)
-            {
-                leiloesNoIntervalo.add(leilao);
-            }
-        }
-        
-        return leiloesNoIntervalo.iterator();
-    }
+//    public Iterator buscarLeiloesTempo(Date momentoA, Date momentoB)
+//    {
+//        checkStates();
+//        ArrayList<Leilao> leiloesNoIntervalo = new ArrayList<>();
+//        Collections.sort(leiloes, Comparator.comparing(Leilao::getInicio));
+//        
+//        for(Leilao leilao : leiloes)
+//        {
+//            if(leilao.getInicio().compareTo(momentoA) > 0 && leilao.getInicio().compareTo(momentoB) < 0)
+//            {
+//                leiloesNoIntervalo.add(leilao);
+//            }
+//        }
+//        
+//        return leiloesNoIntervalo.iterator();
+//    }
     
     public void checkStates()
     {
@@ -339,5 +339,60 @@ public class ControllerBazar implements Serializable
                
            }
        }
+    }
+    
+    public Iterator<Leilao> buscarLeiloesTempo(Date momentoA, Date momentoB)
+    {
+        checkStates();
+        ArrayList<Leilao> leiloesNoIntervalo = new ArrayList<>();
+        Collections.sort(leiloes, Comparator.comparing(Leilao::getInicio));
+
+        int indexA = buscarPosicaoInicial(leiloes, momentoA);
+        int indexB = buscarPosicaoFinal(leiloes, momentoB);
+
+        for (int i = indexA; i <= indexB; i++)
+        {
+            leiloesNoIntervalo.add(leiloes.get(i));
+        }
+
+        return leiloesNoIntervalo.iterator();
+    }
+
+    public int buscarPosicaoInicial(ArrayList<Leilao> leiloes, Date momentoA)
+    {
+        int esquerda = 0;
+        int direita = leiloes.size() - 1;
+        while (esquerda <= direita)
+        {
+            int meio = (esquerda + direita) / 2;
+            if (leiloes.get(meio).getInicio().compareTo(momentoA) >= 0)
+            {
+                direita = meio - 1;
+            }
+            else
+            {
+                esquerda = meio + 1;
+            }
+        }
+        return esquerda;
+    }
+
+    public int buscarPosicaoFinal(ArrayList<Leilao> leiloes, Date momentoB) 
+    {
+        int esquerda = 0;
+        int direita = leiloes.size() - 1;
+        while (esquerda <= direita)
+        {
+            int meio = (esquerda + direita) / 2;
+            if (leiloes.get(meio).getInicio().compareTo(momentoB) <= 0)
+            {
+                esquerda = meio + 1;
+            }
+            else
+            {
+                direita = meio - 1;
+            }
+        }
+        return direita;
     }
 }
