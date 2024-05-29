@@ -155,22 +155,16 @@ public class ControllerBazar implements Serializable
     public Usuario fazerLogin(String login, String senha) throws LoginFalhouException
     {
         checkStates();
-        // recupera um usuario a partir de seu login
         Usuario usuario = usuarios.get(login);
-        // se, de acordo com o login, ele existir
-        if (usuario != null)
+
+        if (usuario != null && usuario.getSenha().equals(senha) )
         {
-            // compara a senha inserida no login com o atributo senha do objeto usuario;
-            if (usuario.getSenha().equals(senha))
-            {
-                // atualiza o usuario logado no sistema
-                this.usuarioLogado = usuario;
-                return usuario;
-            }
-            else
-            {
-                throw new LoginFalhouException("Senha incorreta");
-            }
+            this.usuarioLogado = usuario;
+            return usuario; 
+        }
+        else if (usuario != null && !usuario.getSenha().equals(senha))
+        {
+            throw new LoginFalhouException("Senha incorreta");
         }
         else
         {
@@ -182,16 +176,9 @@ public class ControllerBazar implements Serializable
     public Produto cadastrarProduto(String tipo, String descricaoResumida, String descricaoDetalhada) throws ProdutoNaoCadastrouException
     {
         checkStates();
-        try
-        {
-            Produto produto = usuarioLogado.cadastrarProduto(tipo, descricaoResumida, descricaoDetalhada);
-            return produto; 
-        }
-        catch(ProdutoNaoCadastrouException e)
-        {
-            throw e;
-        }
- 
+        Produto produto = usuarioLogado.cadastrarProduto(tipo, descricaoResumida, descricaoDetalhada);
+        return produto;
+         
     }
     // listagem dos produtos cadastrados do usuario logado
     public Iterador<Produto> listarProdutosCadastrados()
@@ -204,45 +191,24 @@ public class ControllerBazar implements Serializable
     public Leilao cadastrarLeilaoManual(Produto produto, double precoMinimo, double incrementoMinimo) throws LeilaoNaoCadastrouException
     {
         checkStates();
-        try
-        {
-            Leilao leilao = this.usuarioLogado.cadastrarLeilaoManual(precoMinimo, incrementoMinimo, produto);
-            leiloes.add(leilao);
-            return leilao;
-        }
-        catch(LeilaoNaoCadastrouException e)
-        {
-            throw e;
-        }
+        Leilao leilao = this.usuarioLogado.cadastrarLeilaoManual(precoMinimo, incrementoMinimo, produto);
+        leiloes.add(leilao);
+        return leilao;
     }
     public Leilao cadastrarLeilaoAutomatico(Produto produto, double precoMinimo, double incrementoMinimo, Date momentoInicio, Date momentoFim) throws LeilaoNaoCadastrouException
     {
         checkStates();
-        try
-        {    
-            Leilao leilao = this.usuarioLogado.cadastrarLeilaoAutomatico(precoMinimo, incrementoMinimo, produto, momentoInicio, momentoFim);
-            leiloes.add(leilao);
-            return leilao;
-        }
-        catch(LeilaoNaoCadastrouException e)
-        {
-            throw e;
-        }
+        Leilao leilao = this.usuarioLogado.cadastrarLeilaoAutomatico(precoMinimo, incrementoMinimo, produto, momentoInicio, momentoFim);
+        leiloes.add(leilao);
+        return leilao;
     }
     
     public Leilao cadastrarLeilaoAutomaticoFechado(Produto produto, double precoMinimo, double incrementoMinimo, Date momentoInicio, Date momentoFim) throws LeilaoNaoCadastrouException
     {
         checkStates();
-        try
-        {    
-            Leilao leilao = this.usuarioLogado.cadastrarLeilaoAutomaticoFechado(precoMinimo, incrementoMinimo, produto, momentoInicio, momentoFim);
-            leiloes.add(leilao);
-            return leilao;
-        }
-        catch(LeilaoNaoCadastrouException e)
-        {
-            throw e;
-        }
+        Leilao leilao = this.usuarioLogado.cadastrarLeilaoAutomaticoFechado(precoMinimo, incrementoMinimo, produto, momentoInicio, momentoFim);
+        leiloes.add(leilao);
+        return leilao;
     }
     
     public void cadastrarLeilao(Leilao leilao)
@@ -304,34 +270,20 @@ public class ControllerBazar implements Serializable
     public void darLanceMinimo() throws LanceInvalidoException
     {
         checkStates();
-        try
-        {
-            usuarioLogado.darLanceMinimo();
-        }
-        catch(LanceInvalidoException e)
-        {
-            throw e;
-        }
+        usuarioLogado.darLanceMinimo();
+
     }
     // chama o metodo dar lance do usu�rio logado, passando o valor do lance
     public boolean darLance(double valor) throws LanceInvalidoException
     {
         checkStates();
-        try
-        {
-            return usuarioLogado.darLance(valor);
-        }
-        catch(LanceInvalidoException e)
-        {
-            throw e;
-        }   
+        return usuarioLogado.darLance(valor);   
     }
     
     public void darLanceLeilaoAutomaticoFechado(double valor)throws LanceInvalidoException
     {
         checkStates();
         usuarioLogado.darLance(valor);
-        //usuarioLogado.darLanceAutomaticoFechado(valor);
     }
     
     

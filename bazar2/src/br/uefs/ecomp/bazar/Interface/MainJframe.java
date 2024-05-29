@@ -307,7 +307,7 @@ public class MainJframe extends javax.swing.JFrame {
 
         while(leiloesIterator.hasNext())
         {
-            modelLeiloes.addElement(leiloesIterator.next());
+            modelLeiloes.addElement(leiloesIterator.next().getProduto());
         }
 
         leiloesList.setModel(modelLeiloes);

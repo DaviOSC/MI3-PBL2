@@ -6,7 +6,6 @@ package br.uefs.ecomp.bazar.Interface;
 
 import br.uefs.ecomp.bazar.model.Produto;
 import br.uefs.ecomp.bazar.model.exception.*;
-import java.awt.Component;
 import java.util.Date;
 import java.util.Iterator;
 import javax.swing.*;
@@ -15,7 +14,7 @@ import javax.swing.*;
  *
  * @author Davi
  */
-public class CadastroLeilao extends javax.swing.JFrame {
+public class CadastroLeilao extends JDialog {
     
     private MainJframe mainframe;
     /**

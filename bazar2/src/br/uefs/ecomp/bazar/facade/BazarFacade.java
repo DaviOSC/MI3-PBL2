@@ -27,38 +27,17 @@ public class BazarFacade {
     //1
     public Usuario cadastrarUsuario(String login, String nome, String senha, String cpf, String endereco, String telefone) throws UsuarioNaoCadastrouException
     {
-        try
-        {
-            return cb.cadastrarUsuario(login, nome, senha, cpf, endereco, telefone);
-        }
-        catch(UsuarioNaoCadastrouException e)
-        {
-          throw e;  
-        } 
+        return cb.cadastrarUsuario(login, nome, senha, cpf, endereco, telefone);
     }
     //2
     public Usuario fazerLogin(String login, String senha) throws LoginFalhouException
     {
-       try
-       {
-           return cb.fazerLogin(login, senha);
-       }
-       catch(LoginFalhouException e)
-       {
-           throw e;
-       }
+        return cb.fazerLogin(login, senha);
     }
     //3
     public Produto cadastrarProduto(String tipo, String descricaoResumida, String descricaoDetalhada) throws ProdutoNaoCadastrouException
     {
-        try
-        { 
-            return cb.cadastrarProduto(tipo, descricaoResumida, descricaoDetalhada);
-        }
-        catch(ProdutoNaoCadastrouException e)
-        {
-            throw e;
-        }
+        return cb.cadastrarProduto(tipo, descricaoResumida, descricaoDetalhada);
     }
     //4
     public Iterator listarProdutosCadastrados()
@@ -68,14 +47,7 @@ public class BazarFacade {
     //5
     public Leilao cadastrarLeilaoManual(Produto produto, double precoMinimo, double incrementoMinimo) throws LeilaoNaoCadastrouException
     {
-        try
-        {
-            return this.cb.cadastrarLeilaoManual(produto, precoMinimo, incrementoMinimo);
-        }
-        catch(LeilaoNaoCadastrouException e)
-        {
-            throw e;
-        }
+        return this.cb.cadastrarLeilaoManual(produto, precoMinimo, incrementoMinimo);
     }
     //6
     public void iniciarLeilao(Leilao leilao) {
@@ -92,28 +64,15 @@ public class BazarFacade {
         this.cb.participarLeilao(leilao);
     }
     //9
-    public void darLanceMinimo() throws LanceInvalidoException{
-        try
-        {
-            this.cb.darLanceMinimo();
-        }
-        catch(LanceInvalidoException e)
-        {
-            throw e;
-        }
+    public void darLanceMinimo() throws LanceInvalidoException
+    {
+        this.cb.darLanceMinimo();
     }
     //10
     public boolean darLance(double valor) throws LanceInvalidoException
     {   
         cb.checkStates();
-        try
-        {
-            return this.cb.darLance(valor);
-        }
-        catch(LanceInvalidoException e)
-        {
-            throw e;
-        }
+        return this.cb.darLance(valor);
     }
     //11
     public Venda encerrarLeilao() {
@@ -122,43 +81,17 @@ public class BazarFacade {
     //12
     public Leilao cadastrarLeilaoAutomatico(Produto produto, double precoMinimo, double incrementoMinimo, Date momentoInicio, Date momentoFim)throws LeilaoNaoCadastrouException
     {
-        try
-        {
-            return this.cb.cadastrarLeilaoAutomatico(produto, precoMinimo, incrementoMinimo, momentoInicio, momentoFim);
-        }
-        catch(LeilaoNaoCadastrouException e)
-        {
-            throw e;
-        }
+        return this.cb.cadastrarLeilaoAutomatico(produto, precoMinimo, incrementoMinimo, momentoInicio, momentoFim);
     }
     //13
     public Leilao cadastrarLeilaoAutomaticoFechado(Produto produto, double precoMinimo, double incrementoMinimo, Date momentoInicio, Date momentoFim)throws LeilaoNaoCadastrouException
     {
-        try
-        {
-            return this.cb.cadastrarLeilaoAutomaticoFechado(produto, precoMinimo, incrementoMinimo, momentoInicio, momentoFim);
-        }
-        catch(LeilaoNaoCadastrouException e)
-        {
-            throw e;
-        }
+        return this.cb.cadastrarLeilaoAutomaticoFechado(produto, precoMinimo, incrementoMinimo, momentoInicio, momentoFim);
     }
-    //14
-//    public void darLanceLeilaoAutomaticoFechado(double valor)
-//    {
-//        this.cb.darLanceLeilaoAutomaticoFechado(valor);
-//    }
-    //15
+
     public Iterator abrirEnvelopesLeilaoAutomaticoFechado() throws LeilaoNaoEncerradoException
     {
-        try
-        {
-            return this.cb.abrirEnvelopesLeilaoAutomaticoFechado();
-        }
-        catch(LeilaoNaoEncerradoException e)
-        {
-            throw e;
-        }
+        return this.cb.abrirEnvelopesLeilaoAutomaticoFechado();
     }
     //16
     public Date listarMomentoAtual()
@@ -212,9 +145,5 @@ public class BazarFacade {
         return this.cb.buscarLeiloesTempo(momentoA, momentoB);
     }
     
-    public void test()
-    {
-        System.out.print("TESTE");
-    }
 
 }

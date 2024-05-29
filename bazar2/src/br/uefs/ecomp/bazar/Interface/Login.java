@@ -4,7 +4,7 @@
  */
 package br.uefs.ecomp.bazar.Interface;
 
-import br.uefs.ecomp.bazar.model.exception.LoginFalhouException;
+import br.uefs.ecomp.bazar.model.exception.*;
 import java.awt.Component;
 import javax.swing.*;
 
@@ -13,7 +13,7 @@ import javax.swing.*;
  *
  * @author Davi
  */
-public class Login extends javax.swing.JFrame
+public class Login extends JDialog
 {
     private MainJframe mainframe;
     /**

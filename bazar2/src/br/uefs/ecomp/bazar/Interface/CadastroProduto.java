@@ -4,18 +4,17 @@
  */
 package br.uefs.ecomp.bazar.Interface;
 
-import br.uefs.ecomp.bazar.model.exception.ProdutoNaoCadastrouException;
-import br.uefs.ecomp.bazar.model.exception.UsuarioNaoCadastrouException;
+import br.uefs.ecomp.bazar.model.exception.*;
+
 import java.awt.Component;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.swing.*;
 
 /**
  *
  * @author Davi
  */
-public class CadastroProduto extends javax.swing.JFrame {
+public class CadastroProduto extends JDialog {
     
     private MainJframe mainframe;
     /**

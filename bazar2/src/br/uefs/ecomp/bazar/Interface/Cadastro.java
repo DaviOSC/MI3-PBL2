@@ -11,7 +11,7 @@ import javax.swing.*;
  *
  * @author Davi
  */
-public class Cadastro extends javax.swing.JFrame {
+public class Cadastro extends JDialog {
     
     private MainJframe mainframe;
     /**

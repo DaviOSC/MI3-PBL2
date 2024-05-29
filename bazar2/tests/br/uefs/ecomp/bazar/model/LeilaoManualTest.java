@@ -1,10 +1,12 @@
 package br.uefs.ecomp.bazar.model;
 
-import br.uefs.ecomp.bazar.model.exception.*;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +38,7 @@ public class LeilaoManualTest {
 	}
 	
 	@Test
-	public void testLancesLeilao() throws LanceInvalidoException {
+	public void testLancesLeilao() throws LanceInvalidoException{
 		leilao.iniciar();
 		leilao.cadastrarParticipante(u2);
 		leilao.cadastrarParticipante(u3);
@@ -81,7 +83,5 @@ public class LeilaoManualTest {
 		assertEquals(u3, v.getComprador());
 		assertEquals(p1, v.getProduto());
 		assertEquals(leilao, v.getLeilao());
-
 	}
-
 }
