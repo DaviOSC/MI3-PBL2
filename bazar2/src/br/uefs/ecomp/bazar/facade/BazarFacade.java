@@ -144,6 +144,10 @@ public class BazarFacade {
     {
         return this.cb.buscarLeiloesTempo(momentoA, momentoB);
     }
-    
+        
+    public ControllerBazar getCb()
+    {
+        return cb;
+    }
 
 }

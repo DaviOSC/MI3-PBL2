@@ -15,6 +15,7 @@ import java.util.Date;
 
 public class ControllerBazar implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     // atributo referente ao usuario logado no sistema
     private transient Usuario usuarioLogado;
     
@@ -113,6 +114,11 @@ public class ControllerBazar implements Serializable
         {
             return arrayList.iterator();
         }
+    }
+    
+    public Usuario getUsuarioLogado()
+    {
+        return this.usuarioLogado;
     }
     
     // retorna a quantidade de itens no hashmap que armazena os usu�rios

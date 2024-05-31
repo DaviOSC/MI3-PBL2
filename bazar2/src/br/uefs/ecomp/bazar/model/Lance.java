@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class Lance implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private double valor;
     private Usuario participante;
     private Date momentoDoLance;

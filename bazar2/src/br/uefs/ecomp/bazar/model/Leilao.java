@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 public abstract class Leilao implements Serializable
 {
-
+    private static final long serialVersionUID = 1L;
     // Constantes para representar os estados de um leilao qualquer:
     public static final int CADASTRADO = 0;
     public static final int INICIADO = 1;
@@ -176,5 +176,10 @@ public abstract class Leilao implements Serializable
     {
         participantes.sort(Comparator.comparing(Usuario::getNome));
         return participantes.iterator();
+    }
+    @Override
+    public String toString()
+    {
+        return this.produto.getTipo();
     }
 }

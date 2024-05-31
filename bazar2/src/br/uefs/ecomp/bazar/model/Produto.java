@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Produto implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private String tipo;
     private String descricaoResumida;
     private String descricaoDetalhada;
@@ -48,6 +49,10 @@ public class Produto implements Serializable
     public String toString()
     {
         return descricaoResumida;
+    }
+    public Usuario getVendedor()
+    {
+        return this.vendedor;
     }
     
             

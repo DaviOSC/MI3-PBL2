@@ -5,6 +5,8 @@ import java.util.Date;
 
 public class Venda implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     private double valor;
     private Usuario comprador;
     private Usuario vendedor;

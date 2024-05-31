@@ -6,7 +6,7 @@ package br.uefs.ecomp.bazar.Interface;
 
 import br.uefs.ecomp.bazar.facade.BazarFacade;
 import br.uefs.ecomp.bazar.model.*;
-import java.awt.Component;
+import java.awt.*;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,15 +39,36 @@ public class MainJframe extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         mainPanel = new javax.swing.JPanel();
+        midPanel = new javax.swing.JPanel();
+        listPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         produtosList = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         leiloesList = new javax.swing.JList<>();
+        infoPanel = new javax.swing.JPanel();
+        infoSubPanel1 = new javax.swing.JPanel();
+        info1Plbl1 = new javax.swing.JLabel();
+        info2Plbl1 = new javax.swing.JLabel();
+        info3Plbl1 = new javax.swing.JLabel();
+        info4Plbl1 = new javax.swing.JLabel();
+        infoSubPanel2 = new javax.swing.JPanel();
+        info1Llbl1 = new javax.swing.JLabel();
+        info2Llbl1 = new javax.swing.JLabel();
+        info3Llbl1 = new javax.swing.JLabel();
+        info4Llbl1 = new javax.swing.JLabel();
+        info5Llbl1 = new javax.swing.JLabel();
+        info6Llbl1 = new javax.swing.JLabel();
+        btnPanel = new javax.swing.JPanel();
         btnListarProdutos = new javax.swing.JButton();
         btnListarLeiloes = new javax.swing.JButton();
+        btnListarLeiloesIniciados = new javax.swing.JButton();
+        dateTimePanel = new javax.swing.JPanel();
+        nullLabel1 = new javax.swing.JLabel();
         lblTime = new javax.swing.JLabel();
+        nullLabel2 = new javax.swing.JLabel();
         lblDate = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
@@ -61,21 +82,108 @@ public class MainJframe extends javax.swing.JFrame {
         cadastrarLeilaoMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
+        setPreferredSize(new java.awt.Dimension(560, 435));
         setSize(new java.awt.Dimension(550, 335));
 
         mainPanel.setEnabled(false);
-        mainPanel.setLayout(new java.awt.GridLayout(3, 0, 10, 10));
+        mainPanel.setLayout(new java.awt.BorderLayout(1, 1));
 
+        midPanel.setLayout(new java.awt.GridBagLayout());
+
+        listPanel.setLayout(new java.awt.GridLayout(1, 0));
+
+        produtosList.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        produtosList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         produtosList.setName("ListaProdutos"); // NOI18N
+        produtosList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                produtosListValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(produtosList);
 
-        mainPanel.add(jScrollPane1);
+        listPanel.add(jScrollPane1);
 
+        leiloesList.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         leiloesList.setName("ListaLeilões"); // NOI18N
+        leiloesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                leiloesListValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(leiloesList);
 
-        mainPanel.add(jScrollPane2);
+        listPanel.add(jScrollPane2);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 30;
+        gridBagConstraints.ipady = 30;
+        gridBagConstraints.weightx = 0.6;
+        gridBagConstraints.weighty = 1.4;
+        gridBagConstraints.insets = new java.awt.Insets(21, 2, 45, 2);
+        midPanel.add(listPanel, gridBagConstraints);
+
+        infoPanel.setLayout(new java.awt.GridLayout(1, 0));
+
+        infoSubPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        infoSubPanel1.setPreferredSize(new java.awt.Dimension(100, 100));
+        infoSubPanel1.setLayout(new java.awt.GridLayout(2, 0));
+
+        info1Plbl1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        info1Plbl1.setText("Tipo:");
+        info1Plbl1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        info1Plbl1.setVerifyInputWhenFocusTarget(false);
+        infoSubPanel1.add(info1Plbl1);
+
+        info2Plbl1.setText("Resumo:");
+        infoSubPanel1.add(info2Plbl1);
+
+        info3Plbl1.setText("Detalhes:");
+        infoSubPanel1.add(info3Plbl1);
+
+        info4Plbl1.setText("Status:");
+        infoSubPanel1.add(info4Plbl1);
+
+        infoPanel.add(infoSubPanel1);
+
+        infoSubPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        infoSubPanel2.setPreferredSize(new java.awt.Dimension(100, 100));
+        infoSubPanel2.setLayout(new java.awt.GridLayout(2, 0));
+
+        info1Llbl1.setText("Produto:");
+        infoSubPanel2.add(info1Llbl1);
+
+        info2Llbl1.setText("Preço:");
+        infoSubPanel2.add(info2Llbl1);
+
+        info3Llbl1.setText("Início:");
+        infoSubPanel2.add(info3Llbl1);
+
+        info4Llbl1.setText("Vendedor:");
+        infoSubPanel2.add(info4Llbl1);
+
+        info5Llbl1.setText("Incremendo:");
+        infoSubPanel2.add(info5Llbl1);
+
+        info6Llbl1.setText("Término:");
+        infoSubPanel2.add(info6Llbl1);
+
+        infoPanel.add(infoSubPanel2);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 6, 0, 6);
+        midPanel.add(infoPanel, gridBagConstraints);
+
+        mainPanel.add(midPanel, java.awt.BorderLayout.CENTER);
+
+        btnPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnListarProdutos.setText("Listar Produtos");
         btnListarProdutos.addActionListener(new java.awt.event.ActionListener() {
@@ -83,7 +191,7 @@ public class MainJframe extends javax.swing.JFrame {
                 btnListarProdutosActionPerformed(evt);
             }
         });
-        mainPanel.add(btnListarProdutos);
+        btnPanel.add(btnListarProdutos);
 
         btnListarLeiloes.setText("Listar Leilões");
         btnListarLeiloes.addActionListener(new java.awt.event.ActionListener() {
@@ -91,13 +199,31 @@ public class MainJframe extends javax.swing.JFrame {
                 btnListarLeiloesActionPerformed(evt);
             }
         });
-        mainPanel.add(btnListarLeiloes);
+        btnPanel.add(btnListarLeiloes);
+
+        btnListarLeiloesIniciados.setText("Listar Leilões Iniciados");
+        btnListarLeiloesIniciados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarLeiloesIniciadosActionPerformed(evt);
+            }
+        });
+        btnPanel.add(btnListarLeiloesIniciados);
+
+        mainPanel.add(btnPanel, java.awt.BorderLayout.PAGE_END);
+
+        dateTimePanel.setLayout(new java.awt.GridLayout(2, 0));
+        dateTimePanel.add(nullLabel1);
 
         lblTime.setText("Hora:");
-        mainPanel.add(lblTime);
+        dateTimePanel.add(lblTime);
+        dateTimePanel.add(nullLabel2);
 
         lblDate.setText("Data:");
-        mainPanel.add(lblDate);
+        dateTimePanel.add(lblDate);
+
+        mainPanel.add(dateTimePanel, java.awt.BorderLayout.NORTH);
+
+        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
         fileMenu.setText("File");
 
@@ -169,17 +295,6 @@ public class MainJframe extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -189,6 +304,7 @@ public class MainJframe extends javax.swing.JFrame {
         super.addNotify();
         btnListarLeiloes.setEnabled(false);
         btnListarProdutos.setEnabled(false);
+        btnListarLeiloesIniciados.setEnabled(false);
         
     }
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
@@ -199,7 +315,10 @@ public class MainJframe extends javax.swing.JFrame {
             chooser.setFileFilter(filter);
             int returnVal = chooser.showOpenDialog(null);
             if(returnVal == JFileChooser.APPROVE_OPTION) 
+            {
                 facade.salvarDados(chooser.getSelectedFile().getName());
+                JOptionPane.showMessageDialog(null, "Informações salvas.", "Sistema", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
         catch (IOException e)
         {
@@ -212,16 +331,25 @@ public class MainJframe extends javax.swing.JFrame {
     private void loadMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadMenuItemActionPerformed
         try 
         {
-            JFileChooser chooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("binFiles", "bin");
-            chooser.setFileFilter(filter);
-            int returnVal = chooser.showOpenDialog(null);
-            if(returnVal == JFileChooser.APPROVE_OPTION) 
-                facade.carregarDados(chooser.getSelectedFile().getName());
+            facade.carregarDados("Save.bin");
+//            JFileChooser chooser = new JFileChooser();
+//            FileNameExtensionFilter filter = new FileNameExtensionFilter("binFiles", "bin");
+//            chooser.setFileFilter(filter);
+//            int returnVal = chooser.showOpenDialog(null);
+//            if(returnVal == JFileChooser.APPROVE_OPTION)
+//            {
+//                facade.carregarDados(chooser.getSelectedFile().getName());
+//                System.out.print(chooser.getSelectedFile().getName());
+//                JOptionPane.showMessageDialog(null, "Informações carredadas.", "Sistema", JOptionPane.INFORMATION_MESSAGE);
+//            }
         }
         catch(IOException | ClassNotFoundException e)
         {
             JOptionPane.showMessageDialog(null, e.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        if(facade.getCb().getUsuarioLogado() == null)
+        {
+            enableUserUI(false);
         }
     }//GEN-LAST:event_loadMenuItemActionPerformed
 
@@ -261,16 +389,62 @@ public class MainJframe extends javax.swing.JFrame {
     private void btnListarProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProdutosActionPerformed
 
         DefaultListModel modelProduto = new DefaultListModel<>();
-        Iterator produtosIterator = facade.listarProdutosCadastrados();
+        Iterator<Produto> produtosIterator = facade.listarProdutosCadastrados();
         
         while(produtosIterator.hasNext())
         {
-            modelProduto.addElement(produtosIterator.next().toString());
+            modelProduto.addElement(produtosIterator.next());
         }
 
         produtosList.setModel(modelProduto);
-    }//GEN-LAST:event_btnListarProdutosActionPerformed
+        
+        produtosList.setCellRenderer(new DefaultListCellRenderer() {
+                @Override
+                public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+                {
+                    Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    Produto produto = (Produto) value;
 
+                    if (produto.isVendido())
+                    {
+                        produtosList.setToolTipText("Vendido");
+                        component.setForeground(Color.GREEN);
+                    }
+                    else
+                    {
+                        component.setForeground(Color.RED);
+                    }
+
+                    return component;
+                }
+            });
+    }//GEN-LAST:event_btnListarProdutosActionPerformed
+    private void setLeiloesList(JList list)
+    {
+        list.setCellRenderer(new DefaultListCellRenderer() {
+                @Override
+                public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+                {
+                    Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    Leilao leilao = (Leilao) value;
+
+                    if(leilao.getStatus() == Leilao.CADASTRADO)
+                    {
+                        component.setForeground(Color.BLUE);
+                    }
+                    else if(leilao.getStatus() == Leilao.INICIADO)
+                    {
+                        component.setForeground(Color.GREEN);
+                    }
+                    else
+                    {
+                        component.setForeground(Color.RED);
+                    }
+
+                    return component;
+                }
+            });
+    }
     private void btnListarLeiloesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarLeiloesActionPerformed
 
         DefaultListModel modelLeiloes = new DefaultListModel<>();
@@ -278,11 +452,95 @@ public class MainJframe extends javax.swing.JFrame {
 
         while(leiloesIterator.hasNext())
         {
-            modelLeiloes.addElement(leiloesIterator.next().getProduto());
+            modelLeiloes.addElement(leiloesIterator.next());
         }
 
         leiloesList.setModel(modelLeiloes);
+        setLeiloesList(leiloesList);
+        
     }//GEN-LAST:event_btnListarLeiloesActionPerformed
+
+    private void btnListarLeiloesIniciadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarLeiloesIniciadosActionPerformed
+        
+        DefaultListModel modelLeiloes = new DefaultListModel<>();
+        Iterator<Leilao> leiloesIterator = facade.listarLeiloesIniciados();
+
+        while(leiloesIterator.hasNext())
+        {
+            modelLeiloes.addElement(leiloesIterator.next());
+        }
+
+        leiloesList.setModel(modelLeiloes);
+        setLeiloesList(leiloesList);
+    }//GEN-LAST:event_btnListarLeiloesIniciadosActionPerformed
+
+    private void produtosListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_produtosListValueChanged
+        Produto produto = produtosList.getSelectedValue();
+        if(produto != null)
+        {
+            info1Plbl1.setText("Tipo: " + produto.getTipo());
+            info1Plbl1.setToolTipText(info1Plbl1.getText());
+            info2Plbl1.setText("Resumo: " + produto.getDescricaoResumida());
+            info2Plbl1.setToolTipText(info2Plbl1.getText());
+            info3Plbl1.setText("Detalhes: " + produto.getDescricaoDetalhada());
+            info3Plbl1.setToolTipText(info3Plbl1.getText());
+
+            if(produto.isVendido())
+            {
+                info4Plbl1.setText("Status: Sim");  
+            }
+            else
+            {
+                info4Plbl1.setText("Status: Não"); 
+            }
+            info4Plbl1.setToolTipText(info4Plbl1.getText());
+        }
+    }//GEN-LAST:event_produtosListValueChanged
+
+    private void leiloesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_leiloesListValueChanged
+        Leilao leilao = leiloesList.getSelectedValue();
+        if(leilao != null)
+        {
+            info1Llbl1.setText("Produto: " + leilao.getProduto().getTipo());
+            info1Llbl1.setToolTipText(info1Llbl1.getText());
+            info2Llbl1.setText("Preço: " + leilao.getPrecoMinimo());
+            info2Llbl1.setToolTipText(info2Llbl1.getText());
+            info3Llbl1.setText("Incremento: " + leilao.getIncrementoMinimo());
+            info3Llbl1.setToolTipText(info3Llbl1.getText());
+            info4Llbl1.setText("Vendedor: " + leilao.getVendedor().getNome());
+            info4Llbl1.setToolTipText(info4Llbl1.getText());
+
+            if(leilao instanceof LeilaoManual)
+            {
+               if(leilao.getStatus() == Leilao.CADASTRADO)
+               {
+                    info5Llbl1.setVisible(false);
+                    info6Llbl1.setVisible(false); 
+               }
+               else if(leilao.getStatus() == Leilao.INICIADO)
+               {
+                    info5Llbl1.setVisible(true);
+                    info6Llbl1.setVisible(false); 
+               }
+               else
+               {
+                    info5Llbl1.setVisible(true);
+                    info6Llbl1.setVisible(true); 
+               }
+                
+            }
+            else
+            {
+               info5Llbl1.setVisible(true);
+               info6Llbl1.setVisible(true);
+               info5Llbl1.setText("Inicio: " + leilao.getInicio()); 
+               info6Llbl1.setText("Término:" + leilao.getTermino());
+            }
+
+            info5Llbl1.setToolTipText(info5Llbl1.getText());
+            info6Llbl1.setToolTipText(info6Llbl1.getText());
+        }
+    }//GEN-LAST:event_leiloesListValueChanged
     
     
     public void logarUsuario(Usuario usuario)
@@ -295,18 +553,23 @@ public class MainJframe extends javax.swing.JFrame {
                 ((JMenuItem)item).setEnabled(true);
             }
         }
-        btnListarLeiloes.setVisible(true);
-        btnListarProdutos.setVisible(true);
-        btnListarLeiloes.setEnabled(true);
-        btnListarProdutos.setEnabled(true);
-        jScrollPane2.setVisible(true);
-        jScrollPane1.setVisible(true);
-        produtosList.setVisible(true);
-        leiloesList.setVisible(true);
+
+        enableUserUI(true);
     }
     public BazarFacade getFacade()
     {
         return facade;
+    }
+    
+    public void enableUserUI(boolean enable)
+    {
+        btnListarLeiloes.setEnabled(enable);
+        btnListarProdutos.setEnabled(enable);
+        btnListarLeiloesIniciados.setEnabled(enable);
+        jScrollPane2.setVisible(enable);
+        jScrollPane1.setVisible(enable);
+        produtosList.setVisible(enable);
+        leiloesList.setVisible(enable);
     }
     /**
      * @param args the command line arguments
@@ -346,20 +609,40 @@ public class MainJframe extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnListarLeiloes;
+    private javax.swing.JButton btnListarLeiloesIniciados;
     private javax.swing.JButton btnListarProdutos;
+    private javax.swing.JPanel btnPanel;
     private javax.swing.JMenuItem cadastrarLeilaoMenuItem;
     private javax.swing.JMenuItem cadastrarProdutoMenuItem;
     private javax.swing.JMenuItem cadastroMenuItem;
+    private javax.swing.JPanel dateTimePanel;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JLabel info1Llbl1;
+    private javax.swing.JLabel info1Plbl1;
+    private javax.swing.JLabel info2Llbl1;
+    private javax.swing.JLabel info2Plbl1;
+    private javax.swing.JLabel info3Llbl1;
+    private javax.swing.JLabel info3Plbl1;
+    private javax.swing.JLabel info4Llbl1;
+    private javax.swing.JLabel info4Plbl1;
+    private javax.swing.JLabel info5Llbl1;
+    private javax.swing.JLabel info6Llbl1;
+    private javax.swing.JPanel infoPanel;
+    private javax.swing.JPanel infoSubPanel1;
+    private javax.swing.JPanel infoSubPanel2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblTime;
     private javax.swing.JList<Leilao> leiloesList;
+    private javax.swing.JPanel listPanel;
     private javax.swing.JMenuItem loadMenuItem;
     private javax.swing.JMenuItem loginMenuItem;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JPanel midPanel;
+    private javax.swing.JLabel nullLabel1;
+    private javax.swing.JLabel nullLabel2;
     private javax.swing.JList<Produto> produtosList;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuItem timeMenuItem;
