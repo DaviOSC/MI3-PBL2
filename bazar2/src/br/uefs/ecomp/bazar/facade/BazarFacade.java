@@ -58,7 +58,7 @@ public class BazarFacade {
         return this.cb.listarLeiloesIniciados();
     }
     //8
-    public void participarLeilao(Leilao leilao)
+    public void participarLeilao(Leilao leilao) throws UsuarioJaParticipaException
     {
         cb.checkStates();
         this.cb.participarLeilao(leilao);

@@ -23,99 +23,7 @@ public class ControllerBazar implements Serializable
     HashMap<String, Usuario> usuarios = new HashMap<>();
     // Estrutura criada para armazenar os leil�es
     ArrayList<Leilao> leiloes = new ArrayList<>();
-  
-    public class HashMapModficado<String, T> 
-    {
-        
-        private HashMap<String, T> hashmap;
-        
-        public HashMapModficado()
-        {
-            this.hashmap = new HashMap();
-        }
-        
-        public void inserir(String key, T value)
-        {
-            hashmap.put(key, value);
-        }
-
-        public T recupera(String key)
-        {
-            return hashmap.get(key);
-        }
-
-        public void remover(String key)
-        {
-            hashmap.remove(key);
-        }
-
-        public boolean containsKey(String key)
-        {
-            return hashmap.containsKey(key);
-        }
-
-        public boolean containsValue(T value)
-        {
-            return hashmap.containsValue(value);
-        }
-
-        public int tamanho()
-        {
-            return hashmap.size();
-        }
-
-        public boolean isEmpty()
-        {
-            return hashmap.isEmpty();
-        }
-
-        public void clear()
-        {
-            hashmap.clear();
-        }
-    }
-    
-    
-    
-    // Classe criada para se adequar aos testes
-    public class ArrayListModficada<T>
-    {
-        //possui como atributo uma array list que armazena objetos
-        private ArrayList<T> arrayList;
-
-        public ArrayListModficada()
-        {
-            this.arrayList = new ArrayList<>();
-        }
-
-       //metodos da nova classe que retornam metodos da arraylist
-        public int tamanho()
-        {
-            return arrayList.size();
-        }
-
-        
-        public T recupera(int indice)
-        {
-            return arrayList.get(indice);
-        }
-        
-        public void add(T elemento)
-        {
-            arrayList.add(elemento);
-        }
-
-        public void remove(int indice)
-        {
-            arrayList.remove(indice);
-        }
-        
-        public Iterator iterator()
-        {
-            return arrayList.iterator();
-        }
-    }
-    
+      
     public Usuario getUsuarioLogado()
     {
         return this.usuarioLogado;
@@ -267,7 +175,7 @@ public class ControllerBazar implements Serializable
         
     }
     // adiciona o usuario logado como participante do leil�o
-    public void participarLeilao(Leilao leilao)
+    public void participarLeilao(Leilao leilao) throws UsuarioJaParticipaException
     {
         checkStates();
         usuarioLogado.participarLeilao(leilao);

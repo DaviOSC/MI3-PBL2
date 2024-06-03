@@ -1,6 +1,7 @@
 package br.uefs.ecomp.bazar.model;
 
 import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
+import br.uefs.ecomp.bazar.model.exception.UsuarioJaParticipaException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -61,8 +62,15 @@ public abstract class Leilao implements Serializable
     }
 
     // adiciona um participante na lista de participantes do leil�o
-    public void cadastrarParticipante(Usuario usuario) {
-        participantes.add(usuario);
+    public void cadastrarParticipante(Usuario usuario) throws UsuarioJaParticipaException {
+        if(participantes.contains(usuario))
+        {
+            throw new UsuarioJaParticipaException("Usuário já participa do leilão.");
+        }
+        else
+        {
+            participantes.add(usuario);
+        }
     }
 
     // um usu�rio d� um lance com base no pre�o minimo e no incremento
