@@ -33,5 +33,10 @@ public class Lance implements Serializable
     {
         return momentoDoLance;
     }
+    @Override
+    public String toString()
+    {
+        return ""+this.valor;
+    }
             
 }

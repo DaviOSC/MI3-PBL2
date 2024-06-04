@@ -68,7 +68,7 @@ public class Usuario implements Serializable
         return iterador;
     }
     //adiciona o usuario no leil�o como participante e define seu atributo leilao ativo
-    public void participarLeilao(Leilao leilao)
+    public void participarLeilao(Leilao leilao) throws UsuarioJaParticipaException
     {
         leilao.cadastrarParticipante(this);
         setLeilaoAtivo(leilao);
@@ -163,34 +163,24 @@ public class Usuario implements Serializable
         this.leilaoAtivo.iniciar();
     }
     // chama o metodo dar lance no leil�o ativo(participante), passando o usuario e o valor
-    public boolean darLance(Double valor) throws LanceInvalidoException
+    public boolean darLance(Double valor) throws LanceInvalidoException, LeilaoNaoParticipa
     {
-        try
+        if(leilaoAtivo == null)
         {
-            return leilaoAtivo.darLance(this, valor);
+            throw new LeilaoNaoParticipa("Não existe Leilao");
         }
-        catch(LanceInvalidoException e)
-        {
-            throw e;
-        }
+        return leilaoAtivo.darLance(this, valor);
     }
     // chama o metodo dar lance minimo leil�o ativo(participante), passando o usuario como parametro
-    public void darLanceMinimo() throws LanceInvalidoException
+    public void darLanceMinimo() throws LanceInvalidoException, LeilaoNaoParticipa
     {
-       try
+        if(leilaoAtivo == null)
         {
-            leilaoAtivo.darLanceMinimo(this);
+            throw new LeilaoNaoParticipa("Não existe Leilao");
         }
-        catch(LanceInvalidoException e)
-        {
-            throw e;
-        }
+        leilaoAtivo.darLanceMinimo(this);
     }
-//    
-//    public void darLanceAutomaticoFechado(double valor)
-//    {
-//        leilaoAtivo.darLance(this, valor);
-//    }
+
     // encerra o leil�o ativo(vendedor) e retorna uma venda.
     public Venda encerrarLeilaoAtivo()
     {
@@ -202,7 +192,11 @@ public class Usuario implements Serializable
     {
         return this.leilaoAtivo;
     }
-
+    @Override
+    public String toString()
+    {
+        return this.login;
+    }
 
         
 }

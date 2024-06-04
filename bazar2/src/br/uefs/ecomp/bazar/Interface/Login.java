@@ -136,7 +136,7 @@ public class Login extends JDialog
         }
         catch (LoginFalhouException e)
         {
-            JOptionPane.showMessageDialog(null, e.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEntrarActionPerformed
     private void limparCampos()

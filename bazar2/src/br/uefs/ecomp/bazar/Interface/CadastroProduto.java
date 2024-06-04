@@ -143,7 +143,7 @@ public class CadastroProduto extends JDialog {
         }
         catch (ProdutoNaoCadastrouException e)
         {
-            JOptionPane.showMessageDialog(null, e.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
        
     }//GEN-LAST:event_btnCadastrarActionPerformed

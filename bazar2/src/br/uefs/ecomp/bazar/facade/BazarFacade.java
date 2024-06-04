@@ -64,12 +64,12 @@ public class BazarFacade {
         this.cb.participarLeilao(leilao);
     }
     //9
-    public void darLanceMinimo() throws LanceInvalidoException
+    public void darLanceMinimo() throws LanceInvalidoException, LeilaoNaoParticipa, LanceLeilaoFechado
     {
         this.cb.darLanceMinimo();
     }
     //10
-    public boolean darLance(double valor) throws LanceInvalidoException
+    public boolean darLance(double valor) throws LanceInvalidoException, LeilaoNaoParticipa
     {   
         cb.checkStates();
         return this.cb.darLance(valor);
@@ -88,7 +88,7 @@ public class BazarFacade {
     {
         return this.cb.cadastrarLeilaoAutomaticoFechado(produto, precoMinimo, incrementoMinimo, momentoInicio, momentoFim);
     }
-
+    //15
     public Iterator abrirEnvelopesLeilaoAutomaticoFechado() throws LeilaoNaoEncerradoException
     {
         return this.cb.abrirEnvelopesLeilaoAutomaticoFechado();

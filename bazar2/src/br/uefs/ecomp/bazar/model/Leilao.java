@@ -1,6 +1,7 @@
 package br.uefs.ecomp.bazar.model;
 
 import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
+import br.uefs.ecomp.bazar.model.exception.LeilaoNaoParticipa;
 import br.uefs.ecomp.bazar.model.exception.UsuarioJaParticipaException;
 import java.io.Serializable;
 import java.util.ArrayList;

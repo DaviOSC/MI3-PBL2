@@ -224,7 +224,7 @@ public class CadastroLeilao extends JDialog {
             }
             catch (LeilaoNaoCadastrouException e)
             {
-                JOptionPane.showMessageDialog(null, e.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
        }
        else if(rbLeilaoAutomatico.isSelected())
@@ -238,7 +238,7 @@ public class CadastroLeilao extends JDialog {
             }
             catch (LeilaoNaoCadastrouException e)
             {
-                JOptionPane.showMessageDialog(null, e.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
        }
        else if(rbLeilaoAutoFechado.isSelected())
@@ -252,7 +252,7 @@ public class CadastroLeilao extends JDialog {
             }
             catch (LeilaoNaoCadastrouException e)
             {
-                JOptionPane.showMessageDialog(null, e.toString(), "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
        }
               

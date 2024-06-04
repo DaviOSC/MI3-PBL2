@@ -1,5 +1,6 @@
 package br.uefs.ecomp.bazar.model;
 
+import br.uefs.ecomp.bazar.model.exception.LanceLeilaoFechado;
 import br.uefs.ecomp.bazar.model.exception.*;
 
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class ControllerBazar implements Serializable
         checkStates();
         Usuario usuario = usuarios.get(login);
 
-        if (usuario != null && usuario.getSenha().equals(senha) )
+        if (usuario != null && usuario.getSenha().equals(senha))
         {
             this.usuarioLogado = usuario;
             return usuario; 
@@ -159,11 +160,19 @@ public class ControllerBazar implements Serializable
     public Iterator abrirEnvelopesLeilaoAutomaticoFechado() throws LeilaoNaoEncerradoException
     {
         checkStates();
-        Leilao leilao =usuarioLogado.getLeilaoAtivo();
+        Leilao leilao = usuarioLogado.getLeilaoAtivo();
         if(leilao instanceof LeilaoAutomaticoFechado)
         {
             if(leilao.getStatus() == Leilao.ENCERRADO)
             {
+                leilao.getListaLances().sort(new Comparator<Lance>()
+                {
+                @Override
+                public int compare(Lance lance1, Lance lance2)
+                {
+                    return Double.compare(lance2.getValor(), lance1.getValor());
+                }
+                });
                 return leilao.getListaLances().iterator();
             }
             else
@@ -181,23 +190,79 @@ public class ControllerBazar implements Serializable
         usuarioLogado.participarLeilao(leilao);
     }
     // chama o metodo dar lance minimo do usu�rio logado
-    public void darLanceMinimo() throws LanceInvalidoException
+    public void darLanceMinimo() throws LanceInvalidoException, LeilaoNaoParticipa, LanceLeilaoFechado
     {
         checkStates();
-        usuarioLogado.darLanceMinimo();
+        if(usuarioLogado.getLeilaoAtivo() instanceof LeilaoAutomaticoFechado)
+        {
+            
+            ArrayList<Lance> lista = usuarioLogado.getLeilaoAtivo().getListaLances();
+            boolean deuLance = false;
+            for(Lance lance : lista)
+            {
+                if(lance.getParticipante().equals(usuarioLogado))
+                {
+                    deuLance = true;
+                    break;
+                }   
+            }
+            if(!deuLance)
+            {
+                usuarioLogado.darLanceMinimo(); 
+            }
+            else
+            {
+                throw new LanceLeilaoFechado("Já deu lance no leilão.");
+            }
+        }
+        else
+        {
+          usuarioLogado.darLanceMinimo();  
+        }
+        
 
     }
     // chama o metodo dar lance do usu�rio logado, passando o valor do lance
-    public boolean darLance(double valor) throws LanceInvalidoException
+    public boolean darLance(double valor) throws LanceInvalidoException, LeilaoNaoParticipa
     {
         checkStates();
-        return usuarioLogado.darLance(valor);   
+        if(usuarioLogado.getLeilaoAtivo() instanceof LeilaoAutomaticoFechado)
+        {
+            
+            ArrayList<Lance> lista = usuarioLogado.getLeilaoAtivo().getListaLances();
+            boolean deuLance = false;
+            for(Lance lance : lista)
+            {
+                if(lance.getParticipante().equals(usuarioLogado))
+                {
+                    deuLance = true;
+                    return false;
+                }    
+            }
+            if(!deuLance)
+            {
+               return usuarioLogado.darLance(valor);  
+            }
+            
+        }
+        else
+        {
+            return usuarioLogado.darLance(valor);  
+        }
+        return false;
     }
     
-    public void darLanceLeilaoAutomaticoFechado(double valor)throws LanceInvalidoException
+    public void darLanceLeilaoAutomaticoFechado(double valor)throws LanceInvalidoException, LeilaoNaoParticipa
     {
         checkStates();
-        usuarioLogado.darLance(valor);
+        ArrayList<Lance> lista = usuarioLogado.getLeilaoAtivo().getListaLances();
+        for(Lance lance : lista)
+        {
+            if(!lance.getParticipante().equals(usuarioLogado))
+            {
+                usuarioLogado.darLance(valor);
+            }
+        }
     }
     
     
@@ -259,14 +324,18 @@ public class ControllerBazar implements Serializable
     {
         checkStates();
         ArrayList<Leilao> leiloesNoIntervalo = new ArrayList<>();
-        Collections.sort(leiloes, Comparator.comparing(Leilao::getInicio));
+        
+        Comparator<Leilao> comparador = Comparator.comparing(Leilao::getInicio,Comparator.nullsLast(Comparator.naturalOrder()));
+        Collections.sort(leiloes, comparador);
 
         int indexA = buscarPosicaoInicial(leiloes, momentoA);
         int indexB = buscarPosicaoFinal(leiloes, momentoB);
 
         for (int i = indexA; i <= indexB; i++)
         {
-            leiloesNoIntervalo.add(leiloes.get(i));
+            Leilao leilao = leiloes.get(i);
+            if(leilao.getInicio() != null)
+                leiloesNoIntervalo.add(leilao);
         }
 
         return leiloesNoIntervalo.iterator();
@@ -279,7 +348,8 @@ public class ControllerBazar implements Serializable
         while (esquerda <= direita)
         {
             int meio = (esquerda + direita) / 2;
-            if (leiloes.get(meio).getInicio().compareTo(momentoA) >= 0)
+            Leilao leilao = leiloes.get(meio);
+            if (leilao.getInicio() != null && leilao.getInicio().compareTo(momentoA) >= 0)
             {
                 direita = meio - 1;
             }
@@ -298,7 +368,8 @@ public class ControllerBazar implements Serializable
         while (esquerda <= direita)
         {
             int meio = (esquerda + direita) / 2;
-            if (leiloes.get(meio).getInicio().compareTo(momentoB) <= 0)
+            Leilao leilao = leiloes.get(meio);
+            if (leilao.getInicio() != null && leilao.getInicio().compareTo(momentoB) <= 0)
             {
                 esquerda = meio + 1;
             }
