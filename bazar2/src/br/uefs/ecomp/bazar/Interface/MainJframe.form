@@ -58,14 +58,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="timeMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="cadastrarProdutoMenuItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Cadastrar Produto"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cadastrarProdutoMenuItemActionPerformed"/>
-              </Events>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="cadastrarLeilaoMenuItem">
               <Properties>
@@ -76,7 +69,25 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cadastrarLeilaoMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="cadastrarProdutoMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cadastrar Produto"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cadastrarProdutoMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="buscarLeiloesMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Buscar Leil&#xf5;es"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buscarLeiloesMenuItemActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -361,10 +372,18 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnIniciarLeilao">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Iniciar Leil&#xe3;o Selecionado"/>
+                    <Property name="text" type="java.lang.String" value="Iniciar Leil&#xe3;o"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIniciarLeilaoActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnEncerrarLeilao">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Encerrar Leil&#xe3;o"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEncerrarLeilaoActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnLanceMinimo">
@@ -551,17 +570,9 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnListarLeiloesIniciadosActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnListarLeiloesEspecificos">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Listar Leil&#xf5;es Especificos"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnListarLeiloesEspecificosActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="btnListarParticipantes">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Listar Participantes do Leil&#xe3;o"/>
+                <Property name="text" type="java.lang.String" value="Listar Participantes"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnListarParticipantesActionPerformed"/>

@@ -165,14 +165,7 @@ public class ControllerBazar implements Serializable
         {
             if(leilao.getStatus() == Leilao.ENCERRADO)
             {
-                leilao.getListaLances().sort(new Comparator<Lance>()
-                {
-                @Override
-                public int compare(Lance lance1, Lance lance2)
-                {
-                    return Double.compare(lance2.getValor(), lance1.getValor());
-                }
-                });
+                leilao.getUltimoLanceFechado();
                 return leilao.getListaLances().iterator();
             }
             else
@@ -191,80 +184,16 @@ public class ControllerBazar implements Serializable
     }
     // chama o metodo dar lance minimo do usu�rio logado
     public void darLanceMinimo() throws LanceInvalidoException, LeilaoNaoParticipa, LanceLeilaoFechado
-    {
+   {
         checkStates();
-        if(usuarioLogado.getLeilaoAtivo() instanceof LeilaoAutomaticoFechado)
-        {
-            
-            ArrayList<Lance> lista = usuarioLogado.getLeilaoAtivo().getListaLances();
-            boolean deuLance = false;
-            for(Lance lance : lista)
-            {
-                if(lance.getParticipante().equals(usuarioLogado))
-                {
-                    deuLance = true;
-                    break;
-                }   
-            }
-            if(!deuLance)
-            {
-                usuarioLogado.darLanceMinimo(); 
-            }
-            else
-            {
-                throw new LanceLeilaoFechado("Já deu lance no leilão.");
-            }
-        }
-        else
-        {
-          usuarioLogado.darLanceMinimo();  
-        }
-        
-
+        usuarioLogado.darLanceMinimo();
     }
     // chama o metodo dar lance do usu�rio logado, passando o valor do lance
     public boolean darLance(double valor) throws LanceInvalidoException, LeilaoNaoParticipa
     {
         checkStates();
-        if(usuarioLogado.getLeilaoAtivo() instanceof LeilaoAutomaticoFechado)
-        {
-            
-            ArrayList<Lance> lista = usuarioLogado.getLeilaoAtivo().getListaLances();
-            boolean deuLance = false;
-            for(Lance lance : lista)
-            {
-                if(lance.getParticipante().equals(usuarioLogado))
-                {
-                    deuLance = true;
-                    return false;
-                }    
-            }
-            if(!deuLance)
-            {
-               return usuarioLogado.darLance(valor);  
-            }
-            
-        }
-        else
-        {
-            return usuarioLogado.darLance(valor);  
-        }
-        return false;
-    }
-    
-    public void darLanceLeilaoAutomaticoFechado(double valor)throws LanceInvalidoException, LeilaoNaoParticipa
-    {
-        checkStates();
-        ArrayList<Lance> lista = usuarioLogado.getLeilaoAtivo().getListaLances();
-        for(Lance lance : lista)
-        {
-            if(!lance.getParticipante().equals(usuarioLogado))
-            {
-                usuarioLogado.darLance(valor);
-            }
-        }
-    }
-    
+        return usuarioLogado.darLance(valor);
+    }  
     
     // chama o metodo de encerrar o leil�o ativo do usuario logado no sistema
     public Venda encerrarLeilao()

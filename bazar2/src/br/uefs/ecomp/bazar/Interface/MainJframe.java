@@ -68,6 +68,7 @@ public class MainJframe extends javax.swing.JFrame {
         midBtnPanel = new javax.swing.JPanel();
         btnParticiparLeilao = new javax.swing.JButton();
         btnIniciarLeilao = new javax.swing.JButton();
+        btnEncerrarLeilao = new javax.swing.JButton();
         btnLanceMinimo = new javax.swing.JButton();
         btnDarLance = new javax.swing.JButton();
         lanceSpinner = new javax.swing.JSpinner();
@@ -89,7 +90,6 @@ public class MainJframe extends javax.swing.JFrame {
         btnListarProdutos = new javax.swing.JButton();
         btnListarLeiloes = new javax.swing.JButton();
         btnListarLeiloesIniciados = new javax.swing.JButton();
-        btnListarLeiloesEspecificos = new javax.swing.JButton();
         btnListarParticipantes = new javax.swing.JButton();
         btnListarLances = new javax.swing.JButton();
         dateTimePanel = new javax.swing.JPanel();
@@ -105,9 +105,11 @@ public class MainJframe extends javax.swing.JFrame {
         loginMenuItem = new javax.swing.JMenuItem();
         userMenu = new javax.swing.JMenu();
         timeMenuItem = new javax.swing.JMenuItem();
-        cadastrarProdutoMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         cadastrarLeilaoMenuItem = new javax.swing.JMenuItem();
+        cadastrarProdutoMenuItem = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        buscarLeiloesMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bazar");
@@ -207,13 +209,21 @@ public class MainJframe extends javax.swing.JFrame {
         });
         midBtnPanel.add(btnParticiparLeilao);
 
-        btnIniciarLeilao.setText("Iniciar Leilão Selecionado");
+        btnIniciarLeilao.setText("Iniciar Leilão");
         btnIniciarLeilao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIniciarLeilaoActionPerformed(evt);
             }
         });
         midBtnPanel.add(btnIniciarLeilao);
+
+        btnEncerrarLeilao.setText("Encerrar Leilão");
+        btnEncerrarLeilao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEncerrarLeilaoActionPerformed(evt);
+            }
+        });
+        midBtnPanel.add(btnEncerrarLeilao);
 
         btnLanceMinimo.setText("Dar Lance Minimo");
         btnLanceMinimo.addActionListener(new java.awt.event.ActionListener() {
@@ -331,15 +341,7 @@ public class MainJframe extends javax.swing.JFrame {
         });
         btnPanel.add(btnListarLeiloesIniciados);
 
-        btnListarLeiloesEspecificos.setText("Listar Leilões Especificos");
-        btnListarLeiloesEspecificos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnListarLeiloesEspecificosActionPerformed(evt);
-            }
-        });
-        btnPanel.add(btnListarLeiloesEspecificos);
-
-        btnListarParticipantes.setText("Listar Participantes do Leilão");
+        btnListarParticipantes.setText("Listar Participantes");
         btnListarParticipantes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnListarParticipantesActionPerformed(evt);
@@ -418,15 +420,7 @@ public class MainJframe extends javax.swing.JFrame {
             }
         });
         userMenu.add(timeMenuItem);
-
-        cadastrarProdutoMenuItem.setText("Cadastrar Produto");
-        cadastrarProdutoMenuItem.setEnabled(false);
-        cadastrarProdutoMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cadastrarProdutoMenuItemActionPerformed(evt);
-            }
-        });
-        userMenu.add(cadastrarProdutoMenuItem);
+        userMenu.add(jSeparator1);
 
         cadastrarLeilaoMenuItem.setText("Cadastrar Leilão");
         cadastrarLeilaoMenuItem.setEnabled(false);
@@ -436,7 +430,25 @@ public class MainJframe extends javax.swing.JFrame {
             }
         });
         userMenu.add(cadastrarLeilaoMenuItem);
+
+        cadastrarProdutoMenuItem.setText("Cadastrar Produto");
+        cadastrarProdutoMenuItem.setEnabled(false);
+        cadastrarProdutoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastrarProdutoMenuItemActionPerformed(evt);
+            }
+        });
+        userMenu.add(cadastrarProdutoMenuItem);
         userMenu.add(jSeparator2);
+
+        buscarLeiloesMenuItem.setText("Buscar Leilões");
+        buscarLeiloesMenuItem.setEnabled(false);
+        buscarLeiloesMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarLeiloesMenuItemActionPerformed(evt);
+            }
+        });
+        userMenu.add(buscarLeiloesMenuItem);
 
         jMenuBar1.add(userMenu);
 
@@ -683,10 +695,6 @@ public class MainJframe extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_leiloesListValueChanged
 
-    private void btnListarLeiloesEspecificosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarLeiloesEspecificosActionPerformed
-        new BuscarLeilao(this).setVisible(true);
-    }//GEN-LAST:event_btnListarLeiloesEspecificosActionPerformed
-
     private void btnIniciarLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarLeilaoActionPerformed
        Leilao leilao = leiloesList.getSelectedValue();
        if(leilao != null)
@@ -848,6 +856,35 @@ public class MainJframe extends javax.swing.JFrame {
              JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);   
         }
     }//GEN-LAST:event_btnAbrirEnvelopesLeilaoActionPerformed
+
+    private void buscarLeiloesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarLeiloesMenuItemActionPerformed
+        new BuscarLeilao(this).setVisible(true);
+    }//GEN-LAST:event_buscarLeiloesMenuItemActionPerformed
+
+    private void btnEncerrarLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEncerrarLeilaoActionPerformed
+        Leilao leilao = leiloesList.getSelectedValue();
+        if(leilao != null )
+        {   
+            if(leilao.getStatus() == Leilao.CADASTRADO)
+            {
+                JOptionPane.showMessageDialog(null, "Leilão não iniciado", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+            else if(leilao.getStatus() == Leilao.ENCERRADO)
+            {
+                JOptionPane.showMessageDialog(null, "Leilão já encerrado" , "Sistema", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else
+            {
+                leilao.encerrar();
+                JOptionPane.showMessageDialog(null, "Leilão encerrado." , "Sistema", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Leilão não selecionado.", "Erro", JOptionPane.ERROR_MESSAGE);    
+        }
+    }//GEN-LAST:event_btnEncerrarLeilaoActionPerformed
     
     public void buscarLeiloes(Date momentoA, Date momentoB)
     {
@@ -888,12 +925,12 @@ public class MainJframe extends javax.swing.JFrame {
         btnListarLeiloesIniciados.setEnabled(enable);
         btnIniciarLeilao.setEnabled(enable);
         btnParticiparLeilao.setEnabled(enable);
-        btnListarLeiloesEspecificos.setEnabled(enable);
         btnListarParticipantes.setEnabled(enable);
         btnListarLances.setEnabled(enable);
         btnLanceMinimo.setEnabled(enable);
         btnDarLance.setEnabled(enable);
         btnAbrirEnvelopesLeilao.setEnabled(enable);
+        btnEncerrarLeilao.setEnabled(enable);
         lanceSpinner.setEnabled(enable);
         
         //jScrollPane2.setVisible(enable);
@@ -943,16 +980,17 @@ public class MainJframe extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrirEnvelopesLeilao;
     private javax.swing.JButton btnDarLance;
+    private javax.swing.JButton btnEncerrarLeilao;
     private javax.swing.JButton btnIniciarLeilao;
     private javax.swing.JButton btnLanceMinimo;
     private javax.swing.JButton btnListarLances;
     private javax.swing.JButton btnListarLeiloes;
-    private javax.swing.JButton btnListarLeiloesEspecificos;
     private javax.swing.JButton btnListarLeiloesIniciados;
     private javax.swing.JButton btnListarParticipantes;
     private javax.swing.JButton btnListarProdutos;
     private javax.swing.JPanel btnPanel;
     private javax.swing.JButton btnParticiparLeilao;
+    private javax.swing.JMenuItem buscarLeiloesMenuItem;
     private javax.swing.JMenuItem cadastrarLeilaoMenuItem;
     private javax.swing.JMenuItem cadastrarProdutoMenuItem;
     private javax.swing.JMenuItem cadastroMenuItem;
@@ -980,6 +1018,7 @@ public class MainJframe extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JSpinner lanceSpinner;
     private javax.swing.JList<String> lancesList;

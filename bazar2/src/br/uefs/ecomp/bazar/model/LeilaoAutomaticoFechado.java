@@ -14,7 +14,6 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
     @Override
     public boolean darLance(Usuario usuario, double preco) throws LanceInvalidoException
     {
-        System.out.println("br.uefs.ecomp.bazar.model.LeilaoAutomaticoFechado.darLance()");
         for(Lance lance : super.getListaLances())
         {
             if(lance.getParticipante().equals(usuario))
@@ -32,7 +31,6 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
             Lance lance = new Lance(usuario, preco);
             if(lance.getValor() < getPrecoMinimo() + getIncrementoMinimo())
             {
-                //throw new LanceInvalidoException("Lance deve ser maior o preco minimo mais o incremento minimo.");
                 return false;
             }
             else
@@ -44,9 +42,7 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
     }
     @Override
     public void darLanceMinimo(Usuario usuario) throws LanceInvalidoException
-    {
-        System.out.print("br.uefs.ecomp.bazar.model.LeilaoAutomaticoFechado.darLanceMinimo");
-        
+    {      
         for(Lance lance : super.getListaLances())
         {
             if(lance.getParticipante().equals(usuario))

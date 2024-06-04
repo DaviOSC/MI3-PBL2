@@ -37,7 +37,6 @@ public class LeilaoAutomatico extends Leilao implements Serializable
     {
         if(this.getTermino().compareTo(new Date()) <= 0 && this.getStatus() == Leilao.INICIADO)
         {
-            System.out.print(this+"Encerrar");
             encerrar();
         }
                 
@@ -47,7 +46,6 @@ public class LeilaoAutomatico extends Leilao implements Serializable
     {
         if(this.getInicio().compareTo(new Date()) <= 0 && this.getStatus() == Leilao.CADASTRADO)
         {
-            System.out.print(this+"Iniciar");
             iniciar();
         }
     }
