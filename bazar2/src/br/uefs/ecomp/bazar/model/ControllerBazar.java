@@ -1,6 +1,7 @@
 package br.uefs.ecomp.bazar.model;
 
-import br.uefs.ecomp.bazar.model.exception.LanceLeilaoFechado;
+import br.uefs.ecomp.bazar.model.exception.UsuarioDiferenteVendedorException;
+import br.uefs.ecomp.bazar.model.exception.LanceLeilaoFechadoException;
 import br.uefs.ecomp.bazar.model.exception.*;
 
 import java.util.ArrayList;
@@ -133,9 +134,17 @@ public class ControllerBazar implements Serializable
     }
     
     // inicia um leil�o selecionado como parametro
-    public void iniciarLeilao(Leilao leilao)
+    public void iniciarLeilao(Leilao leilao) throws UsuarioDiferenteVendedorException
     {
         checkStates();
+        if(leilao.getVendedor().equals(usuarioLogado))
+            {
+                leilao.iniciar();
+            }
+            else
+            {
+                throw new UsuarioDiferenteVendedorException("Você não é o vendedor desse leilão.");
+            }
         leilao.iniciar();
     }
     // listagem dos leil�es que est�o com o status iniciado
@@ -165,7 +174,7 @@ public class ControllerBazar implements Serializable
         {
             if(leilao.getStatus() == Leilao.ENCERRADO)
             {
-                leilao.getUltimoLanceFechado();
+                leilao.getUltimoLance();
                 return leilao.getListaLances().iterator();
             }
             else
@@ -183,13 +192,13 @@ public class ControllerBazar implements Serializable
         usuarioLogado.participarLeilao(leilao);
     }
     // chama o metodo dar lance minimo do usu�rio logado
-    public void darLanceMinimo() throws LanceInvalidoException, LeilaoNaoParticipa, LanceLeilaoFechado
+    public void darLanceMinimo() throws LanceInvalidoException, LeilaoNaoParticipaException, LanceLeilaoFechadoException
    {
         checkStates();
         usuarioLogado.darLanceMinimo();
     }
     // chama o metodo dar lance do usu�rio logado, passando o valor do lance
-    public boolean darLance(double valor) throws LanceInvalidoException, LeilaoNaoParticipa
+    public boolean darLance(double valor) throws LanceInvalidoException, LeilaoNaoParticipaException
     {
         checkStates();
         return usuarioLogado.darLance(valor);

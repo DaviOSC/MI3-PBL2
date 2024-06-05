@@ -1,7 +1,7 @@
 package br.uefs.ecomp.bazar.model;
 
 import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
-import br.uefs.ecomp.bazar.model.exception.LeilaoNaoParticipa;
+import br.uefs.ecomp.bazar.model.exception.LeilaoNaoParticipaException;
 import br.uefs.ecomp.bazar.model.exception.UsuarioJaParticipaException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,6 +15,7 @@ import java.util.Iterator;
 public abstract class Leilao implements Serializable
 {
     private static final long serialVersionUID = 1L;
+    
     // Constantes para representar os estados de um leilao qualquer:
     public static final int CADASTRADO = 0;
     public static final int INICIADO = 1;
@@ -133,30 +134,6 @@ public abstract class Leilao implements Serializable
         }
         else
         {
-            return (Lance)lances.get(lances.size()-1);
-        }
-    }
-    public Lance getUltimoLanceFechado()
-    {
-        if(lances.isEmpty())
-        {
-            return null;
-        }
-        else
-        {
-            Collections.sort(lances, new Comparator<Lance>() 
-            {
-            @Override
-            public int compare(Lance lance1, Lance lance2) 
-            {
-                int valor = Double.compare(lance1.getValor(), lance2.getValor());
-                if (valor == 0) 
-                {
-                    return lance1.getMomento().compareTo(lance2.getMomento());
-                }
-                return valor;
-            }
-        });
             return (Lance)lances.get(lances.size()-1);
         }
     }

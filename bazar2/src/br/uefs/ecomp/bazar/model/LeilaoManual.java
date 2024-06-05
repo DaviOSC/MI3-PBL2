@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class LeilaoManual extends Leilao implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     
     public LeilaoManual(double lPrecoMinimo, double lIncrementoMinimo, Usuario lVendedor, Produto lProduto)
     {

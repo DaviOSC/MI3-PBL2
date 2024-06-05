@@ -163,20 +163,20 @@ public class Usuario implements Serializable
         this.leilaoAtivo.iniciar();
     }
     // chama o metodo dar lance no leil�o ativo(participante), passando o usuario e o valor
-    public boolean darLance(Double valor) throws LanceInvalidoException, LeilaoNaoParticipa
+    public boolean darLance(Double valor) throws LanceInvalidoException, LeilaoNaoParticipaException
     {
         if(leilaoAtivo == null)
         {
-            throw new LeilaoNaoParticipa("Não existe Leilao");
+            throw new LeilaoNaoParticipaException("Não existe Leilao");
         }
         return leilaoAtivo.darLance(this, valor);
     }
     // chama o metodo dar lance minimo leil�o ativo(participante), passando o usuario como parametro
-    public void darLanceMinimo() throws LanceInvalidoException, LeilaoNaoParticipa
+    public void darLanceMinimo() throws LanceInvalidoException, LeilaoNaoParticipaException
     {
         if(leilaoAtivo == null)
         {
-            throw new LeilaoNaoParticipa("Não existe Leilao");
+            throw new LeilaoNaoParticipaException("Não existe Leilao");
         }
         leilaoAtivo.darLanceMinimo(this);
     }

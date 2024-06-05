@@ -50,7 +50,7 @@ public class BazarFacade {
         return this.cb.cadastrarLeilaoManual(produto, precoMinimo, incrementoMinimo);
     }
     //6
-    public void iniciarLeilao(Leilao leilao) {
+    public void iniciarLeilao(Leilao leilao) throws UsuarioDiferenteVendedorException{
         this.cb.iniciarLeilao(leilao);
     }
     //7
@@ -64,12 +64,12 @@ public class BazarFacade {
         this.cb.participarLeilao(leilao);
     }
     //9
-    public void darLanceMinimo() throws LanceInvalidoException, LeilaoNaoParticipa, LanceLeilaoFechado
+    public void darLanceMinimo() throws LanceInvalidoException, LeilaoNaoParticipaException, LanceLeilaoFechadoException
     {
         this.cb.darLanceMinimo();
     }
     //10
-    public boolean darLance(double valor) throws LanceInvalidoException, LeilaoNaoParticipa
+    public boolean darLance(double valor) throws LanceInvalidoException, LeilaoNaoParticipaException
     {   
         cb.checkStates();
         return this.cb.darLance(valor);
@@ -145,9 +145,4 @@ public class BazarFacade {
         return this.cb.buscarLeiloesTempo(momentoA, momentoB);
     }
         
-    public ControllerBazar getCb()
-    {
-        return cb;
-    }
-
 }

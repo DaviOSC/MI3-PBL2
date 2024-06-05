@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -111,11 +109,16 @@ public class MainJframe extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         buscarLeiloesMenuItem = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Bazar");
         setMinimumSize(new java.awt.Dimension(810, 300));
         setPreferredSize(new java.awt.Dimension(600, 435));
         setSize(new java.awt.Dimension(810, 335));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         mainPanel.setEnabled(false);
         mainPanel.setLayout(new java.awt.BorderLayout(1, 1));
@@ -506,10 +509,10 @@ public class MainJframe extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
-        if(facade.getCb().getUsuarioLogado() == null)
-        {
-            enableUserUI(false);
-        }
+//        if(facade.getCb().getUsuarioLogado() == null)
+//        {
+//            enableUserUI(false);
+//        }
     }//GEN-LAST:event_loadMenuItemActionPerformed
 
     private void cadastroMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastroMenuItemActionPerformed
@@ -565,7 +568,6 @@ public class MainJframe extends javax.swing.JFrame {
 
                     if (produto.isVendido())
                     {
-                        produtosList.setToolTipText("Vendido");
                         component.setForeground(Color.GREEN);
                     }
                     else
@@ -701,36 +703,37 @@ public class MainJframe extends javax.swing.JFrame {
        {
             if(leilao instanceof LeilaoManual)
             {   
-                if(leilao.getVendedor().equals(facade.getCb().getUsuarioLogado()))
+                
+                if(leilao.getStatus() == Leilao.INICIADO)
                 {
-                    if(leilao.getStatus() == Leilao.INICIADO)
-                    {
-                        JOptionPane.showMessageDialog(null, "Leilão está ativo.", "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else if(leilao.getStatus() == Leilao.ENCERRADO)
-                    {
-                        JOptionPane.showMessageDialog(null, "Leilão está encerrado.", "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
-                    else
+                    JOptionPane.showMessageDialog(null, "Leilão já está iniciado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                else if(leilao.getStatus() == Leilao.ENCERRADO)
+                {
+                    JOptionPane.showMessageDialog(null, "Leilão está encerrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                else
+                {
+                    try
                     {
                         facade.iniciarLeilao(leilao);
                         JOptionPane.showMessageDialog(null, "Leilão iniciado.", "Sistema", JOptionPane.INFORMATION_MESSAGE);
                     }
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(null, "Você não é o vendedor desse leilão.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    catch(UsuarioDiferenteVendedorException e)
+                    {
+                        JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
             else
             {
                  JOptionPane.showMessageDialog(null, "Leilão não é Manual", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-       }
-       else
-       {
-            JOptionPane.showMessageDialog(null, "Leilão não selecionado", "Erro", JOptionPane.ERROR_MESSAGE);  
-       }
+        }
+        else
+        {
+             JOptionPane.showMessageDialog(null, "Leilão não selecionado", "Erro", JOptionPane.ERROR_MESSAGE);  
+        }
     }//GEN-LAST:event_btnIniciarLeilaoActionPerformed
 
     private void btnParticiparLeilaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParticiparLeilaoActionPerformed
@@ -805,7 +808,7 @@ public class MainJframe extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Lance registrado." , "Sistema", JOptionPane.INFORMATION_MESSAGE);
 
         }
-        catch(LanceInvalidoException | LeilaoNaoParticipa | LanceLeilaoFechado e)
+        catch(LanceInvalidoException | LeilaoNaoParticipaException | LanceLeilaoFechadoException e)
         {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -821,7 +824,7 @@ public class MainJframe extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Lance não pode ser dado", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
-        catch(LanceInvalidoException | LeilaoNaoParticipa e)
+        catch(LanceInvalidoException | LeilaoNaoParticipaException e)
         {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -885,6 +888,21 @@ public class MainJframe extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Leilão não selecionado.", "Erro", JOptionPane.ERROR_MESSAGE);    
         }
     }//GEN-LAST:event_btnEncerrarLeilaoActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        int resposta = JOptionPane.showConfirmDialog(this,"Deseja salvar as informações do programa?","Encerrar",JOptionPane.YES_NO_CANCEL_OPTION);
+
+        if (resposta == JOptionPane.YES_OPTION)
+        {
+            saveMenuItemActionPerformed(null);
+            System.exit(0);
+        }
+        else if(resposta == JOptionPane.NO_OPTION)
+        {
+            System.exit(0);
+        }
+        
+    }//GEN-LAST:event_formWindowClosing
     
     public void buscarLeiloes(Date momentoA, Date momentoB)
     {

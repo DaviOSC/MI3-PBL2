@@ -2,10 +2,15 @@ package br.uefs.ecomp.bazar.model;
 
 import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+    
     public LeilaoAutomaticoFechado(double lPrecoMinimo, double lIncrementoMinimo, Usuario lVendedor, Produto lProduto, Date horarioInicio, Date horarioFim)
     {
         super(lPrecoMinimo, lIncrementoMinimo, lVendedor, lProduto, horarioInicio,  horarioFim);
@@ -59,6 +64,32 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
         else
         {
             throw new LanceInvalidoException("Leilao nao esta ativo ainda.");
+        }
+    }
+    @Override
+    public Lance getUltimoLance()
+    {
+        ArrayList<Lance> lances = getListaLances();
+        if(lances.isEmpty())
+        {
+            return null;
+        }
+        else
+        {
+            Collections.sort(lances, new Comparator<Lance>() 
+            {
+            @Override
+            public int compare(Lance lance1, Lance lance2) 
+            {
+                int valor = Double.compare(lance1.getValor(), lance2.getValor());
+                if (valor == 0) 
+                {
+                    return lance1.getMomento().compareTo(lance2.getMomento());
+                }
+                return valor;
+            }
+        });
+            return (Lance)lances.get(lances.size()-1);
         }
     }
 }
