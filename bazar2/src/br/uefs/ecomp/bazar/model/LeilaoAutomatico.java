@@ -23,14 +23,20 @@ public class LeilaoAutomatico extends Leilao implements Serializable
     }
     
     @Override
-    public void encerrar()
+    public boolean encerrar()
     {
         this.setStatus(Leilao.ENCERRADO);
-        if(this.getVenda() == null && !getListaLances().isEmpty())
+        if(getProduto().isVendido())
+        {
+            return false;
+        }
+        else if(this.getVenda() == null && !getListaLances().isEmpty())
         {
             setVenda(new Venda(getUltimoLance(), this));
             getProduto().setVendido();
+            return true;
         }
+        return false;
     }
     
         

@@ -1,6 +1,7 @@
 package br.uefs.ecomp.bazar.model;
 
 import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
+import br.uefs.ecomp.bazar.model.exception.LeilaoNaoParticipaException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +18,7 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
     }
     
     @Override
-    public boolean darLance(Usuario usuario, double preco) throws LanceInvalidoException
+    public boolean darLance(Usuario usuario, double preco) throws LanceInvalidoException, LeilaoNaoParticipaException
     {
         for(Lance lance : super.getListaLances())
         {
@@ -26,8 +27,11 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
                 throw new LanceInvalidoException("Participante ja deu seu lance.");
             }
         }
-
-        if(this.getStatus() == Leilao.CADASTRADO || this.getStatus() == Leilao.ENCERRADO)
+        if(!(getParticipantes().contains(usuario)))
+        {
+            throw new LeilaoNaoParticipaException("Usuario não participa desse leilão");
+        }
+        else if(this.getStatus() == Leilao.CADASTRADO || this.getStatus() == Leilao.ENCERRADO)
         {
             throw new LanceInvalidoException("Leilao nao esta ativo ainda.");            
         }
@@ -46,7 +50,7 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
         }
     }
     @Override
-    public void darLanceMinimo(Usuario usuario) throws LanceInvalidoException
+    public void darLanceMinimo(Usuario usuario) throws LanceInvalidoException, LeilaoNaoParticipaException
     {      
         System.out.print("DarlanceMinAutoF");
         for(Lance lance : super.getListaLances())
@@ -56,7 +60,11 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
                 throw new LanceInvalidoException("Participante ja deu seu lance.");
             }
         }
-        if(this.getStatus() == Leilao.INICIADO)
+        if(!(getParticipantes().contains(usuario)))
+        {
+            throw new LeilaoNaoParticipaException("Usuario não participa desse leilão");
+        }
+        else if(this.getStatus() == Leilao.INICIADO)
         {
             Lance lance = new Lance(usuario, getPrecoMinimo() + getIncrementoMinimo());
             getListaLances().add(lance);

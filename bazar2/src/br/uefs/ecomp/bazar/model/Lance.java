@@ -36,7 +36,7 @@ public class Lance implements Serializable
     @Override
     public String toString()
     {
-        return ""+this.valor;
+        return this.participante + ", " + this.valor;
     }
             
 }

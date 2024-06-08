@@ -58,7 +58,7 @@ public abstract class Leilao implements Serializable
     public abstract void iniciar();
 
     // define o status como encerrado e gera uma venda.
-    public abstract void encerrar(); 
+    public abstract boolean encerrar(); 
 
     public int getStatus() {
         return status;
@@ -77,10 +77,13 @@ public abstract class Leilao implements Serializable
     }
 
     // um usu�rio d� um lance com base no pre�o minimo e no incremento
-    public void darLanceMinimo(Usuario usuario) throws LanceInvalidoException
+    public void darLanceMinimo(Usuario usuario) throws LanceInvalidoException, LeilaoNaoParticipaException
     {
-        System.out.print("DarlanceMin");
-        if(this.getStatus() == Leilao.INICIADO)
+        if(!(participantes.contains(usuario)))
+        {
+            throw new LeilaoNaoParticipaException("Usuario não participa desse leilão");
+        }
+        else if(this.getStatus() == Leilao.INICIADO)
         {
             Lance lance = new Lance(usuario, this.precoMinimo + this.incrementoMinimo);
             lances.add(lance);
@@ -94,10 +97,13 @@ public abstract class Leilao implements Serializable
     }
 
     // um lance com um valor especifico decidido pelo usu�rio e verifica suas condi��es de valida��o, returnando falso caso n�o seja aceit�vel
-    public boolean darLance(Usuario usuario, double preco) throws LanceInvalidoException
+    public boolean darLance(Usuario usuario, double preco) throws LanceInvalidoException, LeilaoNaoParticipaException
     {
-        System.out.print("Darlance");
-        if(this.getStatus() == Leilao.CADASTRADO || this.getStatus() == Leilao.ENCERRADO)
+        if(!(participantes.contains(usuario)))
+        {
+            throw new LeilaoNaoParticipaException("Usuario não participa desse leilão");
+        }
+        else if(this.getStatus() == Leilao.CADASTRADO || this.getStatus() == Leilao.ENCERRADO)
         {
             throw new LanceInvalidoException("Leilao nao esta ativo ainda.");            
         }
@@ -190,9 +196,13 @@ public abstract class Leilao implements Serializable
         participantes.sort(Comparator.comparing(Usuario::getNome));
         return participantes.iterator();
     }
+    public ArrayList<Usuario> getParticipantes()
+    {
+        return participantes;
+    }
     @Override
     public String toString()
     {
-        return this.produto.getTipo();
+        return this.vendedor + ", " + this.produto.getDescricaoResumida();
     }
 }
