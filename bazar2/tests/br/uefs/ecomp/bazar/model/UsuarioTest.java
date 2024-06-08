@@ -7,7 +7,9 @@ import org.junit.Test;
 
 import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
 import br.uefs.ecomp.bazar.model.exception.LeilaoNaoCadastrouException;
+import br.uefs.ecomp.bazar.model.exception.LeilaoNaoParticipaException;
 import br.uefs.ecomp.bazar.model.exception.ProdutoNaoCadastrouException;
+import br.uefs.ecomp.bazar.model.exception.UsuarioJaParticipaException;
 import br.uefs.ecomp.bazar.util.Iterador;
 
 public class UsuarioTest extends TestCase {
@@ -50,7 +52,7 @@ public class UsuarioTest extends TestCase {
 	
 	@Test
 	public void testCadastrarIniciarTerminarLeilao() throws ProdutoNaoCadastrouException, LeilaoNaoCadastrouException, 
-			LanceInvalidoException {
+			LanceInvalidoException, UsuarioJaParticipaException, LeilaoNaoParticipaException {
 		u1.cadastrarProduto("telefone", "Galaxy S", "Samsung Galaxy S");
 		Iterador iterador = u1.listarProdutosCadastrados();
 		Produto produto = (Produto)iterador.proximo();

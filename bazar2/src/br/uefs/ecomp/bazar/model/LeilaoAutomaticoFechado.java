@@ -48,6 +48,7 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
     @Override
     public void darLanceMinimo(Usuario usuario) throws LanceInvalidoException
     {      
+        System.out.print("DarlanceMinAutoF");
         for(Lance lance : super.getListaLances())
         {
             if(lance.getParticipante().equals(usuario))
@@ -81,10 +82,10 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
             @Override
             public int compare(Lance lance1, Lance lance2) 
             {
-                int valor = Double.compare(lance1.getValor(), lance2.getValor());
+                int valor = Double.compare(lance2.getValor(), lance1.getValor());
                 if (valor == 0) 
                 {
-                    return lance1.getMomento().compareTo(lance2.getMomento());
+                    return lance2.getMomento().compareTo(lance1.getMomento());
                 }
                 return valor;
             }

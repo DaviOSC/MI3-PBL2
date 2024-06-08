@@ -39,8 +39,7 @@ public class LeilaoAutomatico extends Leilao implements Serializable
         if(this.getTermino().compareTo(new Date()) <= 0 && this.getStatus() == Leilao.INICIADO)
         {
             encerrar();
-        }
-                
+        }            
     }
     
     public void checkForStart()

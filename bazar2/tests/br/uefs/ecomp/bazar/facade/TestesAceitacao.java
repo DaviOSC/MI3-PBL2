@@ -19,10 +19,14 @@ import br.uefs.ecomp.bazar.model.Produto;
 import br.uefs.ecomp.bazar.model.Usuario;
 import br.uefs.ecomp.bazar.model.Venda;
 import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
+import br.uefs.ecomp.bazar.model.exception.LanceLeilaoFechadoException;
 import br.uefs.ecomp.bazar.model.exception.LeilaoNaoCadastrouException;
 import br.uefs.ecomp.bazar.model.exception.LeilaoNaoEncerradoException;
+import br.uefs.ecomp.bazar.model.exception.LeilaoNaoParticipaException;
 import br.uefs.ecomp.bazar.model.exception.LoginFalhouException;
 import br.uefs.ecomp.bazar.model.exception.ProdutoNaoCadastrouException;
+import br.uefs.ecomp.bazar.model.exception.UsuarioDiferenteVendedorException;
+import br.uefs.ecomp.bazar.model.exception.UsuarioJaParticipaException;
 import br.uefs.ecomp.bazar.model.exception.UsuarioNaoCadastrouException;
 import java.util.Iterator;
 
@@ -145,7 +149,7 @@ public class TestesAceitacao {
 	@Test
 	public void testIniciarLeilao() 
 		throws UsuarioNaoCadastrouException, LoginFalhouException, 
-		ProdutoNaoCadastrouException, LeilaoNaoCadastrouException {
+		ProdutoNaoCadastrouException, LeilaoNaoCadastrouException,UsuarioDiferenteVendedorException {
 		
 		f.cadastrarUsuario("maria", "Maria dos Santos", "senha1", "123456789-01", "Rua Drummond, 23, Centro", "7532213456");
 		f.fazerLogin("maria", "senha1");
@@ -159,7 +163,7 @@ public class TestesAceitacao {
 	@Test
 	public void testListarLeiloesIniciadosPorUmSoUsuario() 
 		throws UsuarioNaoCadastrouException, LoginFalhouException, 
-		ProdutoNaoCadastrouException, LeilaoNaoCadastrouException, InterruptedException {
+		ProdutoNaoCadastrouException, LeilaoNaoCadastrouException, InterruptedException, UsuarioDiferenteVendedorException {
 		
 		f.cadastrarUsuario("maria", "Maria dos Santos", "senha1", "123456789-01", "Rua Drummond, 23, Centro", "7532213456");
 		f.fazerLogin("maria", "senha1");
@@ -183,7 +187,7 @@ public class TestesAceitacao {
 	@Test
 	public void testListarLeiloesIniciadosPorMaisDeUmUsuario() 
 		throws UsuarioNaoCadastrouException, LoginFalhouException, 
-		ProdutoNaoCadastrouException, LeilaoNaoCadastrouException, InterruptedException {
+		ProdutoNaoCadastrouException, LeilaoNaoCadastrouException, InterruptedException, UsuarioDiferenteVendedorException {
 		
 		f.cadastrarUsuario("maria", "Maria dos Santos", "senha1", "123456789-01", "Rua Drummond, 23, Centro", "7532213456");
 		f.cadastrarUsuario("joao", "Joao dos Santos", "senha2", "987654321-01", "Rua Pessoa, 12, Centro", "7532216543");
@@ -213,7 +217,7 @@ public class TestesAceitacao {
 	public void testParticiparLeilaoDarLancesMinimos() 
 		throws UsuarioNaoCadastrouException, LoginFalhouException, 
 		ProdutoNaoCadastrouException, LeilaoNaoCadastrouException, 
-		InterruptedException, LanceInvalidoException {
+		InterruptedException, LanceInvalidoException, UsuarioDiferenteVendedorException, UsuarioJaParticipaException, LanceLeilaoFechadoException, LeilaoNaoParticipaException {
 		
 		// Como o sistema ainda nao eh multi-usuario, cada usuario 
 		// deve fazer login depois de acoes de outros usuarios.
@@ -266,7 +270,7 @@ public class TestesAceitacao {
 	public void testParticiparLeilaoDarLancesNormais() 
 		throws UsuarioNaoCadastrouException, LoginFalhouException, 
 		ProdutoNaoCadastrouException, LeilaoNaoCadastrouException, 
-		InterruptedException, LanceInvalidoException {
+		InterruptedException, LanceInvalidoException, UsuarioJaParticipaException, LanceLeilaoFechadoException, LeilaoNaoParticipaException, UsuarioDiferenteVendedorException {
 		
 		// Como o sistema ainda nao eh multi-usuario, cada usuario 
 		// deve fazer login depois de acoes de outros usuarios.
@@ -321,7 +325,7 @@ public class TestesAceitacao {
 	public void testEncerrarLeilao() 
 		throws UsuarioNaoCadastrouException, LoginFalhouException, 
 		ProdutoNaoCadastrouException, LeilaoNaoCadastrouException, 
-		InterruptedException, LanceInvalidoException {
+		InterruptedException, LanceInvalidoException, UsuarioDiferenteVendedorException, UsuarioJaParticipaException, LanceLeilaoFechadoException, LeilaoNaoParticipaException {
 		
 		// Como o sistema ainda nao eh multi-usuario, cada usuario 
 		// deve fazer login depois de acoes de outros usuarios.
@@ -503,7 +507,7 @@ public class TestesAceitacao {
 	public void testParticiparLeilaoAutomaticoFechadoDarLances() 
 		throws UsuarioNaoCadastrouException, LoginFalhouException, 
 		ProdutoNaoCadastrouException, LeilaoNaoCadastrouException, 
-		InterruptedException, LanceInvalidoException {
+		InterruptedException, LanceInvalidoException, UsuarioJaParticipaException,LeilaoNaoParticipaException,LanceLeilaoFechadoException {
 		
 		// Como o sistema ainda nao eh multi-usuario, cada usuario 
 		// deve fazer login depois de acoes de outros usuarios.
@@ -569,7 +573,7 @@ public class TestesAceitacao {
 		throws UsuarioNaoCadastrouException, LoginFalhouException, 
 		ProdutoNaoCadastrouException, LeilaoNaoCadastrouException, 
 		InterruptedException, LanceInvalidoException, 
-		LeilaoNaoEncerradoException {
+		LeilaoNaoEncerradoException, UsuarioJaParticipaException, LanceLeilaoFechadoException, LeilaoNaoParticipaException {
 		
 		// Como o sistema ainda nao eh multi-usuario, cada usuario 
 		// deve fazer login depois de acoes de outros usuarios.

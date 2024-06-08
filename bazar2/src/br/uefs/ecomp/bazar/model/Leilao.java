@@ -79,6 +79,7 @@ public abstract class Leilao implements Serializable
     // um usu�rio d� um lance com base no pre�o minimo e no incremento
     public void darLanceMinimo(Usuario usuario) throws LanceInvalidoException
     {
+        System.out.print("DarlanceMin");
         if(this.getStatus() == Leilao.INICIADO)
         {
             Lance lance = new Lance(usuario, this.precoMinimo + this.incrementoMinimo);
@@ -95,6 +96,7 @@ public abstract class Leilao implements Serializable
     // um lance com um valor especifico decidido pelo usu�rio e verifica suas condi��es de valida��o, returnando falso caso n�o seja aceit�vel
     public boolean darLance(Usuario usuario, double preco) throws LanceInvalidoException
     {
+        System.out.print("Darlance");
         if(this.getStatus() == Leilao.CADASTRADO || this.getStatus() == Leilao.ENCERRADO)
         {
             throw new LanceInvalidoException("Leilao nao esta ativo ainda.");            
