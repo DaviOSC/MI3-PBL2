@@ -55,9 +55,12 @@ public class CadastroLeilao extends JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro");
+        setPreferredSize(new java.awt.Dimension(526, 504));
         setResizable(false);
+        setSize(new java.awt.Dimension(526, 504));
 
         jPanel.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel.setPreferredSize(new java.awt.Dimension(597, 345));
 
         lblInicio.setText("Início:");
         lblInicio.setEnabled(false);
@@ -79,7 +82,6 @@ public class CadastroLeilao extends JDialog {
         lblTermino.setEnabled(false);
 
         buttonGroupLeilao.add(rbLeilaoManual);
-        rbLeilaoManual.setSelected(true);
         rbLeilaoManual.setText("Leilão Manual");
         rbLeilaoManual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,17 +134,16 @@ public class CadastroLeilao extends JDialog {
             .addGroup(jPanelLayout.createSequentialGroup()
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelLayout.createSequentialGroup()
-                        .addGap(142, 142, 142)
+                        .addGap(111, 111, 111)
                         .addComponent(rbLeilaoManual)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(rbLeilaoAutomatico)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(rbLeilaoAutoFechado))
                     .addGroup(jPanelLayout.createSequentialGroup()
-                        .addGap(193, 193, 193)
+                        .addGap(170, 170, 170)
                         .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(inicioSpinner, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCadastrar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cbProdutos, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblProduto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblIncremento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -151,8 +152,9 @@ public class CadastroLeilao extends JDialog {
                             .addComponent(lblInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
                             .addComponent(terminoSpinner, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
                             .addComponent(precoSpinner, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(incrementoSpinner))))
-                .addContainerGap(150, Short.MAX_VALUE))
+                            .addComponent(incrementoSpinner)
+                            .addComponent(btnCadastrar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(111, Short.MAX_VALUE))
         );
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,7 +186,7 @@ public class CadastroLeilao extends JDialog {
                 .addComponent(terminoSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCadastrar)
-                .addContainerGap(142, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel, java.awt.BorderLayout.CENTER);
@@ -289,9 +291,11 @@ public class CadastroLeilao extends JDialog {
     {
         DefaultComboBoxModel<Produto> modelProduto = new DefaultComboBoxModel<>();
 
-        Iterator produtosIterator = mainframe.getFacade().listarProdutosCadastrados();
+        Iterator<Produto> produtosIterator = mainframe.getFacade().listarProdutosCadastrados();
         while (produtosIterator.hasNext()) {
-            modelProduto.addElement((Produto)produtosIterator.next());
+            Produto produto = produtosIterator.next();
+            if(!produto.isVendido())
+                modelProduto.addElement(produto);
         }
 
         cbProdutos.setModel(modelProduto);

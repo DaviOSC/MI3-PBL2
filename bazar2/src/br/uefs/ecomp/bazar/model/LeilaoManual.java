@@ -34,9 +34,10 @@ public class LeilaoManual extends Leilao implements Serializable
         {
             setVenda(new Venda(getUltimoLance(), this));
             getProduto().setVendido();
+            this.setFim(new Date());
             return true;
         }
-        this.setFim(new Date());
+        
         return false;
     }
     

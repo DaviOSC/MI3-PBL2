@@ -101,6 +101,10 @@ public class Usuario implements Serializable
         {
             throw new LeilaoNaoCadastrouException("Preco minimo deve ser maior que zero.");
         }
+        else if(produto == null)
+        {
+            throw new LeilaoNaoCadastrouException("Produto não selecionado.");
+        }
         else
         {
             Leilao leilao = new LeilaoManual(preco, incremento,this, produto);
@@ -117,6 +121,10 @@ public class Usuario implements Serializable
         else if(preco <= 0)
         {
             throw new LeilaoNaoCadastrouException("Preco minimo deve ser maior que zero.");
+        }
+        else if(produto == null)
+        {
+            throw new LeilaoNaoCadastrouException("Produto não selecionado.");
         }
         else if(momentoFim.compareTo(momentoInicio) < 0)
         {
@@ -141,6 +149,10 @@ public class Usuario implements Serializable
         else if(preco <= 0)
         {
             throw new LeilaoNaoCadastrouException("Preco minimo deve ser maior que zero.");
+        }
+        else if(produto == null)
+        {
+            throw new LeilaoNaoCadastrouException("Produto não selecionado.");
         }
         else if(momentoFim.compareTo(momentoInicio) < 0)
         {

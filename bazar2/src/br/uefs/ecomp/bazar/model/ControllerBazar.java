@@ -166,10 +166,9 @@ public class ControllerBazar implements Serializable
 
         return leiloesIniciados.iterator();   
     }
-    public Iterator abrirEnvelopesLeilaoAutomaticoFechado() throws LeilaoNaoEncerradoException
+    public Iterator abrirEnvelopesLeilaoAutomaticoFechado(Leilao leilao) throws LeilaoNaoEncerradoException
     {
         checkStates();
-        Leilao leilao = usuarioLogado.getLeilaoAtivo();
         if(leilao instanceof LeilaoAutomaticoFechado)
         {
             if(leilao.getStatus() == Leilao.ENCERRADO)
@@ -228,23 +227,6 @@ public class ControllerBazar implements Serializable
         return leilao.getListaLances().iterator();
     }
     
-//    public Iterator buscarLeiloesTempo(Date momentoA, Date momentoB)
-//    {
-//        checkStates();
-//        ArrayList<Leilao> leiloesNoIntervalo = new ArrayList<>();
-//        Collections.sort(leiloes, Comparator.comparing(Leilao::getInicio));
-//        
-//        for(Leilao leilao : leiloes)
-//        {
-//            if(leilao.getInicio().compareTo(momentoA) > 0 && leilao.getInicio().compareTo(momentoB) < 0)
-//            {
-//                leiloesNoIntervalo.add(leilao);
-//            }
-//        }
-//        
-//        return leiloesNoIntervalo.iterator();
-//    }
-    
     public void checkStates()
     {
        for (Leilao leilao :leiloes)
@@ -279,7 +261,7 @@ public class ControllerBazar implements Serializable
         return leiloesNoIntervalo.iterator();
     }
 
-    public int buscarPosicaoInicial(ArrayList<Leilao> leiloes, Date momentoA)
+    private int buscarPosicaoInicial(ArrayList<Leilao> leiloes, Date momentoA)
     {
         int esquerda = 0;
         int direita = leiloes.size() - 1;
@@ -299,7 +281,7 @@ public class ControllerBazar implements Serializable
         return esquerda;
     }
 
-    public int buscarPosicaoFinal(ArrayList<Leilao> leiloes, Date momentoB) 
+    private int buscarPosicaoFinal(ArrayList<Leilao> leiloes, Date momentoB) 
     {
         int esquerda = 0;
         int direita = leiloes.size() - 1;

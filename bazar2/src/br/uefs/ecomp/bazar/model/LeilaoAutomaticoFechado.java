@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Serializable
 {
     private static final long serialVersionUID = 1L;
+    private Set<Usuario> participantesComLance = new HashSet<>();
     
     public LeilaoAutomaticoFechado(double lPrecoMinimo, double lIncrementoMinimo, Usuario lVendedor, Produto lProduto, Date horarioInicio, Date horarioFim)
     {
@@ -20,20 +23,18 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
     @Override
     public boolean darLance(Usuario usuario, double preco) throws LanceInvalidoException, LeilaoNaoParticipaException
     {
-        for(Lance lance : super.getListaLances())
+
+        if(participantesComLance.contains(usuario))
         {
-            if(lance.getParticipante().equals(usuario))
-            {
-                throw new LanceInvalidoException("Participante ja deu seu lance.");
-            }
-        }
-        if(!(getParticipantes().contains(usuario)))
+            throw new LanceInvalidoException("Participante ja deu seu lance.");
+        }    
+        else if(!(getParticipantes().contains(usuario)))
         {
             throw new LeilaoNaoParticipaException("Usuario não participa desse leilão");
         }
         else if(this.getStatus() == Leilao.CADASTRADO || this.getStatus() == Leilao.ENCERRADO)
         {
-            throw new LanceInvalidoException("Leilao nao esta ativo ainda.");            
+            throw new LanceInvalidoException("Leilao não está iniciado.");            
         }
         else
         {
@@ -45,22 +46,76 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
             else
             {
                 getListaLances().add(lance);
+                participantesComLance.add(usuario);
                 return true;
             }
         }
     }
+//    @Override
+//    public boolean darLance(Usuario usuario, double preco) throws LanceInvalidoException, LeilaoNaoParticipaException
+//    {
+//        for(Lance lance : super.getListaLances())
+//        {
+//            if(lance.getParticipante().equals(usuario))
+//            {
+//                throw new LanceInvalidoException("Participante ja deu seu lance.");
+//            }
+//        }
+//        if(!(getParticipantes().contains(usuario)))
+//        {
+//            throw new LeilaoNaoParticipaException("Usuario não participa desse leilão");
+//        }
+//        else if(this.getStatus() == Leilao.CADASTRADO || this.getStatus() == Leilao.ENCERRADO)
+//        {
+//            throw new LanceInvalidoException("Leilao não está iniciado.");            
+//        }
+//        else
+//        {
+//            Lance lance = new Lance(usuario, preco);
+//            if(lance.getValor() < getPrecoMinimo() + getIncrementoMinimo())
+//            {
+//                return false;
+//            }
+//            else
+//            {
+//                getListaLances().add(lance);
+//                return true;
+//            }
+//        }
+//    }
+//    @Override
+//    public void darLanceMinimo(Usuario usuario) throws LanceInvalidoException, LeilaoNaoParticipaException
+//    {      
+//        for(Lance lance : super.getListaLances())
+//        {
+//            if(lance.getParticipante().equals(usuario))
+//            {
+//                throw new LanceInvalidoException("Participante ja deu seu lance.");
+//            }
+//        }
+//        if(!(getParticipantes().contains(usuario)))
+//        {
+//            throw new LeilaoNaoParticipaException("Usuario não participa desse leilão");
+//        }
+//        else if(this.getStatus() == Leilao.INICIADO)
+//        {
+//            Lance lance = new Lance(usuario, getPrecoMinimo() + getIncrementoMinimo());
+//            getListaLances().add(lance);
+//            
+//        }
+//        else
+//        {
+//            throw new LanceInvalidoException("Leilao não está iniciado.");
+//        }
+//    }
     @Override
     public void darLanceMinimo(Usuario usuario) throws LanceInvalidoException, LeilaoNaoParticipaException
     {      
-        System.out.print("DarlanceMinAutoF");
-        for(Lance lance : super.getListaLances())
+        if(participantesComLance.contains(usuario))
         {
-            if(lance.getParticipante().equals(usuario))
-            {
-                throw new LanceInvalidoException("Participante ja deu seu lance.");
-            }
-        }
-        if(!(getParticipantes().contains(usuario)))
+            throw new LanceInvalidoException("Participante ja deu seu lance.");
+        } 
+        else if(!(getParticipantes().contains(usuario)))
         {
             throw new LeilaoNaoParticipaException("Usuario não participa desse leilão");
         }
@@ -68,11 +123,11 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
         {
             Lance lance = new Lance(usuario, getPrecoMinimo() + getIncrementoMinimo());
             getListaLances().add(lance);
-            
+            participantesComLance.add(usuario);
         }
         else
         {
-            throw new LanceInvalidoException("Leilao nao esta ativo ainda.");
+            throw new LanceInvalidoException("Leilao não está iniciado.");
         }
     }
     @Override
