@@ -3,7 +3,7 @@ package br.uefs.ecomp.bazar.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class LeilaoAutomatico extends Leilao implements Serializable
+public class LeilaoAutomatico extends Leilao
 {
     private static final long serialVersionUID = 1L;
     
@@ -23,20 +23,16 @@ public class LeilaoAutomatico extends Leilao implements Serializable
     }
     
     @Override
-    public boolean encerrar()
+    public void encerrar()
     {
         this.setStatus(Leilao.ENCERRADO);
-        if(getProduto().isVendido())
+        if(this.getVenda() == null && !getListaLances().isEmpty())
         {
-            return false;
-        }
-        else if(this.getVenda() == null && !getListaLances().isEmpty())
-        {
+                    System.out.print("encerrarAuto");
             setVenda(new Venda(getUltimoLance(), this));
             getProduto().setVendido();
-            return true;
         }
-        return false;
+
     }
     
         

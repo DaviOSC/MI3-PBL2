@@ -89,9 +89,9 @@ public class BazarFacade {
         return this.cb.cadastrarLeilaoAutomaticoFechado(produto, precoMinimo, incrementoMinimo, momentoInicio, momentoFim);
     }
     //15
-    public Iterator abrirEnvelopesLeilaoAutomaticoFechado(Leilao leilao) throws LeilaoNaoEncerradoException
+    public Iterator abrirEnvelopesLeilaoAutomaticoFechado() throws LeilaoNaoEncerradoException
     {
-        return this.cb.abrirEnvelopesLeilaoAutomaticoFechado(leilao);
+        return this.cb.abrirEnvelopesLeilaoAutomaticoFechado();
     }
     //16
     public Date listarMomentoAtual()
@@ -143,6 +143,11 @@ public class BazarFacade {
     public Iterator buscarLeiloesTempo(Date momentoA, Date momentoB)
     {
         return this.cb.buscarLeiloesTempo(momentoA, momentoB);
+    }
+    
+    public void selecionarLeilao(Leilao leilao)
+    {
+        this.cb.selecionarLeilao(leilao);
     }
         
 }

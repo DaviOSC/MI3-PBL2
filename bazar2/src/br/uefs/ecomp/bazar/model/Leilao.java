@@ -58,7 +58,7 @@ public abstract class Leilao implements Serializable
     public abstract void iniciar();
 
     // define o status como encerrado e gera uma venda.
-    public abstract boolean encerrar(); 
+    public abstract void encerrar(); 
 
     public int getStatus() {
         return status;
@@ -136,6 +136,7 @@ public abstract class Leilao implements Serializable
     // retorna o ultimo lance do leil�o;
     public Lance getUltimoLance()
     {
+        System.out.print("GetUltimoMANUAL");
         if(lances.isEmpty())
         {
             return null;

@@ -105,17 +105,6 @@ public class CadastroLeilao extends JDialog {
             }
         });
 
-        cbProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbProdutosMouseClicked(evt);
-            }
-        });
-        cbProdutos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbProdutosActionPerformed(evt);
-            }
-        });
-
         inicioSpinner.setModel(new javax.swing.SpinnerDateModel());
         inicioSpinner.setEnabled(false);
 
@@ -199,6 +188,7 @@ public class CadastroLeilao extends JDialog {
     {
         super.addNotify();
         setProdutos();
+        rbLeilaoManual.setSelected(true);
         
     }
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
@@ -245,6 +235,7 @@ public class CadastroLeilao extends JDialog {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
        }
+       mainframe.listarLeiloes();
               
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
@@ -259,14 +250,6 @@ public class CadastroLeilao extends JDialog {
     private void rbLeilaoAutoFechadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbLeilaoAutoFechadoActionPerformed
         ativarInputs(true);
     }//GEN-LAST:event_rbLeilaoAutoFechadoActionPerformed
-
-    private void cbProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbProdutosActionPerformed
-        
-    }//GEN-LAST:event_cbProdutosActionPerformed
-
-    private void cbProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbProdutosMouseClicked
-      
-    }//GEN-LAST:event_cbProdutosMouseClicked
 
     private void ativarInputs(boolean bool)
     {

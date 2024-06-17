@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class LeilaoManual extends Leilao implements Serializable
+public class LeilaoManual extends Leilao
 {
     private static final long serialVersionUID = 1L;
     
@@ -23,22 +23,15 @@ public class LeilaoManual extends Leilao implements Serializable
     }
         
     @Override
-    public boolean encerrar()
+    public void encerrar()
     {
         this.setStatus(Leilao.ENCERRADO);
-        if(getProduto().isVendido())
-        {
-            return false;
-        }
-        else if(this.getVenda() == null && !getListaLances().isEmpty())
+        if(this.getVenda() == null && !getListaLances().isEmpty())
         {
             setVenda(new Venda(getUltimoLance(), this));
             getProduto().setVendido();
-            this.setFim(new Date());
-            return true;
         }
-        
-        return false;
+        this.setFim(new Date());
     }
     
     

@@ -123,6 +123,7 @@ public class Login extends JDialog
             mainframe.logarUsuario(mainframe.getFacade().fazerLogin(loginField.getText(), new String(senhaField.getPassword())));
             limparCampos();
             JOptionPane.showMessageDialog(null, "Usuario Logado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            mainframe.listarProdutos();
             dispose(); 
         }
         catch (LoginFalhouException e)

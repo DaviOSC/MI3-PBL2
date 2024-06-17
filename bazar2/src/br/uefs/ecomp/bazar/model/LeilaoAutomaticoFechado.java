@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Serializable
+public class LeilaoAutomaticoFechado extends LeilaoAutomatico
 {
     private static final long serialVersionUID = 1L;
     private Set<Usuario> participantesComLance = new HashSet<>();
@@ -133,6 +133,7 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
     @Override
     public Lance getUltimoLance()
     {
+                System.out.print("GetULtimoAuto");
         ArrayList<Lance> lances = getListaLances();
         if(lances.isEmpty())
         {
@@ -153,7 +154,7 @@ public class LeilaoAutomaticoFechado extends LeilaoAutomatico implements Seriali
                 return valor;
             }
         });
-            return (Lance)lances.get(lances.size()-1);
+            return (Lance)lances.get(0);
         }
     }
 }

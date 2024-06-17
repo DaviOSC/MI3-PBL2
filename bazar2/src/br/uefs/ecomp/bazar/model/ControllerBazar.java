@@ -166,9 +166,10 @@ public class ControllerBazar implements Serializable
 
         return leiloesIniciados.iterator();   
     }
-    public Iterator abrirEnvelopesLeilaoAutomaticoFechado(Leilao leilao) throws LeilaoNaoEncerradoException
+    public Iterator abrirEnvelopesLeilaoAutomaticoFechado() throws LeilaoNaoEncerradoException
     {
         checkStates();
+        Leilao leilao = usuarioLogado.getLeilaoAtivo();
         if(leilao instanceof LeilaoAutomaticoFechado)
         {
             if(leilao.getStatus() == Leilao.ENCERRADO)
@@ -299,5 +300,9 @@ public class ControllerBazar implements Serializable
             }
         }
         return direita;
+    }
+    public void selecionarLeilao(Leilao leilao)
+    {
+        usuarioLogado.setLeilaoAtivo(leilao);
     }
 }
