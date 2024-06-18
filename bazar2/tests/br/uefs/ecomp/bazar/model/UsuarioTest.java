@@ -10,7 +10,13 @@ import br.uefs.ecomp.bazar.model.exception.LeilaoNaoCadastrouException;
 import br.uefs.ecomp.bazar.model.exception.LeilaoNaoParticipaException;
 import br.uefs.ecomp.bazar.model.exception.ProdutoNaoCadastrouException;
 import br.uefs.ecomp.bazar.model.exception.UsuarioJaParticipaException;
-import br.uefs.ecomp.bazar.util.Iterador;
+import java.util.Iterator;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.assertSame;
+import static junit.framework.TestCase.assertTrue;
 
 public class UsuarioTest extends TestCase {
 
@@ -26,27 +32,27 @@ public class UsuarioTest extends TestCase {
 	@Test
 	public void testCadastrarListarProdutos() throws ProdutoNaoCadastrouException {
 		
-		Iterador iterador = u1.listarProdutosCadastrados();
-		assertFalse(iterador.temProximo());
+		Iterator iterador = u1.listarProdutosCadastrados();
+		assertFalse(iterador.hasNext());
 		
 		u1.cadastrarProduto("telefone", "Galaxy S", "Samsung Galaxy S");
 		iterador = u1.listarProdutosCadastrados();
-		assertTrue(iterador.temProximo());
+		assertTrue(iterador.hasNext());
 		
-		Produto produto = (Produto) iterador.proximo();
+		Produto produto = (Produto) iterador.next();
 		assertEquals("telefone", produto.getTipo());
 		assertEquals("Galaxy S", produto.getDescricaoResumida());
 		assertEquals("Samsung Galaxy S", produto.getDescricaoDetalhada());
-		assertFalse(iterador.temProximo());
+		assertFalse(iterador.hasNext());
 		
 		u1.cadastrarProduto("telefone", "iPhone 4S", "Apple iPhone 4S");
 		iterador = u1.listarProdutosCadastrados();
-		produto = (Produto) iterador.proximo();
-		produto = (Produto) iterador.proximo();
+		produto = (Produto) iterador.next();
+		produto = (Produto) iterador.next();
 		assertEquals("telefone", produto.getTipo());
 		assertEquals("iPhone 4S", produto.getDescricaoResumida());
 		assertEquals("Apple iPhone 4S", produto.getDescricaoDetalhada());
-		assertFalse(iterador.temProximo());	
+		assertFalse(iterador.hasNext());	
 		
 	}
 	
@@ -54,8 +60,8 @@ public class UsuarioTest extends TestCase {
 	public void testCadastrarIniciarTerminarLeilao() throws ProdutoNaoCadastrouException, LeilaoNaoCadastrouException, 
 			LanceInvalidoException, UsuarioJaParticipaException, LeilaoNaoParticipaException {
 		u1.cadastrarProduto("telefone", "Galaxy S", "Samsung Galaxy S");
-		Iterador iterador = u1.listarProdutosCadastrados();
-		Produto produto = (Produto)iterador.proximo();
+		Iterator iterador = u1.listarProdutosCadastrados();
+		Produto produto = (Produto)iterador.next();
 		
 		Leilao leilao = u1.cadastrarLeilaoManual(200.00, 5.00, produto);
 		assertNotNull(leilao);

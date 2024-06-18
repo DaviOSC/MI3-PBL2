@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.HashMap;
 
-import br.uefs.ecomp.bazar.util.Iterador;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -25,23 +23,18 @@ public class ControllerBazar implements Serializable
     HashMap<String, Usuario> usuarios = new HashMap<>();
     // Estrutura criada para armazenar os leil�es
     ArrayList<Leilao> leiloes = new ArrayList<>();
-      
-    public Usuario getUsuarioLogado()
-    {
-        return this.usuarioLogado;
-    }
-    
+         
     // retorna a quantidade de itens no hashmap que armazena os usu�rios
     public int quantidadeUsuarios()
     {
-        checkStates();
+        checaEstados();
         return usuarios.size();
     }
     
     //cria um novo usu�rio e adiciona na hashmap de armazenamento.
     public Usuario cadastrarUsuario(String uLogin, String uNome, String uSenha, String uCpf, String uEndereco, String uTelefone) throws UsuarioNaoCadastrouException
     {
-        checkStates();
+        checaEstados();
         Usuario usuario = new Usuario(uLogin, uNome, uSenha, uCpf, uEndereco, uTelefone);
         if(usuarios.containsKey(uLogin))
         {
@@ -58,19 +51,18 @@ public class ControllerBazar implements Serializable
         usuarios.put(uLogin, usuario);
         return usuario;    
     }
-    
-    
+        
     // retorna a lista de leil�es
     public ArrayList getListaLeiloes()
     {
-        checkStates();
+        checaEstados();
         return leiloes;
     }
     
     // realiza o login de um usuario selecionado
     public Usuario fazerLogin(String login, String senha) throws LoginFalhouException
     {
-        checkStates();
+        checaEstados();
         Usuario usuario = usuarios.get(login);
 
         if (usuario != null && usuario.getSenha().equals(senha))
@@ -91,29 +83,28 @@ public class ControllerBazar implements Serializable
     // Cria um novo produto, ao chamar o metodo do usuario logado cadastrar
     public Produto cadastrarProduto(String tipo, String descricaoResumida, String descricaoDetalhada) throws ProdutoNaoCadastrouException
     {
-        checkStates();
+        checaEstados();
         Produto produto = usuarioLogado.cadastrarProduto(tipo, descricaoResumida, descricaoDetalhada);
         return produto;
          
     }
     // listagem dos produtos cadastrados do usuario logado
-    public Iterador<Produto> listarProdutosCadastrados()
+    public Iterator<Produto> listarProdutosCadastrados()
     {
-        checkStates();
-        Iterador iterador = new Iterador(usuarioLogado.listarProdutosCadastrados());
-        return iterador;
+        checaEstados();
+        return usuarioLogado.listarProdutosCadastrados();
     }
     // chama o metodo cadastra leil�o do usuario logado, que retorna o leil�o criado, e o adiciona na lista de leil�es
     public Leilao cadastrarLeilaoManual(Produto produto, double precoMinimo, double incrementoMinimo) throws LeilaoNaoCadastrouException
     {
-        checkStates();
+        checaEstados();
         Leilao leilao = this.usuarioLogado.cadastrarLeilaoManual(precoMinimo, incrementoMinimo, produto);
         leiloes.add(leilao);
         return leilao;
     }
     public Leilao cadastrarLeilaoAutomatico(Produto produto, double precoMinimo, double incrementoMinimo, Date momentoInicio, Date momentoFim) throws LeilaoNaoCadastrouException
     {
-        checkStates();
+        checaEstados();
         Leilao leilao = this.usuarioLogado.cadastrarLeilaoAutomatico(precoMinimo, incrementoMinimo, produto, momentoInicio, momentoFim);
         leiloes.add(leilao);
         return leilao;
@@ -121,22 +112,17 @@ public class ControllerBazar implements Serializable
     
     public Leilao cadastrarLeilaoAutomaticoFechado(Produto produto, double precoMinimo, double incrementoMinimo, Date momentoInicio, Date momentoFim) throws LeilaoNaoCadastrouException
     {
-        checkStates();
+        checaEstados();
         Leilao leilao = this.usuarioLogado.cadastrarLeilaoAutomaticoFechado(precoMinimo, incrementoMinimo, produto, momentoInicio, momentoFim);
         leiloes.add(leilao);
         return leilao;
     }
     
-    public void cadastrarLeilao(Leilao leilao)
-    {
-        checkStates();
-        leiloes.add(leilao);
-    }
     
     // inicia um leil�o selecionado como parametro
     public void iniciarLeilao(Leilao leilao) throws UsuarioDiferenteVendedorException
     {
-        checkStates();
+        checaEstados();
         if(leilao.getVendedor().equals(usuarioLogado))
             {
                 leilao.iniciar();
@@ -150,7 +136,7 @@ public class ControllerBazar implements Serializable
     // listagem dos leil�es que est�o com o status iniciado
     public Iterator<Leilao> listarLeiloesIniciados()
     {
-        checkStates();
+        checaEstados();
         ArrayList<Leilao> leiloesIniciados = new ArrayList<>();
         // enquanto tiverem itens na lista, o iterator percorre a estrutora
 
@@ -168,13 +154,13 @@ public class ControllerBazar implements Serializable
     }
     public Iterator abrirEnvelopesLeilaoAutomaticoFechado() throws LeilaoNaoEncerradoException
     {
-        checkStates();
+        checaEstados();
         Leilao leilao = usuarioLogado.getLeilaoAtivo();
         if(leilao instanceof LeilaoAutomaticoFechado)
         {
             if(leilao.getStatus() == Leilao.ENCERRADO)
             {
-                leilao.getUltimoLance();
+                ((LeilaoAutomaticoFechado)leilao).ordenaLista();
                 return leilao.getListaLances().iterator();
             }
             else
@@ -188,68 +174,70 @@ public class ControllerBazar implements Serializable
     // adiciona o usuario logado como participante do leil�o
     public void participarLeilao(Leilao leilao) throws UsuarioJaParticipaException
     {
-        checkStates();
+        checaEstados();
         usuarioLogado.participarLeilao(leilao);
     }
     // chama o metodo dar lance minimo do usu�rio logado
     public void darLanceMinimo() throws LanceInvalidoException, LeilaoNaoParticipaException, LanceLeilaoFechadoException
    {
-        checkStates();
+        checaEstados();
         usuarioLogado.darLanceMinimo();
     }
     // chama o metodo dar lance do usu�rio logado, passando o valor do lance
     public boolean darLance(double valor) throws LanceInvalidoException, LeilaoNaoParticipaException
     {
-        checkStates();
+        checaEstados();
         return usuarioLogado.darLance(valor);
     }  
     
     // chama o metodo de encerrar o leil�o ativo do usuario logado no sistema
     public Venda encerrarLeilao()
     {
-        checkStates();
+        checaEstados();
         return usuarioLogado.encerrarLeilaoAtivo();
     }
     
     public Date listarMomentoAtual()
     {      
-        checkStates();
+        checaEstados();
         return new Date();
     }
     public Iterator listarParticipantesLeilao(Leilao leilao)
     {
-        checkStates();
+        checaEstados();
         return leilao.getListaParticipantes();
     }
     
     public Iterator listarLances(Leilao leilao)
     {
-        checkStates();
+        checaEstados();
         return leilao.getListaLances().iterator();
     }
     
-    public void checkStates()
+    public void checaEstados()
     {
        for (Leilao leilao :leiloes)
        {
            if (leilao instanceof LeilaoAutomatico)
            {
-               ((LeilaoAutomatico) leilao).checkForStart();
-               ((LeilaoAutomatico) leilao).checkForEnd();
-               
+               ((LeilaoAutomatico) leilao).checaInicio();
+               ((LeilaoAutomatico) leilao).checaFim();            
            }
        }
     }
     
     public Iterator<Leilao> buscarLeiloesTempo(Date momentoA, Date momentoB)
     {
-        checkStates();
+        checaEstados();
         ArrayList<Leilao> leiloesNoIntervalo = new ArrayList<>();
         
+        //ordena os leilões de acordo com o tempo de inicio
         Comparator<Leilao> comparador = Comparator.comparing(Leilao::getInicio,Comparator.nullsLast(Comparator.naturalOrder()));
         Collections.sort(leiloes, comparador);
-
+        
+        //busca o index do primeiro leilão no intervalo
         int indexA = buscarPosicaoInicial(leiloes, momentoA);
+        //busca o index ultimo
         int indexB = buscarPosicaoFinal(leiloes, momentoB);
 
         for (int i = indexA; i <= indexB; i++)
@@ -258,10 +246,10 @@ public class ControllerBazar implements Serializable
             if(leilao.getInicio() != null)
                 leiloesNoIntervalo.add(leilao);
         }
-
         return leiloesNoIntervalo.iterator();
     }
-
+    
+    //algoritmo de busca binária
     private int buscarPosicaoInicial(ArrayList<Leilao> leiloes, Date momentoA)
     {
         int esquerda = 0;
@@ -301,6 +289,7 @@ public class ControllerBazar implements Serializable
         }
         return direita;
     }
+    
     public void selecionarLeilao(Leilao leilao)
     {
         usuarioLogado.setLeilaoAtivo(leilao);

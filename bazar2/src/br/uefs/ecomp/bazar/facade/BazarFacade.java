@@ -1,7 +1,6 @@
 package br.uefs.ecomp.bazar.facade;
 
 import java.util.Iterator;
-import java.util.List;
 import br.uefs.ecomp.bazar.model.ControllerBazar;
 import br.uefs.ecomp.bazar.model.Leilao;
 import br.uefs.ecomp.bazar.model.Produto;
@@ -60,7 +59,7 @@ public class BazarFacade {
     //8
     public void participarLeilao(Leilao leilao) throws UsuarioJaParticipaException
     {
-        cb.checkStates();
+        cb.checaEstados();
         this.cb.participarLeilao(leilao);
     }
     //9
@@ -71,7 +70,7 @@ public class BazarFacade {
     //10
     public boolean darLance(double valor) throws LanceInvalidoException, LeilaoNaoParticipaException
     {   
-        cb.checkStates();
+        cb.checaEstados();
         return this.cb.darLance(valor);
     }
     //11

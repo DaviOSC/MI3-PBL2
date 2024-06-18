@@ -6,8 +6,6 @@ import br.uefs.ecomp.bazar.model.exception.UsuarioJaParticipaException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
@@ -30,22 +28,18 @@ public abstract class Leilao implements Serializable
     private Date momentoInicio;
     private Date momentoFim;
 
-    //estrutura para armazenar os participantes do leilao 
+
     private ArrayList<Lance> lances = new ArrayList();
     private ArrayList<Usuario> participantes = new ArrayList<>();
 
-    public Leilao(double lPrecoMinimo, double lIncrementoMinimo, Usuario lVendedor, Produto lProduto) {
+    public Leilao(double lPrecoMinimo, double lIncrementoMinimo, Usuario lVendedor, Produto lProduto) 
+    {
         this.precoMinimo = lPrecoMinimo;
         this.incrementoMinimo = lIncrementoMinimo;
         this.vendedor = lVendedor;
         this.produto = lProduto;
         this.status = CADASTRADO;
     }
-    
-//    public Leilao(Date momentoInicio)
-//    {
-//        this.momentoInicio = momentoInicio;
-//    }
     
     public Usuario getVendedor() {
         return this.vendedor;
@@ -57,10 +51,10 @@ public abstract class Leilao implements Serializable
 
     public abstract void iniciar();
 
-    // define o status como encerrado e gera uma venda.
     public abstract void encerrar(); 
 
-    public int getStatus() {
+    public int getStatus()
+    {
         return status;
     }
 
@@ -96,7 +90,7 @@ public abstract class Leilao implements Serializable
         
     }
 
-    // um lance com um valor especifico decidido pelo usu�rio e verifica suas condi��es de valida��o, returnando falso caso n�o seja aceit�vel
+    // um lance com um valor especifico decidido pelo usu�rio e verifica suas condi��es de valida��o, returnando falso caso nao seja aceit�vel
     public boolean darLance(Usuario usuario, double preco) throws LanceInvalidoException, LeilaoNaoParticipaException
     {
         if(!(participantes.contains(usuario)))
@@ -112,7 +106,6 @@ public abstract class Leilao implements Serializable
             Lance lance = new Lance(usuario, preco);
             if(lance.getValor() < this.precoMinimo + this.incrementoMinimo)
             {
-                //throw new LanceInvalidoException("Lance deve ser maior o preco minimo mais o incremento minimo.");
                 return false;
             }
             else
@@ -133,10 +126,8 @@ public abstract class Leilao implements Serializable
         this.venda = venda;
     }
 
-    // retorna o ultimo lance do leil�o;
     public Lance getUltimoLance()
     {
-        System.out.print("GetUltimoMANUAL");
         if(lances.isEmpty())
         {
             return null;
@@ -192,11 +183,13 @@ public abstract class Leilao implements Serializable
     {
         return lances;
     }
-    public Iterator getListaParticipantes()
+    //iterator para a lista de participantes
+    public Iterator<Usuario> getListaParticipantes()
     {
         participantes.sort(Comparator.comparing(Usuario::getNome));
         return participantes.iterator();
     }
+    //acesso a lista de participantes para as classes concretas que herdam dessa classe
     public ArrayList<Usuario> getParticipantes()
     {
         return participantes;

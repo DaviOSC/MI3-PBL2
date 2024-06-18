@@ -1,11 +1,9 @@
 package br.uefs.ecomp.bazar.util;
 
-import java.util.Iterator;
-
-public class Iterador<T> implements Iterator<T> {
+public class Iterator<T> implements Iterator<T> {
     private Iterator<T> iterator;
 
-    public Iterador(Iterator<T> iterator) {
+    public Iterator(Iterator<T> iterator) {
         this.iterator = iterator;
     }
 

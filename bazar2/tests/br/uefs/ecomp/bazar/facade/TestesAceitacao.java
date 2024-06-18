@@ -552,6 +552,7 @@ public class TestesAceitacao {
 		assertEquals(u3, ultimoLance.getParticipante());
 		assertTrue(Calendar.getInstance().getTimeInMillis() - ultimoLance.getMomento().getTime() < DELAY);
 		Thread.sleep(2 * DELAY);
+                //assertEquals(leilao.getVenda().getComprador(), u3);
 		
 		f.fazerLogin("joao", "senha2");
 		try {

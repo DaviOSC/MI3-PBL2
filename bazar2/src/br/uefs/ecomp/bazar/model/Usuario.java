@@ -4,7 +4,6 @@ import br.uefs.ecomp.bazar.model.exception.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import br.uefs.ecomp.bazar.util.Iterador;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -61,13 +60,12 @@ public class Usuario implements Serializable
     {
         this.leilaoAtivo = leilao;
     }
-    //um iterador da lista do requerimento 4 dos user stories
-    public Iterador listarProdutosCadastrados()
+    
+    public Iterator listarProdutosCadastrados()
     {
-        Iterador iterador = new Iterador(produtosCadastrados.iterator());
-        return iterador;
+        return produtosCadastrados.iterator();
     }
-    //adiciona o usuario no leil�o como participante e define seu atributo leilao ativo
+    //adiciona o usuario no leilao como participante e define seu atributo leilao ativo
     public void participarLeilao(Leilao leilao) throws UsuarioJaParticipaException
     {
         leilao.cadastrarParticipante(this);
@@ -91,6 +89,7 @@ public class Usuario implements Serializable
             return produto;
         }
     }
+    
     public Leilao cadastrarLeilaoManual(double preco, double incremento, Produto produto) throws LeilaoNaoCadastrouException
     {
         if(incremento <= 0)
@@ -168,7 +167,7 @@ public class Usuario implements Serializable
             return leilao;  
         }
     }
-    // inicia o leil�o passado e defini-o como leil�o ativo do usuario(vendedor)
+
     public void iniciarLeilao(Leilao leilao)
     {
         this.leilaoAtivo = leilao;

@@ -1,12 +1,9 @@
 package br.uefs.ecomp.bazar.model;
-
-import java.io.Serializable;
 import java.util.Date;
 
 public class LeilaoAutomatico extends Leilao
-{
+{  
     private static final long serialVersionUID = 1L;
-    
     public LeilaoAutomatico(double lPrecoMinimo, double lIncrementoMinimo, Usuario lVendedor, Produto lProduto, Date horarioInicio, Date horarioFim)
     {
         super(lPrecoMinimo, lIncrementoMinimo, lVendedor, lProduto);
@@ -28,15 +25,13 @@ public class LeilaoAutomatico extends Leilao
         this.setStatus(Leilao.ENCERRADO);
         if(this.getVenda() == null && !getListaLances().isEmpty())
         {
-                    System.out.print("encerrarAuto");
             setVenda(new Venda(getUltimoLance(), this));
             getProduto().setVendido();
         }
-
     }
     
-        
-    public void checkForEnd()
+    //verifica se é para encerrar o leilão
+    public void checaFim()
     {
         if(this.getTermino().compareTo(new Date()) <= 0 && this.getStatus() == Leilao.INICIADO)
         {
@@ -44,7 +39,8 @@ public class LeilaoAutomatico extends Leilao
         }            
     }
     
-    public void checkForStart()
+    //verifica se é para iniciar o leilão  
+    public void checaInicio()
     {
         if(this.getInicio().compareTo(new Date()) <= 0 && this.getStatus() == Leilao.CADASTRADO)
         {

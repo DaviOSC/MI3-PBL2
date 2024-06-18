@@ -9,9 +9,13 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
+import br.uefs.ecomp.bazar.model.exception.LanceLeilaoFechadoException;
 import br.uefs.ecomp.bazar.model.exception.LeilaoNaoCadastrouException;
+import br.uefs.ecomp.bazar.model.exception.LeilaoNaoParticipaException;
 import br.uefs.ecomp.bazar.model.exception.LoginFalhouException;
 import br.uefs.ecomp.bazar.model.exception.ProdutoNaoCadastrouException;
+import br.uefs.ecomp.bazar.model.exception.UsuarioDiferenteVendedorException;
+import br.uefs.ecomp.bazar.model.exception.UsuarioJaParticipaException;
 import br.uefs.ecomp.bazar.model.exception.UsuarioNaoCadastrouException;
 import java.util.Iterator;
 
@@ -89,7 +93,7 @@ public class ControllerBazarTest {
 	}
 	
 	@Test
-	public void testIniciarLeiloesListarLeiloesIniciados() throws UsuarioNaoCadastrouException, LoginFalhouException, ProdutoNaoCadastrouException, LeilaoNaoCadastrouException {
+	public void testIniciarLeiloesListarLeiloesIniciados() throws UsuarioNaoCadastrouException, LoginFalhouException, ProdutoNaoCadastrouException, LeilaoNaoCadastrouException, UsuarioDiferenteVendedorException {
 		u1 = cb.cadastrarUsuario("maria", "Maria dos Santos", "senha1", "123456789-01", "Rua Drummond, 23, Centro", "7532213456");
 		cb.fazerLogin("maria", "senha1");
 		p1 = cb.cadastrarProduto("telefone", "Galaxy S", "Samsung Galaxy S");
@@ -126,7 +130,7 @@ public class ControllerBazarTest {
 	public void testLancesLeilaoEncerrarLeilao() 
 			throws UsuarioNaoCadastrouException, LoginFalhouException, 
 			ProdutoNaoCadastrouException, LeilaoNaoCadastrouException, 
-			LanceInvalidoException {
+			LanceInvalidoException, LeilaoNaoParticipaException, UsuarioDiferenteVendedorException, LanceLeilaoFechadoException, UsuarioJaParticipaException {
 		// Como o sistema ainda nao eh multi-usuario, cada usuario 
 		// deve fazer login depois de acoes de outros usuarios.
 		// Por enquanto, cada usuario so participa de um leilao de cada vez

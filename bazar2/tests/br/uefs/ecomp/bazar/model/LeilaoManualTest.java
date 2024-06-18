@@ -7,6 +7,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import br.uefs.ecomp.bazar.model.exception.LanceInvalidoException;
+import br.uefs.ecomp.bazar.model.exception.LeilaoNaoParticipaException;
+import br.uefs.ecomp.bazar.model.exception.UsuarioJaParticipaException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +40,7 @@ public class LeilaoManualTest {
 	}
 	
 	@Test
-	public void testLancesLeilao() throws LanceInvalidoException{
+	public void testLancesLeilao() throws LanceInvalidoException, UsuarioJaParticipaException, LeilaoNaoParticipaException{
 		leilao.iniciar();
 		leilao.cadastrarParticipante(u2);
 		leilao.cadastrarParticipante(u3);
@@ -68,7 +70,7 @@ public class LeilaoManualTest {
 	}
 	
 	@Test
-	public void testEncerrarLeilao() throws LanceInvalidoException{
+	public void testEncerrarLeilao() throws LanceInvalidoException, LeilaoNaoParticipaException, UsuarioJaParticipaException{
 		leilao.iniciar();
 		leilao.cadastrarParticipante(u2);
 		leilao.cadastrarParticipante(u3);
